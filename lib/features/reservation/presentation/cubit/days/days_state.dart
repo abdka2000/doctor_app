@@ -1,0 +1,36 @@
+part of 'days_cubit.dart';
+
+class DaysState extends Equatable {
+  final DeafultBlocStatus status;
+  final FailureMessage failureMessage;
+  final List<AvailableDays> days;
+
+  const DaysState({
+    required this.days,
+    required this.status,
+    required this.failureMessage,
+  });
+
+  factory DaysState.initial() {
+    return DaysState(
+      failureMessage: FailureMessage(message: '', statusCode: 0),
+      status: DeafultBlocStatus.initial,
+      days: [],
+    );
+  }
+
+  @override
+  List<Object> get props => [failureMessage, status];
+
+  DaysState copyWith({
+    FailureMessage? failureMessage,
+    DeafultBlocStatus? status,
+    List<AvailableDays>? days,
+  }) {
+    return DaysState(
+      failureMessage: failureMessage ?? this.failureMessage,
+      status: status ?? this.status,
+      days: days ?? this.days,
+    );
+  }
+}
