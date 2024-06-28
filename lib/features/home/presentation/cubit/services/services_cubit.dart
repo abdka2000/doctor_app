@@ -10,22 +10,39 @@ part 'services_state.dart';
 class ServicesCubit extends Cubit<ServicesState> {
   ServicesCubit(this.useCase) : super(ServicesState.initial());
   final HomeBaseUseCase useCase;
+
+  List<ItemModel> servicesList = [];
+  int max = 1;
+  int skip = 0;
+
   Future<void> getServices() async {
-    emit(state.copyWith(status: DeafultBlocStatus.loading));
-    final data = await useCase.getServicesUseCase();
-    data.fold(
-      (failure) {
-        emit(state.copyWith(
+    if (!state.hasReachedMax) {
+      if (servicesList.isEmpty) {
+        emit(state.copyWith(status: DeafultBlocStatus.loading));
+      }
+
+      final data =
+          await useCase.getServicesUseCase(maxResult: max, skipCount: skip);
+      data.fold(
+        (failure) => emit(state.copyWith(
           failureMessage: mapFailureToMessage(failure: failure),
           status: DeafultBlocStatus.error,
-        ));
-      },
-      (services) {
-        emit(state.copyWith(
-          status: DeafultBlocStatus.done,
-          services: services,
-        ));
-      },
-    );
+        )),
+        (services) {
+          if (services.isEmpty) {
+            emit(state.copyWith(
+                status: DeafultBlocStatus.done,
+                hasReachedMax: true,
+                services: servicesList));
+            skip = 0;
+          } else {
+            servicesList.addAll(services);
+            skip += 1;
+            emit(state.copyWith(
+                status: DeafultBlocStatus.done, services: servicesList));
+          }
+        },
+      );
+    }
   }
 }

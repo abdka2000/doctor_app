@@ -7,9 +7,11 @@ import 'package:hosptel_app/features/profile/domain/usecases/profile_base_use_ca
 part 'confirm_edit_number_state.dart';
 
 class ConfirmEditNumberCubit extends Cubit<ConfirmEditNumberState> {
-  ConfirmEditNumberCubit(this.useCase) : super(ConfirmEditNumberState.initial());
-   final ProfileBaseUseCase useCase;
-  Future<void> confirmEditNumber({required String phoneNumber , required String code}) async {
+  ConfirmEditNumberCubit(this.useCase)
+      : super(ConfirmEditNumberState.initial());
+  final ProfileBaseUseCase useCase;
+  Future<void> confirmEditNumber(
+      {required String phoneNumber, required String code}) async {
     emit(state.copyWith(status: DeafultBlocStatus.loading));
     final data = await useCase.confirmEditPhoneNumber("0$phoneNumber", code);
     data.fold(

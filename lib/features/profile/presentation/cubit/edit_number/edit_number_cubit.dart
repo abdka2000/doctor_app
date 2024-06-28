@@ -8,7 +8,7 @@ part 'edit_number_state.dart';
 
 class EditNumberCubit extends Cubit<EditNumberState> {
   EditNumberCubit(this.useCase) : super(EditNumberState.initial());
-   final ProfileBaseUseCase useCase;
+  final ProfileBaseUseCase useCase;
   Future<void> editNumber({required String phoneNumber}) async {
     emit(state.copyWith(status: DeafultBlocStatus.loading));
     final data = await useCase.editPhoneNumber("0$phoneNumber");

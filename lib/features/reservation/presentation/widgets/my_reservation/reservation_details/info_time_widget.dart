@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/available_times/available_times.dart';
+import 'package:intl/intl.dart';
 import '../../../../../../core/resources/color_manger.dart';
 import '../../../../../../core/resources/font_manger.dart';
 import '../../../../../../core/widget/text_utiles/text_utile_widget.dart';
@@ -14,6 +15,7 @@ class InfoTimesWidget extends StatefulWidget {
 
 class _InfoTimesWidgetState extends State<InfoTimesWidget> {
   int selectedIndex = 0;
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -52,21 +54,8 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextUtiels(
-                        paddingBottome: 5.h,
-                        text: ' مساء ',
-                        paddingTop: 2.h,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              color: index == selectedIndex
-                                  ? AppColorManger.white
-                                  : AppColorManger.black,
-                              fontSize: 10.sp,
-                              fontWeight:
-                                  AppFontWeightManger.fontWeightExtraBold,
-                            ),
-                      ),
-                      TextUtiels(
-                        text: widget.times[index].fromTime!,
+                        TextUtiels(
+                        text: " ${widget.times[index].fromTime!} ",
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               color: index == selectedIndex
                                   ? AppColorManger.white
@@ -76,7 +65,20 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
                                   AppFontWeightManger.fontWeightExtraBold,
                             ),
                       ),
-                    ],
+                     TextUtiels(
+                        // paddingBottome: 5.h,
+                        text: ": الساعة ",
+                        // paddingTop: 2.h,
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              color: index == selectedIndex
+                                  ? AppColorManger.white
+                                  : AppColorManger.black,
+                              fontSize: 10.sp,
+                              fontWeight:
+                                  AppFontWeightManger.fontWeightExtraBold,
+                            ),
+                      ),
+                  ],
                   ),
                 ),
               ),

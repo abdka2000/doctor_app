@@ -12,9 +12,9 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl({required this.reomte});
 
   @override
-  Future<Either<Failure, List<ItemModel>>> getServices() async {
+  Future<Either<Failure, List<ItemModel>>> getServices({required int skipCount ,required int maxResult}) async {
     return CheckNet<List<ItemModel>>().checkNetResponse(tryRight: () async {
-      final data = await reomte.getServices();
+      final data = await reomte.getServices(skipCount: skipCount,maxResult: maxResult);
       return Right(data);
     });
   }

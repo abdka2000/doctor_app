@@ -27,7 +27,7 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
           state.copyWith(
             status: DeafultBlocStatus.done,
           ),
-        ); 
+        );
       },
     );
   }

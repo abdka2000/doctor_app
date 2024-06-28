@@ -12,7 +12,7 @@ import '../../domain/entities/reservation_item/reservation_item.dart';
 
 abstract class ReservationRemoteDataSource {
   Future<List<ReservationItemEntity>> getReservation(
-      {required bool isFinished});
+      {required bool isFinished,required int skipCount ,required int maxResult});
   Future<List<AvailableDays>> getAvailableDays();
   Future<List<AvailableTimes>> getAvailablesTime({required String date});
 }
@@ -20,14 +20,17 @@ abstract class ReservationRemoteDataSource {
 class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   @override
   Future<List<ReservationItemEntity>> getReservation(
-      {required bool isFinished}) {
+      {required bool isFinished,required int skipCount , required int maxResult,} ) {
     final token = AppSharedPreferences.getToken();
     Map<String, String> headers = {
       "Authorization": token,
     };
-    Map<String, String> query = {
-      "IsEnded": "$isFinished",
+    final query = {
+      "IsEnded": isFinished,
+      'SkipCount': skipCount,
+      'MaxResultCount': maxResult,
     };
+     
     return ApiGetMethods<List<ReservationItemEntity>>(addHeader: headers).get(
       query: query,
       url: ApiGet.getReservations,

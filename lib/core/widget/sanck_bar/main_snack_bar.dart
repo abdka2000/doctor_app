@@ -27,13 +27,17 @@ class SnackBarUtil {
               text: "$message \n ${details ?? ""}",
               fontFamily: AppFontFamily.tajawalBold,
               fontSize: 13.sp,
-              color:isSucces? const Color.fromARGB(255, 35, 182, 39):AppColorManger.redColor,
+              color: isSucces
+                  ? const Color.fromARGB(255, 35, 182, 39)
+                  : AppColorManger.redColor,
             ),
           ), //!
         ),
         shape: RoundedRectangleBorder(
           side: BorderSide(
-            color: isSucces? const Color.fromARGB(255, 35, 182, 39):AppColorManger.redColor,
+            color: isSucces
+                ? const Color.fromARGB(255, 35, 182, 39)
+                : AppColorManger.redColor,
             width: 3,
           ),
           borderRadius: BorderRadius.circular(8),

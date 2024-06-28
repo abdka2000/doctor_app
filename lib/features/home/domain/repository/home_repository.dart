@@ -5,7 +5,7 @@ import '../../data/models/doctor_services/item_model.dart';
 
 abstract class HomeRepository {
   //? Repo for services
-  Future<Either<Failure, List<ItemModel>>> getServices();
+  Future<Either<Failure, List<ItemModel>>> getServices({required int skipCount ,required int maxResult});
   //? Repo for advs
   Future<Either<Failure, List<AdvItemModel>>> getAdvs();
 }

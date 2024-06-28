@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions/midical_sessions_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/confirm_edit_number/confirm_edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_number/edit_number_cubit.dart';
@@ -235,7 +236,10 @@ class AppRouter {
       case RouteNamedScreens.myVisitNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const MyVistsPage();
+            return BlocProvider(
+              create: (context) => di.sl<MidicalSessionsCubit>()..getSessions(),
+              child: const MyVistsPage(),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);

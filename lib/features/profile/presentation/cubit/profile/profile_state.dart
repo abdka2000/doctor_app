@@ -22,7 +22,7 @@ class ProfileState extends Equatable {
           phoneNumber: '0000000000',
           gender: 0),
     );
-  } 
+  }
 
   @override
   List<Object> get props => [failureMessage, status];

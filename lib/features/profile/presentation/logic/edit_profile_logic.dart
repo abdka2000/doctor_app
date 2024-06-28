@@ -62,6 +62,7 @@ class EditProfileLogic {
       context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
     }
   }
+
   void listenerChangePassword(
     ChangePasswordState state,
     BuildContext context,

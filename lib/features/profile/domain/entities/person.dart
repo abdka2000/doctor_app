@@ -1,8 +1,8 @@
 class Person {
   final int? id;
-   String? fullName;
+  String? fullName;
   DateTime? birthDate;
-   String? phoneNumber;
+  String? phoneNumber;
   int? gender;
 
   Person(

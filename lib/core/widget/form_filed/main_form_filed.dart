@@ -29,7 +29,8 @@ class MainTextFormFiled extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.hintTextColor,
-    this.fontSize, required this.enabled,
+    this.fontSize,
+    required this.enabled,
   });
   final bool enabled;
   final String? hintText;

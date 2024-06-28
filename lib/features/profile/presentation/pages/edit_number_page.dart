@@ -95,7 +95,8 @@ class EditNumberPage extends StatelessWidget {
             //? Button For Sure Info :
             BlocConsumer<EditNumberCubit, EditNumberState>(
               listener: (context, state) {
-                EditProfileLogic().listenerEditNumber(state, context,controller);
+                EditProfileLogic()
+                    .listenerEditNumber(state, context, controller);
               },
               builder: (context, state) {
                 if (state.status == DeafultBlocStatus.loading) {

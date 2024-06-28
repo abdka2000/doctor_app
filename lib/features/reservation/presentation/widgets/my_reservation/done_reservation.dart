@@ -1,5 +1,8 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptel_app/features/reservation/presentation/logic/reservation_logic.dart';
 import '../../../../../core/resources/enum_manger.dart';
 import '../../../../../core/resources/svg_manger.dart';
 import '../../../../../core/widget/loading/main_loading.dart';
@@ -15,11 +18,16 @@ class DoneReservation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReservationCubit, ReservationState>(
+    final controller = ScrollController();
+    return BlocConsumer<ReservationCubit, ReservationState>(
+      listener: (context, state) {
+        ReservationLogic().reservationDoneListener(context, state, controller);
+      },
       builder: (context, state) {
         if (state.status == DeafultBlocStatus.done) {
           if (state.reservations.isNotEmpty) {
-            return doneReservationsList(state.reservations);
+            return doneReservationsList(
+                state.reservations, state.hasReachedMax, controller);
           } else {
             return const NotFoundReservationWidget();
           }
@@ -31,15 +39,26 @@ class DoneReservation extends StatelessWidget {
     );
   }
 
-  ListView doneReservationsList(List<ReservationItemEntity> reservation) {
+  ListView doneReservationsList(
+    List<ReservationItemEntity> reservation,
+    bool hasReachedMax,
+    ScrollController controller,
+  ) {
     return ListView.builder(
-      itemCount: reservation.length,
-      itemBuilder: (context, index) => CardReservationWidget(
-        item: reservation[index],
-        iconCardReservatio: AppSvgManger.iconFinishedResevation,
-        showButtonCancleResvation: false,
-        showDivider: false,
-      ),
+      itemCount: reservation.length + 1,
+      itemBuilder: (context, index) {
+        if (index == reservation.length && !hasReachedMax) {
+          return const MainLoadignWidget();
+        } else if (index == reservation.length && hasReachedMax)
+          return null;
+        else
+          return CardReservationWidget(
+            item: reservation[index],
+            iconCardReservatio: AppSvgManger.iconFinishedResevation,
+            showButtonCancleResvation: false,
+            showDivider: false,
+          );
+      },
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
+import 'package:hosptel_app/features/home/presentation/logic/home_logic.dart';
 import '../../../../core/class/clipping_path_class.dart';
 import '../../../../core/function/navigation_funcation.dart';
 import '../../../../core/resources/color_manger.dart';
@@ -26,6 +27,7 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
+    final controller = ScrollController();
     return DoubleBackToExitWidget(
       backgroundColor: AppColorManger.primaryColor,
       behavior: SnackBarBehavior.floating,
@@ -136,10 +138,15 @@ class HomePage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                   horizontal: 25.w,
                 ),
-                child: BlocBuilder<ServicesCubit, ServicesState>(
+                child: BlocConsumer<ServicesCubit, ServicesState>(
+                  listener: (context, state) {
+                    HomeLogic().servicesListener(context, state, controller);
+                  },
                   builder: (context, state) {
                     if (state.status == DeafultBlocStatus.done) {
                       return InfoServicesWidget(
+                        controller: controller,
+                        hasReachedMax: state.hasReachedMax,
                         items: state.services,
                       );
                     } else if (state.status == DeafultBlocStatus.loading) {

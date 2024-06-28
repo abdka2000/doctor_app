@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/availabe_day/available_days.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/times/times_for_day/times_for_day_cubit.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import '../../../../../../core/resources/color_manger.dart';
 import '../../../../../../core/resources/font_manger.dart';
 import '../../../../../../core/widget/text_utiles/text_utile_widget.dart';
@@ -16,6 +18,7 @@ class InfoDayWidget extends StatefulWidget {
 
 class _InfoDayWidgetState extends State<InfoDayWidget> {
   int selectedIndex = 0;
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,6 +34,7 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
           itemCount: widget.days.length,
           separatorBuilder: (context, index) => SizedBox(width: 11.w),
           itemBuilder: (context, index) {
+            final dateTime = DateTime.parse(widget.days[index].date!);
             return GestureDetector(
               onTap: () {
                 setState(() {
@@ -70,9 +74,10 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
                                       AppFontWeightManger.fontWeightSemiBold,
                                 ),
                       ),
+                      
                       TextUtiels(
-                        text:
-                            widget.days[index].date!.replaceRange(10, null, ""),
+                        text:DateFormat('yyyy/MM/dd').format(dateTime),
+                            // widget.days[index].date!.replaceRange(10, null, ""),
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               color: selectedIndex == index
                                   ? AppColorManger.white

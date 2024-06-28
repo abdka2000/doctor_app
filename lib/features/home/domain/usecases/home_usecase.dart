@@ -10,8 +10,8 @@ class HomeUseCaseImpl implements HomeBaseUseCase {
 
   HomeUseCaseImpl(this.homeRepo);
   @override
-  Future<Either<Failure, List<ItemModel>>> getServicesUseCase() async {
-    return await homeRepo.getServices();
+  Future<Either<Failure, List<ItemModel>>> getServicesUseCase({required int skipCount ,required int maxResult}) async {
+    return await homeRepo.getServices(skipCount: skipCount,maxResult: maxResult);
   }
 
   @override

@@ -28,7 +28,8 @@ class TextFormFiledPassword extends StatefulWidget {
     this.suffixIconColor,
     this.colorHintText,
     this.fontSizeHintText,
-    this.fontWeightHintText, required this.enabled,
+    this.fontWeightHintText,
+    required this.enabled,
   }) : super(key: key);
   final bool enabled;
   final String hintText;

@@ -12,8 +12,8 @@ class ReservationUseCaseImpl implements ReservationBaseUseCase {
   ReservationUseCaseImpl({required this.repo});
   @override
   Future<Either<Failure, List<ReservationItemEntity>>> getReservation(
-      {required bool isFinished}) async {
-    return await repo.getReservation(isFinished: isFinished);
+      {required bool isFinished,required int skipCount ,required int maxResult}) async {
+    return await repo.getReservation(isFinished: isFinished ,maxResult: maxResult , skipCount: skipCount);
   }
 
   @override

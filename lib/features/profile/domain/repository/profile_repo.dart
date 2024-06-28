@@ -11,7 +11,9 @@ abstract class ProfileRepository {
   //? Repo Edit Phone Number
   Future<Either<Failure, Unit>> editPhoneNumber(String phoneNumber);
   //? Repo Confirm Phone Number Edit
-  Future<Either<Failure, Unit>> confirmEditPhoneNumber(String phoneNumber , String code);
+  Future<Either<Failure, Unit>> confirmEditPhoneNumber(
+      String phoneNumber, String code);
   //? Repo Change Password
-  Future<Either<Failure, Unit>> changePassword(String currentPassword , String newPassword);
+  Future<Either<Failure, Unit>> changePassword(
+      String currentPassword, String newPassword);
 }

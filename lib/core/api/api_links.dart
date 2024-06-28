@@ -12,6 +12,9 @@ class ApiGet {
   static const getAvailableDays = 'services/app/Day/GetAllAvailableDays';
   //? Profile
   static const getProfileData = 'services/app/Patient/GetPatientProfile';
+  //? Health
+  static const getMedicalSession =
+      'services/app/MedicalSession/GetAllForPatient';
 }
 //?
 

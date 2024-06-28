@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/check_net.dart';
 import '../../../../core/shared/shared_pref.dart';
-import '../datasources/local/auth_local.dart';
 import '../datasources/remote/auth_remote.dart';
 import '../../domin/entities/req/create_account_request_entite.dart';
 import '../../domin/entities/req/login_request_entite.dart';
@@ -10,9 +9,8 @@ import '../../domin/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemote remote;
-  final AuthLocal local;
 
-  AuthRepositoryImpl({required this.remote, required this.local});
+  AuthRepositoryImpl({required this.remote});
   //?  Create Account Repository Impl :
   @override
   Future<Either<Failure, Unit>> createAccount({

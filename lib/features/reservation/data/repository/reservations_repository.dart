@@ -13,11 +13,11 @@ class ReservationRepoImpl implements ReservationRepository {
   ReservationRepoImpl({required this.remoteDataSource});
   @override
   Future<Either<Failure, List<ReservationItemEntity>>> getReservation(
-      {required bool isFinished}) async {
+      {required bool isFinished,required int skipCount ,required int maxResult}) async {
     return CheckNet<List<ReservationItemEntity>>().checkNetResponse(
         tryRight: () async {
       final data =
-          await remoteDataSource.getReservation(isFinished: isFinished);
+          await remoteDataSource.getReservation(isFinished: isFinished,skipCount: skipCount,maxResult: maxResult);
       return Right(data);
     });
   }

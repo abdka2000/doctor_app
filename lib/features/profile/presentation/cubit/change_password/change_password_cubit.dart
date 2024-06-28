@@ -9,9 +9,10 @@ part 'change_password_state.dart';
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   ChangePasswordCubit(this.useCase) : super(ChangePasswordState.initial());
   final ProfileBaseUseCase useCase;
-  Future<void> changePassword({required String currentPassword , required String newPassword}) async {
+  Future<void> changePassword(
+      {required String currentPassword, required String newPassword}) async {
     emit(state.copyWith(status: DeafultBlocStatus.loading));
-    final data = await useCase.changePassword(currentPassword,newPassword);
+    final data = await useCase.changePassword(currentPassword, newPassword);
     data.fold(
       (failure) {
         emit(state.copyWith(

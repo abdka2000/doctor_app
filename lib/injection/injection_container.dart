@@ -1,5 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
+import 'package:hosptel_app/features/health/data/data_sources/heath_remote.dart';
+import 'package:hosptel_app/features/health/data/repository/health_repo_impl.dart';
+import 'package:hosptel_app/features/health/domain/repository/health_repo.dart';
+import 'package:hosptel_app/features/health/domain/usecases/health_base_use_case.dart';
+import 'package:hosptel_app/features/health/domain/usecases/health_use_case.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions/midical_sessions_cubit.dart';
 import 'package:hosptel_app/features/profile/data/data_sources/profile_remote.dart';
 import 'package:hosptel_app/features/profile/data/repository/profile_repo_impl.dart';
 import 'package:hosptel_app/features/profile/domain/repository/profile_repo.dart';
@@ -11,7 +17,6 @@ import 'package:hosptel_app/features/profile/presentation/cubit/edit_number/edit
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_profile/edit_profile_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import '../core/network/network_info.dart';
-import '../features/auth/data/datasources/local/auth_local.dart';
 import '../features/auth/data/datasources/remote/auth_remote.dart';
 import '../features/auth/data/repository/auth_repository_impl.dart';
 import '../features/auth/domin/repository/auth_repository.dart';
@@ -58,14 +63,10 @@ Future<void> init() async {
 //? Repo
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
         remote: sl(),
-        local: sl(),
       ));
 // DataSources
   //? Remote
   sl.registerLazySingleton<AuthRemote>(() => AuthRemoteImpl());
-  //?
-  //? Local
-  sl.registerLazySingleton<AuthLocal>(() => AuthLocalImpl());
   //?
 //! Features - Auth Finished
 
@@ -89,9 +90,9 @@ Future<void> init() async {
   sl.registerFactory<ProfileCubit>(() => ProfileCubit(sl()));
   sl.registerFactory<EditProfileCubit>(() => EditProfileCubit(sl()));
   sl.registerFactory<EditNumberCubit>(() => EditNumberCubit(sl()));
-  sl.registerFactory<ConfirmEditNumberCubit>(() => ConfirmEditNumberCubit(sl()));
+  sl.registerFactory<ConfirmEditNumberCubit>(
+      () => ConfirmEditNumberCubit(sl()));
   sl.registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(sl()));
-  
 
   //? Use Cases
   sl.registerLazySingleton<ProfileBaseUseCase>(
@@ -105,6 +106,20 @@ Future<void> init() async {
   //? Remote
   sl.registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSourceImpl());
+
+//? Feature Profile Finished
+
+//? Feature Health
+  //? Cubit
+  sl.registerFactory<MidicalSessionsCubit>(() => MidicalSessionsCubit(sl()));
+
+  //? Use Cases
+  sl.registerLazySingleton<HealthBaseUseCase>(() => HealthUseCase(sl()));
+
+  //? Repo
+  sl.registerLazySingleton<HealthRepo>(() => HealthRepoImpl(remote: sl()));
+  //? Remote Data Source
+  sl.registerLazySingleton<HealthRemote>(() => HealthRemoteImpl());
 
 //? Feature - Reservations
   //? Cubit
