@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:hosptel_app/core/api/api_links.dart';
+import 'package:hosptel_app/core/api/api_methode_delete.dart';
 import 'package:hosptel_app/core/api/api_methode_post.dart';
 import 'package:hosptel_app/core/api/api_methode_put.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
@@ -15,6 +16,7 @@ abstract class ProfileRemoteDataSource {
   Future<Unit> editPhoneNumber(String phoneNumber);
   Future<Unit> confirmEditPhoneNumber(String phoneNumber, String code);
   Future<Unit> changePassword(String currentPassword, String newPassword);
+  Future<Unit> deleteAccount();
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
@@ -29,6 +31,9 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       data: (response) {
         final data = jsonDecode(response.body);
         final person = PersonModel.fromJson(data);
+        AppSharedPreferences.cashPhoneNumber(
+            phoneNumber: person.phoneNumber ?? "");
+        AppSharedPreferences.cashUserName(name: person.fullName ?? "");
         return person;
       },
     );
@@ -101,5 +106,16 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       data: (response) => unit,
       body: body,
     );
+  }
+
+  @override
+  Future<Unit> deleteAccount() async {
+    final token = AppSharedPreferences.getToken();
+    Map<String, String> headers = {
+      "Authorization": token,
+    };
+    AppSharedPreferences.clear();
+    return ApiDeleteMethods<Unit>(addHeader: headers)
+        .delete(url: ApiDelete.deleteAccount, data: (response) => unit);
   }
 }

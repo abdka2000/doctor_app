@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hosptel_app/features/intro/presentation/cubit/navigate_cubit.dart';
 import '../../../../core/resources/color_manger.dart';
 import '../../../../core/resources/png_manger.dart';
 import '../../../../core/resources/svg_manger.dart';
@@ -104,33 +106,47 @@ class IntroPage extends StatelessWidget {
                 //? Image For move to page Login :
                 Row(
                   children: [
-                    GoLoginImageWidget(
-                      onTap: () {
-                        //? navigation to login screen :
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          RouteNamedScreens.loginScreenNameRoute,
-                          (route) => false,
-                        );
-                        //? animation to show BottomSheet :
-                        // AnimationController controller = AnimationController(
-                        //   vsync: Navigator.of(context),
-                        //   duration: const Duration(
-                        //     seconds: 2,
-                        //   ),
-                        // );
-
-                        // showModalBottomSheet(
-                        //   isDismissible: false,
-                        //   enableDrag: true,
-                        //   transitionAnimationController: controller,
-                        //   isScrollControlled: false,
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return const BottomeSheetWidget();
-                        //   },
-                        // );
+                    BlocListener<NavigateCubit, NavigateState>(
+                      listener: (context, state) {
+                        if (state is UnAuthinticateState) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            RouteNamedScreens.loginScreenNameRoute,
+                            (route) => false,
+                          );
+                        } else if (state is AuthinticateState) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            RouteNamedScreens.homeScreenNameRoute,
+                            (route) => false,
+                          );
+                        }
                       },
+                      child: GoLoginImageWidget(
+                        onTap: () {
+                          //? navigation to login screen :
+                          context.read<NavigateCubit>().checkAuth();
+
+                          //? animation to show BottomSheet :
+                          // AnimationController controller = AnimationController(
+                          //   vsync: Navigator.of(context),
+                          //   duration: const Duration(
+                          //     seconds: 2,
+                          //   ),
+                          // );
+
+                          // showModalBottomSheet(
+                          //   isDismissible: false,
+                          //   enableDrag: true,
+                          //   transitionAnimationController: controller,
+                          //   isScrollControlled: false,
+                          //   context: context,
+                          //   builder: (context) {
+                          //     return const BottomeSheetWidget();
+                          //   },
+                          // );
+                        },
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(

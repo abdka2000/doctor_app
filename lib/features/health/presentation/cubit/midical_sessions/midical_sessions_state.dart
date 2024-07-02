@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 part of 'midical_sessions_cubit.dart';
 
 class MidicalSessionsState extends Equatable {
@@ -15,7 +17,7 @@ class MidicalSessionsState extends Equatable {
 
   factory MidicalSessionsState.initial() {
     return MidicalSessionsState(
-      hasReachedMax: false,
+        hasReachedMax: false,
         failureMessage: FailureMessage(message: '', statusCode: 0),
         status: DeafultBlocStatus.initial,
         sessions: []);

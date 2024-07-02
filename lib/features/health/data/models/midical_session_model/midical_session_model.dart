@@ -2,8 +2,7 @@ import 'package:hosptel_app/features/health/domain/entities/midical_session/midi
 
 import 'appointment_start_time.dart';
 
-class MidicalSessionModel extends MidicalSession{
-  
+class MidicalSessionModel extends MidicalSession {
   MidicalSessionModel({
     super.id,
     super.creationTime,

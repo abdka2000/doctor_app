@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours/result.dart';
 import '../../../../../../core/resources/font_manger.dart';
 import '../../../../../../core/widget/text_utiles/text_utile_widget.dart';
-import '../../../../domain/entities/available_times/available_times.dart';
 
 class InfoDaysAndTimesWidget extends StatelessWidget {
-  const InfoDaysAndTimesWidget({super.key, required this.times});
-  final List<AvailableTimes> times;
+  const InfoDaysAndTimesWidget({super.key, required this.hours});
+  final List<Result> hours;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 105.h,
       child: ListView.separated(
-        itemCount: times.length,
+        itemCount: hours.length,
         separatorBuilder: (context, index) => SizedBox(height: 9.h),
         itemBuilder: (context, index) {
           return Padding(
@@ -21,14 +21,14 @@ class InfoDaysAndTimesWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextUtiels(
-                  text: times[index].fromTime!,
+                  text: hours[index].fromTime?.replaceRange(5, null, '') ?? '',
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
                         fontSize: 14.sp,
                         fontWeight: AppFontWeightManger.fontWeightSemiBold,
                       ),
                 ),
                 TextUtiels(
-                  text: 'اليوم',
+                  text: hours[index].dayName ?? '',
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
                         fontSize: 14.sp,
                         fontWeight: AppFontWeightManger.fontWeightSemiBold,

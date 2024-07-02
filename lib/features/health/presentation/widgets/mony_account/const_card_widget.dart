@@ -6,8 +6,8 @@ import '../../../../../core/resources/word_manger.dart';
 import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class CostCardWidget extends StatelessWidget {
-  const CostCardWidget({super.key});
-
+  const CostCardWidget({super.key, required this.totalAmount});
+  final int totalAmount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +37,7 @@ class CostCardWidget extends StatelessWidget {
                       ),
                 ),
                 TextUtiels(
-                  text: '50,000',
+                  text: '$totalAmount',
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: AppFontFamily.extraBold,
                         fontSize: 20.sp,

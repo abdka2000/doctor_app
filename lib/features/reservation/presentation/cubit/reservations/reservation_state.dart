@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 part of 'reservation_cubit.dart';
 
 class ReservationState extends Equatable {
@@ -15,7 +17,7 @@ class ReservationState extends Equatable {
 
   factory ReservationState.initial() {
     return ReservationState(
-      hasReachedMax: false,
+        hasReachedMax: false,
         failureMessage: FailureMessage(message: '', statusCode: 0),
         status: DeafultBlocStatus.initial,
         reservations: []);
@@ -31,7 +33,7 @@ class ReservationState extends Equatable {
     bool? hasReachedMax,
   }) {
     return ReservationState(
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+        hasReachedMax: hasReachedMax ?? this.hasReachedMax,
         failureMessage: failureMessage ?? this.failureMessage,
         status: status ?? this.status,
         reservations: reservations ?? this.reservations);

@@ -5,8 +5,5 @@ class AvailableTimes {
   final bool? isSetUnavailable;
 
   AvailableTimes(
-      {required this.fromTime,
-      required this.toTime,
-      required this.isBooked,
-      required this.isSetUnavailable});
+      {this.fromTime, this.toTime, this.isBooked, this.isSetUnavailable});
 }

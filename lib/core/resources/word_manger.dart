@@ -132,4 +132,5 @@ class AppWordManger {
   //? Share :
   static const notUntil = 'ليس الآن';
   static const loginMustFirst = 'يجب تسجيل الدخول أولا';
+  static const tryAgain = 'إعادة المحاولة';
 }

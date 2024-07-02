@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -77,9 +75,7 @@ class ChangePasswordPage extends StatelessWidget {
                 onChange: (value) {
                   currentPassword = value;
                 },
-                validator: (val) {
-                  VilidationApp().validator(val!);
-                },
+                validator: (val) => VilidationApp().validator(val!),
                 textInputType: TextInputType.name,
                 contenetPaddingvertical: 20.h,
                 contentPaddingHorizontal: 16.w,
@@ -110,9 +106,7 @@ class ChangePasswordPage extends StatelessWidget {
                 onChange: (value) {
                   newPassword1 = value;
                 },
-                validator: (val) {
-                  VilidationApp().validator(val!);
-                },
+                validator: (val) => VilidationApp().validator(val!),
                 textInputType: TextInputType.name,
                 contenetPaddingvertical: 20.h,
                 contentPaddingHorizontal: 16.w,
@@ -143,9 +137,7 @@ class ChangePasswordPage extends StatelessWidget {
                 onChange: (value) {
                   newPassword2 = value;
                 },
-                validator: (val) {
-                  VilidationApp().validator(val!);
-                },
+                validator: (val) => VilidationApp().validator(val!),
                 textInputType: TextInputType.name,
                 contenetPaddingvertical: 20.h,
                 contentPaddingHorizontal: 16.w,

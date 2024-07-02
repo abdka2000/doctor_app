@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/days/days_cubit.dart';
-import 'package:hosptel_app/features/reservation/presentation/cubit/times/times_for_day/times_for_day_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/info_days_times/info_days_times_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/times_for_day/times_for_day_cubit.dart';
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/enum_manger.dart';
 import '../../../../../core/resources/word_manger.dart';
@@ -11,8 +12,7 @@ import '../../../../../core/shared/shared_pref.dart';
 import '../../../../../core/widget/button/main_elevated_button.dart';
 import '../../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../../core/widget/show_dialog/main_show_dialog_widget.dart';
-import '../../../../../core/widget/text_utiles/error_text.dart';
-import '../../cubit/times/time_today/times_cubit.dart';
+import '../../../../../core/widget/repeted/error_text.dart';
 import '../../widgets/my_reservation/reservation_details/info_day_weak_widget.dart';
 import '../../widgets/my_reservation/reservation_details/app_bar_widget.dart';
 import '../../widgets/my_reservation/reservation_details/info_day_widget.dart';
@@ -39,20 +39,22 @@ class DetailesReservationPage extends StatelessWidget {
               text: AppWordManger.reservationAvilable,
             ),
             //? Info Fo Day And Time :
-            BlocBuilder<TimesCubit, TimesState>(
+            BlocBuilder<InfoDaysTimesCubit, InfoDaysTimesState>(
               builder: (context, state) {
                 if (state.status == DeafultBlocStatus.done) {
                   return InfoDaysAndTimesWidget(
-                    times: state.times,
+                    hours: state.hours.result ?? [],
                   );
                 } else if (state.status == DeafultBlocStatus.loading) {
                   return MainLoadignWidget(
                     height: 105.h,
                   );
                 }
-                return ErrorText(
+                return ErrorTextWidget(
                   text: state.failureMessage.message,
                   height: 105.h,
+                  onPressed: () =>
+                      context.read<InfoDaysTimesCubit>().getDaysAndTimes(),
                 );
               },
             ),
@@ -78,9 +80,10 @@ class DetailesReservationPage extends StatelessWidget {
                     height: 83.h,
                   );
                 }
-                return ErrorText(
+                return ErrorTextWidget(
                   text: state.failureMessage.message,
-                  height: 83.h,
+                  height: 110.h,
+                  onPressed: () => context.read<DaysCubit>().getDays(),
                 );
               },
             ),
@@ -100,9 +103,10 @@ class DetailesReservationPage extends StatelessWidget {
                     height: 70.h,
                   );
                 }
-                return ErrorText(
+                return ErrorTextWidget(
                   text: state.failureMessage.message,
-                  height: 70.h,
+                  height: 110.h,
+                  onPressed: () => context.read<TimesForDayCubit>().getTimes(),
                 );
               },
             ),
@@ -116,10 +120,14 @@ class DetailesReservationPage extends StatelessWidget {
                 textColor: AppColorManger.white,
                 onPreesed: () {
                   if (AppSharedPreferences.getToken().isNotEmpty) {
+                    Map<String, String> times = {
+                      'date': selectedDay.date ?? DateTime.now().toString(),
+                      'fromTime': selectedTime.fromTime ?? '',
+                      'toTime': selectedTime.toTime ?? '',
+                    };
                     Navigator.pushNamed(
-                      context,
-                      RouteNamedScreens.reservationSummaryNameRoute,
-                    );
+                        context, RouteNamedScreens.reservationSummaryNameRoute,
+                        arguments: times);
                   } else {
                     MainShowDialog.customShowDialog(
                       onTapBack: () {

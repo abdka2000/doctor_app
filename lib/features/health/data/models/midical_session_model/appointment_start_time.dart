@@ -1,8 +1,6 @@
 import 'package:hosptel_app/features/health/domain/entities/midical_session/appoinment_start_time.dart';
 
 class AppointmentStartTimeModel extends AppointmentStartTime {
- 
-
   AppointmentStartTimeModel({
     super.ticks,
     super.days,

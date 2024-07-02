@@ -12,7 +12,7 @@ class ReservationCubit extends Cubit<ReservationState> {
   final ReservationBaseUseCase useCase;
 
   List<ReservationItemEntity> reservationsList = [];
-  int max = 2;
+  int max = 5;
   int skip = 0;
 
   Future<void> getReservations({required bool isFinished}) async {
@@ -27,22 +27,23 @@ class ReservationCubit extends Cubit<ReservationState> {
       );
       data.fold(
         (failure) => emit(state.copyWith(
-            failureMessage: mapFailureToMessage(failure: failure),
-            status: DeafultBlocStatus.error,
-          )),
+          failureMessage: mapFailureToMessage(failure: failure),
+          status: DeafultBlocStatus.error,
+        )),
         (reservations) {
-         if(reservations.isEmpty){
-          emit(state.copyWith(
-              status: DeafultBlocStatus.done,
-              hasReachedMax: true,
-              reservations: reservationsList));
-          skip = 0;
-         }else{
-          reservationsList.addAll(reservations);
-          skip += 2;
-          emit(state.copyWith(
-              status: DeafultBlocStatus.done, reservations: reservationsList));
-        }
+          if (reservations.isEmpty) {
+            emit(state.copyWith(
+                status: DeafultBlocStatus.done,
+                hasReachedMax: true,
+                reservations: reservationsList));
+            skip = 0;
+          } else {
+            reservationsList.addAll(reservations);
+            skip += 5;
+            emit(state.copyWith(
+                status: DeafultBlocStatus.done,
+                reservations: reservationsList));
+          }
         },
       );
     }

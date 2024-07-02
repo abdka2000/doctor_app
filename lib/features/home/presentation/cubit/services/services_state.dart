@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 part of 'services_cubit.dart';
 
 class ServicesState extends Equatable {

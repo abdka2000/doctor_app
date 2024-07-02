@@ -22,6 +22,16 @@ class AppSharedPreferences {
   static void cashToke({required String token}) {
     _sharedPreferences.setString(AppKeysManger.token, token);
   }
+
+  static void cashUserName({
+    required String name,
+  }) {
+    _sharedPreferences.setString(AppKeysManger.name, name);
+  }
+
+  static void cashPhoneNumber({required String phoneNumber}) {
+    _sharedPreferences.setString(AppKeysManger.phone, phoneNumber);
+  }
   //! Finish Cash Sheard //!
 
   //! Start Get Sheard Pref //!
@@ -29,5 +39,14 @@ class AppSharedPreferences {
   static String getToken() {
     return _sharedPreferences.getString(AppKeysManger.token) ?? "";
   }
+
+  static String getNumber() {
+    return _sharedPreferences.getString(AppKeysManger.phone) ?? "";
+  }
+
+  static String getName() {
+    return _sharedPreferences.getString(AppKeysManger.name) ?? "";
+  }
+
   //! End Get Sheard Pref //!
 }

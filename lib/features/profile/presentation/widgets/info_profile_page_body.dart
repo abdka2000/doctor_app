@@ -17,7 +17,6 @@ import 'package:hosptel_app/core/resources/svg_manger.dart';
 import 'package:hosptel_app/core/resources/word_manger.dart';
 import 'package:hosptel_app/core/widget/button/main_elevated_button.dart';
 import 'package:hosptel_app/core/widget/form_filed/main_form_filed.dart';
-import 'package:hosptel_app/core/widget/main/back_ground_main/back_ground_main.dart';
 import 'package:hosptel_app/core/widget/repeted/charater_city_widget.dart';
 import 'package:hosptel_app/core/widget/text_utiles/text_utile_widget.dart';
 import 'package:hosptel_app/features/profile/domain/entities/person.dart';
@@ -42,8 +41,8 @@ class _InfoProfilePageBodyState extends State<InfoProfilePageBody> {
     super.initState();
     phoneController.text = widget.person.phoneNumber ?? '';
     birthController.text =
-        widget.person.birthDate.toString().replaceRange(10, null, "");
-    // DateFormat("yyyy-mm-dd").format(widget.person.birthDate!);
+        DateFormat("yyyy-MM-dd").format(widget.person.birthDate!);
+    // widget.person.birthDate.toString().replaceRange(10, null, "");
 
     nameController.text = widget.person.fullName ?? '';
   }
@@ -216,7 +215,8 @@ class _InfoProfilePageBodyState extends State<InfoProfilePageBody> {
           //? button save info :
           BlocConsumer<EditProfileCubit, EditProfileState>(
             listener: (context, state) {
-              EditProfileLogic().listenerEditProfile(state, context);
+              EditProfileLogic()
+                  .listenerEditProfile(state, context, nameController.text);
             },
             builder: (context, state) {
               if (state.status == DeafultBlocStatus.loading) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/available_times/available_times.dart';
-import 'package:intl/intl.dart';
 import '../../../../../../core/resources/color_manger.dart';
 import '../../../../../../core/resources/font_manger.dart';
 import '../../../../../../core/widget/text_utiles/text_utile_widget.dart';
@@ -13,11 +12,14 @@ class InfoTimesWidget extends StatefulWidget {
   State<InfoTimesWidget> createState() => _InfoTimesWidgetState();
 }
 
+AvailableTimes selectedTime = AvailableTimes();
+
 class _InfoTimesWidgetState extends State<InfoTimesWidget> {
   int selectedIndex = 0;
-  
+
   @override
   Widget build(BuildContext context) {
+    // selectedTime = widget.times[0];
     return Padding(
       padding: EdgeInsets.only(
         bottom: 20.h,
@@ -33,6 +35,7 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
+                selectedTime = widget.times[index];
                 setState(() {
                   selectedIndex = index;
                 });
@@ -54,7 +57,7 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                        TextUtiels(
+                      TextUtiels(
                         text: " ${widget.times[index].fromTime!} ",
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               color: index == selectedIndex
@@ -65,7 +68,7 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
                                   AppFontWeightManger.fontWeightExtraBold,
                             ),
                       ),
-                     TextUtiels(
+                      TextUtiels(
                         // paddingBottome: 5.h,
                         text: ": الساعة ",
                         // paddingTop: 2.h,
@@ -78,7 +81,7 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
                                   AppFontWeightManger.fontWeightExtraBold,
                             ),
                       ),
-                  ],
+                    ],
                   ),
                 ),
               ),

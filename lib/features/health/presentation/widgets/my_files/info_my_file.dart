@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/item.dart';
+import 'package:intl/intl.dart';
 import '../../../../../core/resources/svg_manger.dart';
 import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class InfoMyFileWidget extends StatelessWidget {
-  const InfoMyFileWidget({super.key});
-
+  const InfoMyFileWidget({super.key, required this.item});
+  final Item item;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -31,7 +33,7 @@ class InfoMyFileWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextUtiels(
-                text: 'تصوير شعاعي',
+                text: item.fileType ?? '',
                 paddingBottome: 3.h,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       fontSize: 16.sp,
@@ -45,21 +47,23 @@ class InfoMyFileWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextUtiels(
-                        text: '2:15',
+                        text: DateFormat.jm()
+                            .format(item.creationTime ?? DateTime.now()),
                         style:
                             Theme.of(context).textTheme.displaySmall?.copyWith(
                                   fontSize: 10.sp,
                                 ),
                       ),
                       TextUtiels(
-                        text: '2023/8/25',
+                        text: DateFormat('yyyy/MM/dd')
+                            .format(item.creationTime ?? DateTime.now()),
                         style:
                             Theme.of(context).textTheme.displaySmall?.copyWith(
                                   fontSize: 10.sp,
                                 ),
                       ),
                       TextUtiels(
-                        text: '12.35 kB',
+                        text: '${item.fileSize} kB',
                         style:
                             Theme.of(context).textTheme.displaySmall?.copyWith(
                                   fontSize: 10.sp,

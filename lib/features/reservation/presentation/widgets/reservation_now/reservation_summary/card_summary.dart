@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hosptel_app/core/shared/shared_pref.dart';
 import '../../../../../../core/resources/color_manger.dart';
 import '../../../../../../core/resources/font_manger.dart';
 import '../../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class CardSummaryWidget extends StatelessWidget {
-  const CardSummaryWidget({super.key});
-
+  const CardSummaryWidget(
+      {super.key, required this.date, required this.fromTime});
+  final String date;
+  final String? fromTime;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +36,7 @@ class CardSummaryWidget extends StatelessWidget {
               //? Card Summary :
               TextUtiels(
                 paddingRight: 10.w,
-                text: 'الاسم : لمى عبدالله الطويل',
+                text: '${AppSharedPreferences.getName()} : الاسم',
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       fontSize: 20.sp,
                       fontFamily: AppFontFamily.tajawalMedium,
@@ -48,7 +51,8 @@ class CardSummaryWidget extends StatelessWidget {
                   TextUtiels(
                     paddingRight: 5.w,
                     paddingTop: 12.h,
-                    text: '2:15 2023/8/25',
+                    text:
+                        '${fromTime ?? '00:00:00'} ${date.replaceRange(10, null, '')}',
                     color: AppColorManger.colorShowDailogButton,
                     fontSize: 16.sp,
                     fontFamily: AppFontFamily.tajawalMedium,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
+import 'package:hosptel_app/features/profile/presentation/logic/edit_profile_logic.dart';
 import '../../../../core/resources/word_manger.dart';
 import '../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../core/widget/main/nav_button_main/cubit/button_nav_cubit.dart';
@@ -66,22 +68,28 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               //? Delete My Account :
-              CardMainProfile(
-                paddingLeft: 160,
-                text: AppWordManger.deleteAccount,
-                onTap: () {
-                  MainShowDialog.customShowDialog(
-                    onTapBack: () {
-                      Navigator.pop(context);
-                    },
-                    context,
-                    firstButtonText: AppWordManger.yes,
-                    secoundButtonText: AppWordManger.no,
-                    textPopUp: AppWordManger.areYoueSureDeletedAccount,
-                    onTapFirst: () => Navigator.pop(context),
-                    onTapSecound: () => Navigator.pop(context),
-                  );
+              BlocConsumer<DeleteAccountCubit, DeleteAccountState>(
+                listener: (context, state) {
+                  EditProfileLogic().deleteAccountListener(state, context);
                 },
+                builder: (context, state) => CardMainProfile(
+                  paddingLeft: 160,
+                  text: AppWordManger.deleteAccount,
+                  onTap: () {
+                    MainShowDialog.customShowDialog(
+                      onTapBack: () {
+                        Navigator.pop(context);
+                      },
+                      context,
+                      firstButtonText: AppWordManger.yes,
+                      secoundButtonText: AppWordManger.no,
+                      textPopUp: AppWordManger.areYoueSureDeletedAccount,
+                      onTapFirst: () =>
+                          context.read<DeleteAccountCubit>().deleteAccount(),
+                      onTapSecound: () => Navigator.pop(context),
+                    );
+                  },
+                ),
               ),
             ],
           ),

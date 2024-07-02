@@ -7,8 +7,8 @@ import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 import '../../../../../router/app_router.dart';
 
 class CardMedicalDescription extends StatelessWidget {
-  const CardMedicalDescription({super.key});
-
+  const CardMedicalDescription({super.key, required this.id});
+  final int id;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -16,6 +16,7 @@ class CardMedicalDescription extends StatelessWidget {
         Navigator.pushNamed(
           context,
           RouteNamedScreens.midicalDesciptionTableNameRoute,
+          arguments: id,
         );
       },
       child: Padding(

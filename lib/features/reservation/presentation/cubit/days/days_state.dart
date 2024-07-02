@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 part of 'days_cubit.dart';
 
 class DaysState extends Equatable {

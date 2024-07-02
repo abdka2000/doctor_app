@@ -3,7 +3,7 @@ class AvailableDays {
   final String? date;
 
   AvailableDays({
-    required this.name,
-    required this.date,
+    this.name,
+    this.date,
   });
 }

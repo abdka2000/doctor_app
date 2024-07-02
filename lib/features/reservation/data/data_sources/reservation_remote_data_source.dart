@@ -1,5 +1,11 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
+import 'package:hosptel_app/core/api/api_methode_post.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/reservation_response.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/symptom_entity/symptom_entity.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours/user_work_hours.dart';
+
 import '../../../../core/api/api_links.dart';
 import '../../../../core/api/api_methode_get.dart';
 import '../../../../core/shared/shared_pref.dart';
@@ -12,15 +18,28 @@ import '../../domain/entities/reservation_item/reservation_item.dart';
 
 abstract class ReservationRemoteDataSource {
   Future<List<ReservationItemEntity>> getReservation(
-      {required bool isFinished,required int skipCount ,required int maxResult});
+      {required bool isFinished,
+      required int skipCount,
+      required int maxResult});
+  //-------------------------------------------//
   Future<List<AvailableDays>> getAvailableDays();
+  //-------------------------------------------//
   Future<List<AvailableTimes>> getAvailablesTime({required String date});
+  //-------------------------------------------//
+  Future<UserWorkHours> getWorkHours();
+  //-------------------------------------------//
+  Future<SymptomEntity> getSymptoms();
+  //-------------------------------------------//
+  Future<Unit> createAppoinment({required ReservationResponse reservation});
 }
 
 class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   @override
-  Future<List<ReservationItemEntity>> getReservation(
-      {required bool isFinished,required int skipCount , required int maxResult,} ) {
+  Future<List<ReservationItemEntity>> getReservation({
+    required bool isFinished,
+    required int skipCount,
+    required int maxResult,
+  }) {
     final token = AppSharedPreferences.getToken();
     Map<String, String> headers = {
       "Authorization": token,
@@ -30,7 +49,7 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       'SkipCount': skipCount,
       'MaxResultCount': maxResult,
     };
-     
+
     return ApiGetMethods<List<ReservationItemEntity>>(addHeader: headers).get(
       query: query,
       url: ApiGet.getReservations,
@@ -81,5 +100,49 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
               .toList();
           return times;
         });
+  }
+
+  @override
+  Future<UserWorkHours> getWorkHours() async {
+    final token = AppSharedPreferences.getToken();
+    Map<String, String> headers = {
+      "Authorization": token,
+    };
+    return ApiGetMethods<UserWorkHours>(addHeader: headers).get(
+        url: ApiGet.getWorkHours,
+        data: (response) {
+          final dataDecoded = jsonDecode(response.body);
+          final userWorkHours = UserWorkHours.fromJson(dataDecoded);
+          return userWorkHours;
+        });
+  }
+
+  @override
+  Future<SymptomEntity> getSymptoms() async {
+    final token = AppSharedPreferences.getToken();
+    Map<String, String> headers = {
+      "Authorization": token,
+    };
+    return ApiGetMethods<SymptomEntity>(addHeader: headers).get(
+        url: ApiGet.getSymptoms,
+        data: (responde) {
+          final dataDecoded = jsonDecode(responde.body);
+          final symptoms = SymptomEntity.fromJson(dataDecoded);
+          return symptoms;
+        });
+  }
+
+  @override
+  Future<Unit> createAppoinment(
+      {required ReservationResponse reservation}) async {
+    final token = AppSharedPreferences.getToken();
+    Map<String, String> headers = {
+      "Authorization": token,
+    };
+    return ApiPostMethods<Unit>(addHeader: headers).post(
+      url: ApiPost.createAppoinment,
+      data: (response) => unit,
+      body: reservation.toJson(),
+    );
   }
 }

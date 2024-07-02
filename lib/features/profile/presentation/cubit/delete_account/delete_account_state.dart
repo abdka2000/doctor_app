@@ -1,36 +1,31 @@
-part of 'times_cubit.dart';
+part of 'delete_account_cubit.dart';
 
-class TimesState extends Equatable {
+class DeleteAccountState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<AvailableTimes> times;
 
-  const TimesState({
-    required this.times,
+  const DeleteAccountState({
     required this.status,
     required this.failureMessage,
   });
 
-  factory TimesState.initial() {
-    return TimesState(
+  factory DeleteAccountState.initial() {
+    return DeleteAccountState(
       failureMessage: FailureMessage(message: '', statusCode: 0),
       status: DeafultBlocStatus.initial,
-      times: [],
     );
   }
 
   @override
   List<Object> get props => [failureMessage, status];
 
-  TimesState copyWith({
+  DeleteAccountState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    List<AvailableTimes>? times,
   }) {
-    return TimesState(
+    return DeleteAccountState(
       failureMessage: failureMessage ?? this.failureMessage,
       status: status ?? this.status,
-      times: times ?? this.times,
     );
   }
 }

@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hosptel_app/core/resources/enum_manger.dart';
+import 'package:hosptel_app/core/widget/loading/main_loading.dart';
+import 'package:hosptel_app/core/widget/repeted/error_text.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/appointment_symptom.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/reservation_response.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/start_time.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/create_appoinment/create_appoinment_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms/symptoms_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/logic/reservation_logic.dart';
+import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_day_widget.dart';
+import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_time_widget.dart';
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/font_manger.dart';
 import '../../../../../core/resources/word_manger.dart';
@@ -14,7 +26,8 @@ import '../../widgets/reservation_now/reservation_summary/choose_type_symptoms.d
 import '../../../../../router/app_router.dart';
 
 class SummaryReservationPage extends StatefulWidget {
-  const SummaryReservationPage({super.key});
+  const SummaryReservationPage({super.key, required this.times});
+  final Map<String, dynamic> times;
 
   @override
   State<SummaryReservationPage> createState() => _SummaryReservationPageState();
@@ -22,17 +35,9 @@ class SummaryReservationPage extends StatefulWidget {
 
 bool visible = false;
 bool cancleButton = false;
-List<bool> check = List.generate(6, (_) => false);
-List<String> seek = [
-  'الزكام',
-  'الدوار',
-  'الحمى',
-  'وجع المعدة',
-  'وجع الرأس',
-  'غير ذلك'
-];
 
 class _SummaryReservationPageState extends State<SummaryReservationPage> {
+  List<int> symptomsId = [];
   @override
   Widget build(BuildContext context) {
     return MainBackGround(
@@ -42,15 +47,22 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
           children: [
             TitlePageWidget(
               titleText: AppWordManger.detailsReservatio,
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                Navigator.pop(context);
+                visible = false;
+              },
               paddingBottome: 35.h,
             ),
             //? Card Summary :
-            const CardSummaryWidget(),
+            CardSummaryWidget(
+              date: widget.times['date'].toString(),
+              fromTime: widget.times['fromTime'] ?? '',
+            ),
             CardSymptomsWidget(
               onTap: () {
                 setState(() {
                   visible = !visible;
+                  if (visible) context.read<SymptomsCubit>().getSymptoms();
                 });
               },
             ),
@@ -62,100 +74,126 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 200.w,
-                    height: 200.h,
-                    decoration: BoxDecoration(
-                      color: AppColorManger.whiteColorCard,
-                      border: Border.all(
-                        color: AppColorManger.colorBorder,
-                        width: 2.w,
+                      width: 200.w,
+                      height: 200.h,
+                      decoration: BoxDecoration(
+                        color: AppColorManger.whiteColorCard,
+                        border: Border.all(
+                          color: AppColorManger.colorBorder,
+                          width: 2.w,
+                        ),
+                        borderRadius: BorderRadius.circular(5.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColorManger.balckCheck.withOpacity(0.25),
+                            offset: const Offset(4, 4),
+                            blurRadius: 4,
+                          )
+                        ],
                       ),
-                      borderRadius: BorderRadius.circular(5.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColorManger.balckCheck.withOpacity(0.25),
-                          offset: const Offset(4, 4),
-                          blurRadius: 4,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: 6,
-                            itemBuilder: (context, index) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  TextUtiels(
-                                    text: seek[index],
-                                    fontFamily: AppFontFamily.tajawalMedium,
-                                    fontSize: 14.sp,
-                                    color: check[index]
-                                        ? AppColorManger.primaryColor
-                                        : AppColorManger.colorGrayLight,
-                                  ),
-                                  Checkbox(
-                                    value: check[index],
-                                    onChanged: (value) {
-                                      setState(() {
-                                        check[index] = value!;
-                                      });
+                      child: BlocBuilder<SymptomsCubit, SymptomsState>(
+                        builder: (context, state) {
+                          if (state.status == DeafultBlocStatus.done) {
+                            final list = state.symptoms.result?.items ?? [];
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: list.length,
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          TextUtiels(
+                                            text: list[index].name ?? '',
+                                            fontFamily:
+                                                AppFontFamily.tajawalMedium,
+                                            fontSize: 14.sp,
+                                            color: symptomsId
+                                                    .contains(list[index].id)
+                                                ? AppColorManger.primaryColor
+                                                : AppColorManger.colorGrayLight,
+                                          ),
+                                          Checkbox(
+                                            value: symptomsId
+                                                .contains(list[index].id),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                if (symptomsId
+                                                    .contains(list[index].id)) {
+                                                  symptomsId.remove(
+                                                      list[index].id ?? 0);
+                                                } else {
+                                                  symptomsId
+                                                      .add(list[index].id ?? 0);
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      );
                                     },
                                   ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                        //? button done Or cancle :
-                        ButtonDoneAndCancle(
-                          onTap: () {
-                            setState(() {
-                              visible = false;
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ),
+                                ),
+                                //? button done Or cancle :
+                                ButtonDoneAndCancle(
+                                  onTap: () {
+                                    setState(() {
+                                      visible = false;
+                                    });
+                                  },
+                                )
+                              ],
+                            );
+                          } else if (state.status ==
+                              DeafultBlocStatus.loading) {
+                            return const MainLoadignWidget();
+                          }
+                          return ErrorTextWidget(
+                              text: state.failureMessage.message,
+                              onPressed: () {
+                                context.read<SymptomsCubit>().getSymptoms();
+                              });
+                        },
+                      )),
                 ),
               ),
             ),
 
             //? Button For Continuse Resrvation :
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: !visible ? 200.h : 0),
-              child: MainElevatedButton(
-                text: AppWordManger.continueReservation,
-                backgroundColor: AppColorManger.primaryColor,
-                textColor: AppColorManger.textColor1,
-                horizontalPadding: 110.w,
-                onPreesed: () {
-                  MainShowDialog.customShowDialog(context,
-                      onTapBack: () {
-                        Navigator.pop(context);
-                      },
-                      firstButtonText: AppWordManger.home,
-                      secoundButtonText: AppWordManger.myReservation,
-                      textPopUp:
-                          '${AppWordManger.doneReservationSucces}\n في \n 2:15   2023/8/25',
-                      onTapFirst: () {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          RouteNamedScreens.homeScreenNameRoute,
+            BlocConsumer<CreateAppoinmentCubit, CreateAppoinmentState>(
+              listener: (context, state) {
+                ReservationLogic()
+                    .createAppoinmentListener(context, state, visible);
+              },
+              builder: (context, state) {
+                if (state.status == DeafultBlocStatus.loading) {
+                  return const MainLoadignWidget();
+                }
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: !visible ? 200.h : 0),
+                  child: MainElevatedButton(
+                      text: AppWordManger.continueReservation,
+                      backgroundColor: AppColorManger.primaryColor,
+                      textColor: AppColorManger.textColor1,
+                      horizontalPadding: 110.w,
+                      onPreesed: () {
+                        final reservation = ReservationResponse(
+                          startTime: StartTime(),
+                          appointmentDate: DateTime.parse(
+                              selectedDay.date ?? DateTime.now().toString()),
+                          appointmentSymptoms: symptomsId
+                              .map((id) => AppointmentSymptom(symptomId: id))
+                              .toList(),
                         );
-                      },
-                      onTapSecound: () {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          RouteNamedScreens.reservationNameRoute,
-                        );
-                      });
-                },
-              ),
+                        context
+                            .read<CreateAppoinmentCubit>()
+                            .createAppoinment(reservations: reservation);
+                      }),
+                );
+              },
             )
           ],
         ),

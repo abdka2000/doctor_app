@@ -1,17 +1,25 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/resources/color_manger.dart';
+import 'package:hosptel_app/core/resources/enum_manger.dart';
+import 'package:hosptel_app/core/widget/loading/main_loading.dart';
+import 'package:hosptel_app/core/widget/repeted/error_text.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/prescription_details/prescription_details_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/logic/health_logic.dart';
+import 'package:hosptel_app/features/health/presentation/widgets/medical_description/empty_medical_description.dart';
+import 'package:hosptel_app/features/health/presentation/widgets/medical_description/medical_description_list.dart';
 import '../../../../../core/resources/word_manger.dart';
 import '../../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../../core/widget/repeted/titel_pages_widget.dart';
-import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
-import '../../widgets/medical_description/filed_decription_medical.dart';
 
 class MedicalDescriptionTablePage extends StatelessWidget {
-  const MedicalDescriptionTablePage({super.key});
-
+  const MedicalDescriptionTablePage({super.key, required this.id});
+  final int id;
   @override
   Widget build(BuildContext context) {
+    final controller = ScrollController();
     return MainBackGround(
       mainBody: Column(
         children: [
@@ -20,119 +28,33 @@ class MedicalDescriptionTablePage extends StatelessWidget {
             onTap: () => Navigator.pop(context),
             paddingBottome: 40.h,
           ),
-          Container(
-            width: 319.w,
-            height: 300.h,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColorManger.secoundryColor,
-                width: 1.5.w,
-              ),
-              borderRadius: BorderRadius.circular(5.r),
-            ),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 74.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      VerticalDivider(
-                        color:
-                            AppColorManger.lineDividerColor.withOpacity(0.74),
-                        thickness: 2.w,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 30.w),
-                        child: VerticalDivider(
-                          color:
-                              AppColorManger.lineDividerColor.withOpacity(0.74),
-                          thickness: 2.w,
-                        ),
-                      ),
-                      VerticalDivider(
-                        color:
-                            AppColorManger.lineDividerColor.withOpacity(0.74),
-                        thickness: 2.w,
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  children: [
-                    const FiledDescriptionMedical(
-                      nameMedicine: AppWordManger.nameMedicine,
-                      timeOfUse: AppWordManger.timeOfUse,
-                      periodOfUse: AppWordManger.periodOfUse,
-                      showText: true,
-                    ),
-                    //? Elemant Datat :
-                    Expanded(
-                      child: ListView.separated(
-                        itemCount: 5,
-                        separatorBuilder: (context, index) =>
-                            SizedBox(height: 10.h),
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: double.infinity,
-                            height: 50.h,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: AppColorManger.secoundryColor,
-                                width: 1.2.w,
-                              ),
-                              borderRadius: BorderRadius.circular(5.r),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 40.w),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextUtiels(
-                                    paddingLeft: 10.w,
-                                    text: 'setamol',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayLarge
-                                        ?.copyWith(
-                                          fontSize: 14.sp,
-                                        ),
-                                  ),
-                                  TextUtiels(
-                                    text: 'ابام 10',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          fontSize: 10.sp,
-                                        ),
-                                  ),
-                                  Container(
-                                    width: 25.w,
-                                    height: 5.h,
-                                    color: AppColorManger.secoundryColor,
-                                  ),
-                                  TextUtiels(
-                                    text: '3',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          fontSize: 10.sp,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          BlocConsumer<PrescriptionDetailsCubit, PrescriptionDetailsState>(
+            listener: (context, state) {
+              HealthLogic()
+                  .prescriptionDetailsListener(context, state, controller, id);
+            },
+            builder: (context, state) {
+              if (state.status == DeafultBlocStatus.loading) {
+                return const MainLoadignWidget();
+              } else if (state.status == DeafultBlocStatus.done) {
+                if (state.prescriptionDetails!.isEmpty) {
+                  return const EmptyMedicalDesciption();
+                } else {
+                  return MidicalTableBody(
+                    controller: controller,
+                    hasReachedMax: state.hasReachedMax,
+                    items: state.prescriptionDetails ?? [],
+                  );
+                }
+              }
+              return ErrorTextWidget(
+                  text: state.failureMessage.message,
+                  onPressed: () {
+                    context
+                        .read<PrescriptionDetailsCubit>()
+                        .getPrescriptionDetails(prescriptionId: id);
+                  });
+            },
           ),
         ],
       ),

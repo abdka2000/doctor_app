@@ -53,7 +53,7 @@ class AppBarReservationDetailsWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextUtiels(
-                          text: 'لمى الطويل',
+                          text: AppSharedPreferences.getName(),
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontSize: 13.sp,
@@ -62,7 +62,7 @@ class AppBarReservationDetailsWidget extends StatelessWidget {
                         TextUtiels(
                           text: 'أهلا بك',
                           style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontSize: 15.sp,
                                   ),
                         ),

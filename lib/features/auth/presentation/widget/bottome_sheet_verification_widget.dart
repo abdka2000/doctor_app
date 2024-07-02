@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -127,7 +128,7 @@ class BottomeSheetVerifivcationWidget extends StatelessWidget {
                   textColor: AppColorManger.white,
                   onPreesed: () {
                     context.read<ConfirmAccountCubit>().confirmAccount(
-                          phoneNumber: numberPhone.split(' ')[1],
+                          phoneNumber: numberPhone,
                           code: code,
                         );
                   },
@@ -138,7 +139,9 @@ class BottomeSheetVerifivcationWidget extends StatelessWidget {
           MovPageText(
             movPageText: AppWordManger.resendMessage,
             onTap: () {
-              print(numberPhone.split(' ')[1]);
+              if (kDebugMode) {
+                print(numberPhone.split(' ')[1]);
+              }
             },
             primaryText: AppWordManger.dontGetVerificationCode,
           ),

@@ -34,4 +34,9 @@ class ProfileUseCase implements ProfileBaseUseCase {
       String currentPassword, String newPassword) async {
     return await repo.changePassword(currentPassword, newPassword);
   }
+
+  @override
+  Future<Either<Failure, Unit>> deleteAccount() async {
+    return await repo.deleteAccount();
+  }
 }

@@ -110,7 +110,7 @@ class BottomeSheetSignUpWidget extends StatelessWidget {
                             contentPaddingHorizontal: 25.w,
                             inputFormatter: [
                               FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(10),
+                              LengthLimitingTextInputFormatter(9),
                             ],
                           ),
                         ),

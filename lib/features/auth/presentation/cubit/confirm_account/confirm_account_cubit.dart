@@ -23,7 +23,6 @@ class ConfirmAccountCubit extends Cubit<ConfirmAccountState> {
             status: DeafultBlocStatus.error,
           ),
         );
-        print(state.failureMessage.message);
       },
       (done) {
         emit(

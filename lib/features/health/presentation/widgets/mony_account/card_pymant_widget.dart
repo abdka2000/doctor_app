@@ -6,8 +6,8 @@ import '../../../../../core/resources/word_manger.dart';
 import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class CardPymantWidget extends StatelessWidget {
-  const CardPymantWidget({super.key});
-
+  const CardPymantWidget({super.key, required this.pushedAmount});
+  final int pushedAmount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,7 +45,7 @@ class CardPymantWidget extends StatelessWidget {
                       ),
                 ),
                 TextUtiels(
-                  text: '50,000',
+                  text: '$pushedAmount',
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: AppFontFamily.extraBold,
                         fontSize: 20.sp,

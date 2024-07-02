@@ -10,4 +10,5 @@ abstract class ProfileBaseUseCase {
       String phoneNumber, String code);
   Future<Either<Failure, Unit>> changePassword(
       String currentPassword, String newPassword);
+  Future<Either<Failure, Unit>> deleteAccount();
 }

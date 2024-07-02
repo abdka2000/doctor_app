@@ -1,29 +1,29 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours/user_work_hours.dart';
 import '../../../../../core/function/maping_falure.dart';
 import '../../../../../core/resources/enum_manger.dart';
-import '../../../data/models/doctor_adv/adv_item_model.dart';
-import '../../../domain/usecases/home_base_usecase.dart';
+import '../../../domain/usecases/reservation_base_use_case.dart';
 
-part 'adv_state.dart';
+part 'info_days_times_state.dart';
 
-class AdvCubit extends Cubit<AdvState> {
-  AdvCubit(this.useCase) : super(AdvState.initial());
-  final HomeBaseUseCase useCase;
-  Future<void> getAdvs() async {
+class InfoDaysTimesCubit extends Cubit<InfoDaysTimesState> {
+  InfoDaysTimesCubit(this.useCase) : super(InfoDaysTimesState.initial());
+  final ReservationBaseUseCase useCase;
+  Future<void> getDaysAndTimes() async {
     emit(state.copyWith(status: DeafultBlocStatus.loading));
-    final data = await useCase.getAdvsUseCase();
-    data.fold(
+    final times = await useCase.getWorkHours();
+    times.fold(
       (failure) {
         emit(state.copyWith(
           failureMessage: mapFailureToMessage(failure: failure),
           status: DeafultBlocStatus.error,
         ));
       },
-      (advs) {
+      (hours) {
         emit(state.copyWith(
           status: DeafultBlocStatus.done,
-          advs: advs,
+          hours: hours,
         ));
       },
     );

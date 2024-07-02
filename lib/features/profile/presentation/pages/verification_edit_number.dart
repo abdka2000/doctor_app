@@ -96,7 +96,8 @@ class VerficationEditNumber extends StatelessWidget {
             //? Button For sure character :
             BlocConsumer<ConfirmEditNumberCubit, ConfirmEditNumberState>(
               listener: (context, state) {
-                EditProfileLogic().listenerConfirmEditNumber(state, context);
+                EditProfileLogic()
+                    .listenerConfirmEditNumber(state, context, phoneNumber);
               },
               builder: (context, state) {
                 if (state.status == DeafultBlocStatus.loading) {

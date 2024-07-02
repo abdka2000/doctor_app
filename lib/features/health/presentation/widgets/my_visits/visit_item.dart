@@ -9,7 +9,8 @@ import 'package:intl/intl.dart';
 
 class VisitItem extends StatelessWidget {
   const VisitItem({
-    super.key, required this.session,
+    super.key,
+    required this.session,
   });
   final MidicalSession session;
 

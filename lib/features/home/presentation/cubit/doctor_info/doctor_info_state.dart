@@ -1,34 +1,34 @@
-part of 'adv_cubit.dart';
+part of 'doctor_info_cubit.dart';
 
-class AdvState extends Equatable {
+class DoctorInfoState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<AdvItemModel> advs;
+  final DoctorInfoEntity info;
 
-  const AdvState({
-    required this.advs,
+  const DoctorInfoState({
+    required this.info,
     required this.status,
     required this.failureMessage,
   });
 
-  factory AdvState.initial() {
-    return AdvState(
+  factory DoctorInfoState.initial() {
+    return DoctorInfoState(
         failureMessage: FailureMessage(message: '', statusCode: 0),
         status: DeafultBlocStatus.initial,
-        advs: []);
+        info: DoctorInfoEntity());
   }
 
   @override
   List<Object> get props => [failureMessage, status];
 
-  AdvState copyWith({
+  DoctorInfoState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    List<AdvItemModel>? advs,
+    DoctorInfoEntity? info,
   }) {
-    return AdvState(
+    return DoctorInfoState(
         failureMessage: failureMessage ?? this.failureMessage,
         status: status ?? this.status,
-        advs: advs ?? this.advs);
+        info: info ?? this.info);
   }
 }

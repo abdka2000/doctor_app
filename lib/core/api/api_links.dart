@@ -5,16 +5,27 @@ class ApiGet {
   //? Home
   static const getServices = 'services/app/Service/GetAllForMobile';
   static const getAdvs = 'services/app/Advertisement/GetAll';
+  static const getDoctorInfo = 'services/app/AboutDoctor/GetAboutDoctor';
   //? Reservations
   static const getReservations = 'services/app/Appointment/GetAllForPatient';
   static const getAvailableTimes =
       'services/app/Day/GetAllAvailableTimesForDay';
+  static const getWorkHours =
+      'services/app/UserWorkHour/GetAllWorkHoursForDoctor';
   static const getAvailableDays = 'services/app/Day/GetAllAvailableDays';
+  static const getSymptoms = 'services/app/Symptom/GetAll';
   //? Profile
   static const getProfileData = 'services/app/Patient/GetPatientProfile';
   //? Health
   static const getMedicalSession =
       'services/app/MedicalSession/GetAllForPatient';
+  static const getPrescriptionItemDetails =
+      'services/app/PrescriptionItem/GetAll';
+  static const getUserPrescriptions =
+      'services/app/Prescription/GetAllForPatient';
+  static const getUserAmount =
+      'services/app/PatientAccount/GetAllAccountsForPatient';
+  static const getFiles = 'services/app/PatientAttachmnet/GetAllForPatient';
 }
 //?
 
@@ -32,6 +43,9 @@ class ApiPost {
   static const confirmEditPhoneNumber =
       'services/app/Patient/SendConfirmationCodeForEditNumber';
   static const changePassword = 'services/app/Patient/ChangePassword';
+  //? Reservations
+  static const createAppoinment =
+      'services/app/Appointment/CreateAppointmentByPatient';
 }
 //
 
@@ -43,6 +57,8 @@ class ApiPut {
 //
 
 //? Api DELETE
-class ApiDelete {}
+class ApiDelete {
+  static const deleteAccount = 'services/app/Patient/DeletePatientAccount';
+}
 
 //

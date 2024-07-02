@@ -1,13 +1,11 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptel_app/features/reservation/presentation/logic/reservation_logic.dart';
 import '../../../../../core/resources/enum_manger.dart';
 import '../../../../../core/resources/svg_manger.dart';
 import '../../../../../core/widget/loading/main_loading.dart';
-import '../../../../../core/widget/text_utiles/error_text.dart';
-import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
+import '../../../../../core/widget/repeted/error_text.dart';
 import '../../../domain/entities/reservation_item/reservation_item.dart';
 import '../../cubit/reservations/reservation_cubit.dart';
 import 'card_reservation_widget.dart';
@@ -32,7 +30,12 @@ class DoneReservation extends StatelessWidget {
             return const NotFoundReservationWidget();
           }
         } else if (state.status == DeafultBlocStatus.error) {
-          return ErrorText(text: state.failureMessage.message);
+          return ErrorTextWidget(
+            text: state.failureMessage.message,
+            onPressed: () => context
+                .read<ReservationCubit>()
+                .getReservations(isFinished: true),
+          );
         }
         return const MainLoadignWidget();
       },

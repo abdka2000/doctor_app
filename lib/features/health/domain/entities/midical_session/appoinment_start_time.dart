@@ -16,7 +16,7 @@ class AppointmentStartTime {
   final int? totalSeconds;
 
   AppointmentStartTime(
-      { this.ticks,
+      {this.ticks,
       this.days,
       this.hours,
       this.milliseconds,

@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hosptel_app/core/resources/color_manger.dart';
 import 'package:hosptel_app/core/resources/font_manger.dart';
+import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/text_utiles/text_utile_widget.dart';
 import 'package:hosptel_app/features/home/domain/entity/doctor_services/item_entity.dart';
 
@@ -24,8 +25,7 @@ class InfoServicesItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding:
-                EdgeInsets.symmetric(vertical: 9.5.h, horizontal: 15.w),
+            padding: EdgeInsets.symmetric(vertical: 9.5.h, horizontal: 15.w),
             margin: EdgeInsets.only(bottom: 8.h),
             decoration: ShapeDecoration(
               shadows: [
@@ -45,16 +45,23 @@ class InfoServicesItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(9),
               ),
             ),
+            child: CachedNetworkImage(
+              imageUrl: 'http://${item.imageUrl}',
+              fit: BoxFit.contain,
+              height: 100.h,
+              width: 145.w,
+              placeholder: (context, url) => const MainLoadignWidget(),
+            ),
             // child: SvgPicture.asset(
             //   'assets/image/svg/mackup.svg',
             // ),
-            // child: items[index].imageUrl != null
-            //     ? SvgPicture.network(
-            //         items[index].imageUrl!,
-            //       ):
-            child: SvgPicture.asset(
-              'assets/image/svg/mackup.svg',
-            ),
+            //  item.imageUrl != null
+            // ? SvgPicture.network(
+            //     item.imageUrl!,
+            //   )
+            // : SvgPicture.asset(
+            //     'assets/image/svg/mackup.svg',
+            //   ),
           ),
           TextUtiels(
             fontFamily: AppFontFamily.tajawalLight,

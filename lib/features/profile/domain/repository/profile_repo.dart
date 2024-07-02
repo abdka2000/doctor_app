@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 import 'package:hosptel_app/core/error/failure.dart';
 import 'package:hosptel_app/features/profile/domain/entities/person.dart';
 
@@ -16,4 +15,6 @@ abstract class ProfileRepository {
   //? Repo Change Password
   Future<Either<Failure, Unit>> changePassword(
       String currentPassword, String newPassword);
+  //? Repo Delete Account
+  Future<Either<Failure, Unit>> deleteAccount();
 }

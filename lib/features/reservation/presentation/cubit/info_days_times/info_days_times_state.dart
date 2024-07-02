@@ -1,36 +1,36 @@
-part of 'times_for_day_cubit.dart';
+part of 'info_days_times_cubit.dart';
 
-class TimesForDayState extends Equatable {
+class InfoDaysTimesState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<AvailableTimes> times;
+  final UserWorkHours hours;
 
-  const TimesForDayState({
-    required this.times,
+  const InfoDaysTimesState({
+    required this.hours,
     required this.status,
     required this.failureMessage,
   });
 
-  factory TimesForDayState.initial() {
-    return TimesForDayState(
+  factory InfoDaysTimesState.initial() {
+    return InfoDaysTimesState(
       failureMessage: FailureMessage(message: '', statusCode: 0),
       status: DeafultBlocStatus.initial,
-      times: [],
+      hours: UserWorkHours(),
     );
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props => [failureMessage, status, hours];
 
-  TimesForDayState copyWith({
+  InfoDaysTimesState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    List<AvailableTimes>? times,
+    UserWorkHours? hours,
   }) {
-    return TimesForDayState(
+    return InfoDaysTimesState(
       failureMessage: failureMessage ?? this.failureMessage,
       status: status ?? this.status,
-      times: times ?? this.times,
+      hours: hours ?? this.hours,
     );
   }
 }

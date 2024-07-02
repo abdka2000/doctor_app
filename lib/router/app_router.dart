@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions/midical_sessions_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/patient_files/patient_files_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/prescription_details/prescription_details_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/user_amount/user_amount_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/user_prescription/user_prescriptions_cubit.dart';
+import 'package:hosptel_app/features/home/presentation/cubit/doctor_info/doctor_info_cubit.dart';
+import 'package:hosptel_app/features/intro/presentation/cubit/navigate_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/confirm_edit_number/confirm_edit_number_cubit.dart';
+import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_number/edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_profile/edit_profile_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
-import '../core/shared/shared_pref.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/create_appoinment/create_appoinment_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/info_days_times/info_days_times_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms/symptoms_cubit.dart';
 import '../features/auth/presentation/cubit/confirm_account/confirm_account_cubit.dart';
 import '../features/auth/presentation/cubit/create_Account/create_account_cubit.dart';
 import '../features/auth/presentation/cubit/login/login_cubit.dart';
@@ -22,7 +31,7 @@ import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/confrim_number_page.dart';
 import '../features/auth/presentation/pages/signup_page.dart';
 import '../features/health/presentation/pages/health_page.dart';
-import '../features/home/presentation/cubit/adv/adv_cubit.dart';
+import '../features/home/presentation/cubit/advertisement/advertisement_cubit.dart';
 import '../features/home/presentation/cubit/services/services_cubit.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/home/presentation/pages/home_secoundry.dart';
@@ -34,8 +43,7 @@ import '../features/profile/presentation/pages/info_profile_page.dart';
 import '../features/profile/presentation/pages/main_profile_page.dart';
 import '../features/profile/presentation/pages/verification_edit_number.dart';
 import '../features/reservation/presentation/cubit/days/days_cubit.dart';
-import '../features/reservation/presentation/cubit/times/time_today/times_cubit.dart';
-import '../features/reservation/presentation/cubit/times/times_for_day/times_for_day_cubit.dart';
+import '../features/reservation/presentation/cubit/times_for_day/times_for_day_cubit.dart';
 import '../features/reservation/presentation/pages/my_reservation/reservation_page.dart';
 import '../features/reservation/presentation/pages/reservation_now/details_reservation_page.dart';
 import '../features/reservation/presentation/pages/reservation_now/summary_reservation.dart';
@@ -48,13 +56,13 @@ class AppRouter {
       //! Start Feature Intro //! :
       //? Start Intro Page :
       case RouteNamedScreens.introScreenNameRoute:
-        // if (AppSharedPreferences.getToken().isEmpty) {
         return MaterialPageRoute(
-          builder: (_) => const IntroPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => di.sl<NavigateCubit>(),
+            child: const IntroPage(),
+          ),
         ); //? End Intro Page
-      // } else {
-      //   return MaterialPageRoute(builder: (_) => const HomePage());
-      // }
+
       //! End Feature Intro //! :
 
       //! Start Feature Auth //! :
@@ -179,7 +187,13 @@ class AppRouter {
               providers: [
                 BlocProvider(
                     create: (context) => di.sl<ServicesCubit>()..getServices()),
-                BlocProvider(create: (context) => di.sl<AdvCubit>()..getAdvs()),
+                BlocProvider(create: (context) => di.sl<ProfileCubit>()),
+                BlocProvider(
+                    create: (context) =>
+                        di.sl<AdvertisementCubit>()..getAdvertisement()),
+                BlocProvider(
+                    create: (context) =>
+                        di.sl<DoctorInfoCubit>()..getDoctorInfo()),
               ],
               child: const HomePage(),
             );
@@ -258,7 +272,11 @@ class AppRouter {
       case RouteNamedScreens.myFileNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const MyFilePage();
+            return BlocProvider(
+              create: (context) =>
+                  di.sl<PatientFilesCubit>()..getPatientFiles(),
+              child: const MyFilePage(),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);
@@ -277,7 +295,11 @@ class AppRouter {
       case RouteNamedScreens.midicalDesciptionNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const MidicalDesciptionPage();
+            return BlocProvider(
+              create: (context) =>
+                  di.sl<UserPrescriptionsCubit>()..getUserPrescriptions(),
+              child: const MidicalDesciptionPage(),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);
@@ -295,7 +317,12 @@ class AppRouter {
       case RouteNamedScreens.midicalDesciptionTableNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const MedicalDescriptionTablePage();
+            int id = arguments as int;
+            return BlocProvider(
+              create: (context) => di.sl<PrescriptionDetailsCubit>()
+                ..getPrescriptionDetails(prescriptionId: id),
+              child: MedicalDescriptionTablePage(id: id),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);
@@ -314,7 +341,10 @@ class AppRouter {
       case RouteNamedScreens.monyAccountNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const MonyAccountPage();
+            return BlocProvider(
+              create: (context) => di.sl<UserAmountCubit>()..getUserAmount(),
+              child: const MonyAccountPage(),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);
@@ -376,7 +406,8 @@ class AppRouter {
                   create: (context) => di.sl<DaysCubit>()..getDays(),
                 ),
                 BlocProvider(
-                  create: (context) => di.sl<TimesCubit>()..getTodaysTimes(),
+                  create: (context) =>
+                      di.sl<InfoDaysTimesCubit>()..getDaysAndTimes(),
                 ),
                 BlocProvider(
                   create: (context) => di.sl<TimesForDayCubit>()..getTimes(),
@@ -401,7 +432,20 @@ class AppRouter {
       case RouteNamedScreens.reservationSummaryNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const SummaryReservationPage();
+            final times = arguments as Map<String, dynamic>;
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => di.sl<SymptomsCubit>(),
+                ),
+                BlocProvider(
+                  create: (context) => di.sl<CreateAppoinmentCubit>(),
+                ),
+              ],
+              child: SummaryReservationPage(
+                times: times,
+              ),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);
@@ -420,7 +464,10 @@ class AppRouter {
       case RouteNamedScreens.profileNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const ProfilePage();
+            return BlocProvider(
+              create: (context) => di.sl<DeleteAccountCubit>(),
+              child: const ProfilePage(),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/availabe_day/available_days.dart';
-import 'package:hosptel_app/features/reservation/presentation/cubit/times/times_for_day/times_for_day_cubit.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/times_for_day/times_for_day_cubit.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../core/resources/color_manger.dart';
 import '../../../../../../core/resources/font_manger.dart';
@@ -16,9 +15,11 @@ class InfoDayWidget extends StatefulWidget {
   State<InfoDayWidget> createState() => _InfoDayWidgetState();
 }
 
+AvailableDays selectedDay = AvailableDays();
+
 class _InfoDayWidgetState extends State<InfoDayWidget> {
   int selectedIndex = 0;
-  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,6 +38,7 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
             final dateTime = DateTime.parse(widget.days[index].date!);
             return GestureDetector(
               onTap: () {
+                selectedDay = widget.days[index];
                 setState(() {
                   selectedIndex = index;
                   context
@@ -74,10 +76,9 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
                                       AppFontWeightManger.fontWeightSemiBold,
                                 ),
                       ),
-                      
                       TextUtiels(
-                        text:DateFormat('yyyy/MM/dd').format(dateTime),
-                            // widget.days[index].date!.replaceRange(10, null, ""),
+                        text: DateFormat('yyyy/MM/dd').format(dateTime),
+                        // widget.days[index].date!.replaceRange(10, null, ""),
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               color: selectedIndex == index
                                   ? AppColorManger.white
