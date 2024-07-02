@@ -29,7 +29,7 @@ class UserPrescriptionsCubit extends Cubit<UserPrescriptionState> {
           status: DeafultBlocStatus.error,
         )),
         (prescriptions) {
-          if (prescriptionList.isEmpty) {
+          if (prescriptionList.length == (prescriptions.result?.totalCount ?? 0)) {
             emit(state.copyWith(
               status: DeafultBlocStatus.done,
               hasReachedMax: true,

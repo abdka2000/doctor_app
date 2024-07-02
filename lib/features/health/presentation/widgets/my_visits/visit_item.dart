@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hosptel_app/core/resources/color_manger.dart';
 import 'package:hosptel_app/core/resources/svg_manger.dart';
 import 'package:hosptel_app/core/widget/text_utiles/text_utile_widget.dart';
+import 'package:hosptel_app/features/health/domain/entities/midical_session/item.dart';
 import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
 import 'package:intl/intl.dart';
 
@@ -12,7 +13,7 @@ class VisitItem extends StatelessWidget {
     super.key,
     required this.session,
   });
-  final MidicalSession session;
+  final Item session;
 
   @override
   Widget build(BuildContext context) {

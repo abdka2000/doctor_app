@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hosptel_app/core/function/maping_falure.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
+import 'package:hosptel_app/features/health/domain/entities/midical_session/item.dart';
 import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
 import 'package:hosptel_app/features/health/domain/usecases/health_base_use_case.dart';
 
@@ -10,7 +11,7 @@ part 'midical_sessions_state.dart';
 class MidicalSessionsCubit extends Cubit<MidicalSessionsState> {
   MidicalSessionsCubit(this.useCase) : super(MidicalSessionsState.initial());
   final HealthBaseUseCase useCase;
-  List<MidicalSession> sessionsList = [];
+  List<Item> sessionsList = [];
   int max = 5;
   int skip = 0;
   Future<void> getSessions() async {
@@ -26,7 +27,7 @@ class MidicalSessionsCubit extends Cubit<MidicalSessionsState> {
           status: DeafultBlocStatus.error,
         )),
         (sessions) {
-          if (sessions.isEmpty) {
+          if (sessionsList.length == (sessions.result?.totalCount ?? 0)) {
             emit(state.copyWith(
               status: DeafultBlocStatus.done,
               hasReachedMax: true,
@@ -34,7 +35,7 @@ class MidicalSessionsCubit extends Cubit<MidicalSessionsState> {
             ));
             skip = 0;
           } else {
-            sessionsList.addAll(sessions);
+            sessionsList.addAll(sessions.result?.items?.toList() ?? []);
             skip += 5;
             emit(state.copyWith(
                 status: DeafultBlocStatus.done, sessions: sessionsList));

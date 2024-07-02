@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/font_manger.dart';
 import '../../../../../core/resources/word_manger.dart';
@@ -76,6 +77,7 @@ class CardReservationWidget extends StatelessWidget {
                     children: [
                       //? Name Doctor From (Api)
                       TextUtiels(
+                        //TODO : it's not static
                         text: 'د.علي محمد',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: AppColorManger.colorShowDailogButton,
@@ -87,7 +89,7 @@ class CardReservationWidget extends StatelessWidget {
                       //? Text Date Resevation From Api :
                       TextUtiels(
                         text:
-                            ' ${item.appointmentDate} : ${AppWordManger.dataReservation}',
+                            ' ${DateFormat.yMd().add_jm().format(item.appointmentDate ?? DateTime.now())} : ${AppWordManger.dataReservation}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: AppColorManger.colorShowDailogButton,
                               fontSize: 16.sp,

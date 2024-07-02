@@ -38,6 +38,7 @@ class MyFilePage extends StatelessWidget {
               if (state.status == DeafultBlocStatus.done) {
                 if (state.files.isNotEmpty) {
                   return MyFilesList(
+                    controller: controller,
                     items: state.files,
                   );
                 } else {
@@ -62,13 +63,15 @@ class MyFilePage extends StatelessWidget {
 class MyFilesList extends StatelessWidget {
   const MyFilesList({
     super.key,
-    required this.items,
+    required this.items, required this.controller,
   });
   final List<Item> items;
+  final ScrollController controller;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
+        controller: controller,
         itemCount: 2,
         separatorBuilder: (context, index) => SizedBox(height: 20.h),
         padding: EdgeInsets.symmetric(horizontal: 20.h),

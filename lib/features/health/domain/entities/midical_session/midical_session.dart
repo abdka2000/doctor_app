@@ -1,12 +1,41 @@
-import 'package:hosptel_app/features/health/domain/entities/midical_session/appoinment_start_time.dart';
+import 'result.dart';
 
 class MidicalSession {
-  final int? id;
-  final DateTime? creationTime;
-  final AppointmentStartTime? appointmentStartTime;
+  Result? result;
+  dynamic targetUrl;
+  bool? success;
+  dynamic error;
+  bool? unAuthorizedRequest;
+  bool? abp;
 
-  MidicalSession(
-      {required this.id,
-      required this.creationTime,
-      required this.appointmentStartTime});
+  MidicalSession({
+    this.result,
+    this.targetUrl,
+    this.success,
+    this.error,
+    this.unAuthorizedRequest,
+    this.abp,
+  });
+
+  factory MidicalSession.fromJson(Map<String, dynamic> json) {
+    return MidicalSession(
+      result: json['result'] == null
+          ? null
+          : Result.fromJson(json['result'] as Map<String, dynamic>),
+      targetUrl: json['targetUrl'] as dynamic,
+      success: json['success'] as bool?,
+      error: json['error'] as dynamic,
+      unAuthorizedRequest: json['unAuthorizedRequest'] as bool?,
+      abp: json['__abp'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'result': result?.toJson(),
+        'targetUrl': targetUrl,
+        'success': success,
+        'error': error,
+        'unAuthorizedRequest': unAuthorizedRequest,
+        '__abp': abp,
+      };
 }

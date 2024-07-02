@@ -12,6 +12,7 @@ import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms/sym
 import 'package:hosptel_app/features/reservation/presentation/logic/reservation_logic.dart';
 import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_day_widget.dart';
 import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_time_widget.dart';
+import 'package:intl/intl.dart';
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/font_manger.dart';
 import '../../../../../core/resources/word_manger.dart';
@@ -163,25 +164,32 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
             ),
 
             //? Button For Continuse Resrvation :
-            BlocConsumer<CreateAppoinmentCubit, CreateAppoinmentState>(
-              listener: (context, state) {
-                ReservationLogic()
-                    .createAppoinmentListener(context, state, visible);
-              },
-              builder: (context, state) {
-                if (state.status == DeafultBlocStatus.loading) {
-                  return const MainLoadignWidget();
-                }
-                return Padding(
+             Padding(
                   padding: EdgeInsets.symmetric(vertical: !visible ? 200.h : 0),
-                  child: MainElevatedButton(
+                  child: BlocConsumer<CreateAppoinmentCubit, CreateAppoinmentState>(
+                listener: (context, state) {
+                  ReservationLogic().createAppoinmentListener(
+                      context,
+                      state,
+                      visible,
+                      selectedDay.date!.replaceRange(10, null, ''),
+                      selectedTime!.fromTime!);
+                },
+                builder: (context, state) {
+                  if (state.status == DeafultBlocStatus.loading) {
+                    return const MainLoadignWidget();
+                  }
+                  return MainElevatedButton(
                       text: AppWordManger.continueReservation,
                       backgroundColor: AppColorManger.primaryColor,
                       textColor: AppColorManger.textColor1,
                       horizontalPadding: 110.w,
                       onPreesed: () {
                         final reservation = ReservationResponse(
-                          startTime: StartTime(),
+                          startTime: selectedTime?.fromTime ??
+                              DateFormat.jm().format(DateTime.now()),
+                          endTime: selectedTime?.toTime ??
+                              DateFormat.jm().format(DateTime.now()),
                           appointmentDate: DateTime.parse(
                               selectedDay.date ?? DateTime.now().toString()),
                           appointmentSymptoms: symptomsId
@@ -191,9 +199,9 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                         context
                             .read<CreateAppoinmentCubit>()
                             .createAppoinment(reservations: reservation);
-                      }),
-                );
-              },
+                      });
+                },
+              ),
             )
           ],
         ),

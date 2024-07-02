@@ -24,7 +24,7 @@ class ServicesState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props => [failureMessage, status, services, hasReachedMax];
 
   ServicesState copyWith({
     FailureMessage? failureMessage,

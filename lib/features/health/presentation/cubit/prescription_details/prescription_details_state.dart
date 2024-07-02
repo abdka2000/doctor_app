@@ -5,7 +5,7 @@ part of 'prescription_details_cubit.dart';
 class PrescriptionDetailsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<Item>? prescriptionDetails;
+  final List<Item> prescriptionDetails;
   final bool hasReachedMax;
 
   const PrescriptionDetailsState({
@@ -24,7 +24,7 @@ class PrescriptionDetailsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props => [failureMessage, status , prescriptionDetails , hasReachedMax];
 
   PrescriptionDetailsState copyWith({
     FailureMessage? failureMessage,

@@ -13,7 +13,7 @@ class HealthUseCase implements HealthBaseUseCase {
 
   HealthUseCase(this.repo);
   @override
-  Future<Either<Failure, List<MidicalSession>>> getMidicalSession(
+  Future<Either<Failure, MidicalSession>> getMidicalSession(
       {required int skipCount, required int maxResult}) async {
     return await repo.getMidicalSession(
         skipCount: skipCount, maxResult: maxResult);

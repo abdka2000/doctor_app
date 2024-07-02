@@ -13,7 +13,7 @@ class ServicesCubit extends Cubit<ServicesState> {
 
   List<ItemModel> servicesList = [];
   //TODO : Dont Forget it After Editing
-  int max = 1;
+  int max = 4;
   int skip = 0;
 
   Future<void> getServices() async {
@@ -30,15 +30,15 @@ class ServicesCubit extends Cubit<ServicesState> {
           status: DeafultBlocStatus.error,
         )),
         (services) {
-          if (services.isEmpty) {
+          if (servicesList.length == (services.result?.totalCount ?? 0)) {
             emit(state.copyWith(
                 status: DeafultBlocStatus.done,
                 hasReachedMax: true,
                 services: servicesList));
             skip = 0;
           } else {
-            servicesList.addAll(services);
-            skip += 1;
+            servicesList.addAll(services.result?.items ?? []);
+            skip += 4;
             emit(state.copyWith(
                 status: DeafultBlocStatus.done, services: servicesList));
           }

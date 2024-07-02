@@ -1,26 +1,40 @@
-import 'package:hosptel_app/features/health/domain/entities/midical_session/appoinment_start_time.dart';
+class AppointmentStartTime {
+  int? ticks;
+  int? days;
+  int? hours;
+  int? milliseconds;
+  int? microseconds;
+  int? nanoseconds;
+  int? minutes;
+  int? seconds;
+  int? totalDays;
+  int? totalHours;
+  int? totalMilliseconds;
+  int? totalMicroseconds;
+  int? totalNanoseconds;
+  int? totalMinutes;
+  int? totalSeconds;
 
-class AppointmentStartTimeModel extends AppointmentStartTime {
-  AppointmentStartTimeModel({
-    super.ticks,
-    super.days,
-    super.hours,
-    super.milliseconds,
-    super.microseconds,
-    super.nanoseconds,
-    super.minutes,
-    super.seconds,
-    super.totalDays,
-    super.totalHours,
-    super.totalMilliseconds,
-    super.totalMicroseconds,
-    super.totalNanoseconds,
-    super.totalMinutes,
-    super.totalSeconds,
+  AppointmentStartTime({
+    this.ticks,
+    this.days,
+    this.hours,
+    this.milliseconds,
+    this.microseconds,
+    this.nanoseconds,
+    this.minutes,
+    this.seconds,
+    this.totalDays,
+    this.totalHours,
+    this.totalMilliseconds,
+    this.totalMicroseconds,
+    this.totalNanoseconds,
+    this.totalMinutes,
+    this.totalSeconds,
   });
 
-  factory AppointmentStartTimeModel.fromJson(Map<String, dynamic> json) {
-    return AppointmentStartTimeModel(
+  factory AppointmentStartTime.fromJson(Map<String, dynamic> json) {
+    return AppointmentStartTime(
       ticks: json['ticks'] as int?,
       days: json['days'] as int?,
       hours: json['hours'] as int?,

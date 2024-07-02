@@ -11,7 +11,7 @@ import '../../models/doctor_services/doctor_services_model.dart';
 import '../../models/doctor_services/item_model.dart';
 
 abstract class HomeReomte {
-  Future<List<ItemModel>> getServices(
+  Future<DoctorServicesModel> getServices(
       {required int skipCount, required int maxResult});
   Future<List<AdvItemModel>> getAdvs();
   Future<DoctorInfoEntity> getDoctorInfo();
@@ -19,20 +19,18 @@ abstract class HomeReomte {
 
 class HomeRemoteImpl implements HomeReomte {
   @override
-  Future<List<ItemModel>> getServices(
+  Future<DoctorServicesModel> getServices(
       {required int skipCount, required int maxResult}) async {
     final query = {
       'SkipCount': skipCount,
       'MaxResultCount': maxResult,
     };
-    return ApiGetMethods<List<ItemModel>>().get(
+    return ApiGetMethods<DoctorServicesModel>().get(
       url: ApiGet.getServices,
       query: query,
       data: (response) {
-        Map<String, dynamic> dataDecoded = jsonDecode(response.body);
-        List<ItemModel> services =
-            DoctorServicesModel.fromJson(dataDecoded).result!.items ?? [];
-        ApiMethods().logResponse(response, ApiGet.getServices);
+        final dataDecoded = jsonDecode(response.body);
+        final services = DoctorServicesModel.fromJson(dataDecoded);
         return services;
       },
     );

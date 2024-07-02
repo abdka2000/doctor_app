@@ -37,7 +37,7 @@ class MedicalDescriptionTablePage extends StatelessWidget {
               if (state.status == DeafultBlocStatus.loading) {
                 return const MainLoadignWidget();
               } else if (state.status == DeafultBlocStatus.done) {
-                if (state.prescriptionDetails!.isEmpty) {
+                if (state.prescriptionDetails.isEmpty) {
                   return const EmptyMedicalDesciption();
                 } else {
                   return MidicalTableBody(

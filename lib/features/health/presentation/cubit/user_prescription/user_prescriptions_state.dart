@@ -22,7 +22,8 @@ class UserPrescriptionState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props =>
+      [failureMessage, status, userPrescriptions, hasReachedMax];
 
   UserPrescriptionState copyWith({
     FailureMessage? failureMessage,

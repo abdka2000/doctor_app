@@ -52,6 +52,7 @@ ListView waitingReservationsList(
   ScrollController controller,
 ) {
   return ListView.builder(
+    controller: controller,
     itemCount: reservations.length + 1,
     itemBuilder: (context, index) {
       if (index == reservations.length && !hasReachedMax) {

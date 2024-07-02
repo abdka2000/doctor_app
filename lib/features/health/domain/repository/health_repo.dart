@@ -8,7 +8,7 @@ import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_ent
 
 abstract class HealthRepo {
   //? Repo for Sessions
-  Future<Either<Failure, List<MidicalSession>>> getMidicalSession(
+  Future<Either<Failure, MidicalSession>> getMidicalSession(
       {required int skipCount, required int maxResult});
   //? Repo for Prescription Details
   Future<Either<Failure, PrescriptionDetailsEntity>>

@@ -12,7 +12,7 @@ class InfoTimesWidget extends StatefulWidget {
   State<InfoTimesWidget> createState() => _InfoTimesWidgetState();
 }
 
-AvailableTimes selectedTime = AvailableTimes();
+AvailableTimes? selectedTime = AvailableTimes();
 
 class _InfoTimesWidgetState extends State<InfoTimesWidget> {
   int selectedIndex = 0;

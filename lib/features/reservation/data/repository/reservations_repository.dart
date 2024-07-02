@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hosptel_app/features/reservation/data/model/reservation_items/reservation_items.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/reservation_response.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/symptom_entity/symptom_entity.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours/user_work_hours.dart';
@@ -15,11 +16,11 @@ class ReservationRepoImpl implements ReservationRepository {
 
   ReservationRepoImpl({required this.remoteDataSource});
   @override
-  Future<Either<Failure, List<ReservationItemEntity>>> getReservation(
+  Future<Either<Failure, ReservationsModel>> getReservation(
       {required bool isFinished,
       required int skipCount,
       required int maxResult}) async {
-    return CheckNet<List<ReservationItemEntity>>().checkNetResponse(
+    return CheckNet<ReservationsModel>().checkNetResponse(
         tryRight: () async {
       final data = await remoteDataSource.getReservation(
           isFinished: isFinished, skipCount: skipCount, maxResult: maxResult);

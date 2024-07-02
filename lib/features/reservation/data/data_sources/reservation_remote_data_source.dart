@@ -17,7 +17,7 @@ import '../../domain/entities/available_times/available_times.dart';
 import '../../domain/entities/reservation_item/reservation_item.dart';
 
 abstract class ReservationRemoteDataSource {
-  Future<List<ReservationItemEntity>> getReservation(
+  Future<ReservationsModel> getReservation(
       {required bool isFinished,
       required int skipCount,
       required int maxResult});
@@ -35,7 +35,7 @@ abstract class ReservationRemoteDataSource {
 
 class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   @override
-  Future<List<ReservationItemEntity>> getReservation({
+  Future<ReservationsModel> getReservation({
     required bool isFinished,
     required int skipCount,
     required int maxResult,
@@ -50,13 +50,13 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       'MaxResultCount': maxResult,
     };
 
-    return ApiGetMethods<List<ReservationItemEntity>>(addHeader: headers).get(
+    return ApiGetMethods<ReservationsModel>(addHeader: headers).get(
       query: query,
       url: ApiGet.getReservations,
       data: (response) {
         final dataDecoded = jsonDecode(response.body);
         final reservations = ReservationsModel.fromJson(dataDecoded);
-        return reservations.items!;
+        return reservations;
       },
     );
   }

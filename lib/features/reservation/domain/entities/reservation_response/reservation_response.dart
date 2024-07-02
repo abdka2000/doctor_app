@@ -4,8 +4,8 @@ import 'start_time.dart';
 
 class ReservationResponse {
   DateTime? appointmentDate;
-  StartTime? startTime;
-  EndTime? endTime;
+  String? startTime;
+  String? endTime;
   List<AppointmentSymptom>? appointmentSymptoms;
 
   ReservationResponse({
@@ -20,12 +20,8 @@ class ReservationResponse {
       appointmentDate: json['appointmentDate'] == null
           ? null
           : DateTime.parse(json['appointmentDate'] as String),
-      startTime: json['startTime'] == null
-          ? null
-          : StartTime.fromJson(json['startTime'] as Map<String, dynamic>),
-      endTime: json['endTime'] == null
-          ? null
-          : EndTime.fromJson(json['endTime'] as Map<String, dynamic>),
+      startTime: json['startTime'] == null ? null : json['startTime'] as String,
+      endTime: json['endTime'] == null ? null : json['endTime'] as String,
       appointmentSymptoms: (json['appointmentSymptoms'] as List<dynamic>?)
           ?.map((e) => AppointmentSymptom.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -34,8 +30,8 @@ class ReservationResponse {
 
   Map<String, dynamic> toJson() => {
         'appointmentDate': appointmentDate?.toIso8601String(),
-        'startTime': startTime?.toJson(),
-        'endTime': endTime?.toJson(),
+        'startTime': startTime,
+        'endTime': endTime,
         'appointmentSymptoms':
             appointmentSymptoms?.map((e) => e.toJson()).toList(),
       };

@@ -21,6 +21,7 @@ class InfoServicesWidget extends StatelessWidget {
     return SizedBox(
       height: 160.h,
       child: ListView.separated(
+        controller: controller,
         scrollDirection: Axis.horizontal,
         itemCount: items.length + 1,
         separatorBuilder: (context, index) => SizedBox(width: 10.w),

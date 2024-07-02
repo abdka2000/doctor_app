@@ -22,7 +22,7 @@ class PatientFilesState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props => [failureMessage, status, hasReachedMax, files];
 
   PatientFilesState copyWith({
     FailureMessage? failureMessage,

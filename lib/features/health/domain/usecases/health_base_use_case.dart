@@ -7,7 +7,7 @@ import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amo
 import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_entity/user_prescriptio_entity.dart';
 
 abstract class HealthBaseUseCase {
-  Future<Either<Failure, List<MidicalSession>>> getMidicalSession(
+  Future<Either<Failure, MidicalSession>> getMidicalSession(
       {required int skipCount, required int maxResult});
   Future<Either<Failure, PrescriptionDetailsEntity>>
       getPrescriptionItemDetails({

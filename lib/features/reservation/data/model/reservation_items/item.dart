@@ -18,10 +18,8 @@ class ReservationItemModel extends ReservationItemEntity {
         appointmentDate: json['appointmentDate'] == null
             ? null
             : DateTime.parse(json['appointmentDate'] as String),
-        startTime: json['startTime'] == null
-            ? null
-            : StartTimeModel.fromJson(
-                json['startTime'] as Map<String, dynamic>),
+        startTime:
+            json['startTime'] == null ? null : json['startTime'] as String,
         dayName: json['dayName'] as String?,
       );
 

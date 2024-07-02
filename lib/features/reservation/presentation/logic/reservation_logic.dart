@@ -30,7 +30,7 @@ class ReservationLogic {
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
       controller.addListener(() {
-        if (controller.offset == controller.position.maxScrollExtent) {
+        if (controller.offset == controller.position.maxScrollExtent || state.reservations.length <= 5 ) {
           context.read<ReservationCubit>().getReservations(isFinished: false);
         }
       });
@@ -41,6 +41,8 @@ class ReservationLogic {
     BuildContext context,
     CreateAppoinmentState state,
     bool visible,
+    String date,
+    String time,
   ) {
     if (state.status == DeafultBlocStatus.done) {
       MainShowDialog.customShowDialog(context,
@@ -50,7 +52,7 @@ class ReservationLogic {
           firstButtonText: AppWordManger.home,
           secoundButtonText: AppWordManger.myReservation,
           textPopUp:
-              '${AppWordManger.doneReservationSucces}\n في \n 2:15   2023/8/25',
+              '${AppWordManger.doneReservationSucces}\n في \n $time   $date',
           onTapFirst: () {
             Navigator.pushReplacementNamed(
               context,

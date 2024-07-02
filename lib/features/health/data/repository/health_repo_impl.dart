@@ -14,9 +14,9 @@ class HealthRepoImpl implements HealthRepo {
 
   HealthRepoImpl({required this.remote});
   @override
-  Future<Either<Failure, List<MidicalSession>>> getMidicalSession(
+  Future<Either<Failure, MidicalSession>> getMidicalSession(
       {required int skipCount, required int maxResult}) async {
-    return CheckNet<List<MidicalSession>>().checkNetResponse(
+    return CheckNet<MidicalSession>().checkNetResponse(
         tryRight: () async {
       final data = await remote.getMidicalSessions(
           maxResult: maxResult, skipCount: skipCount);

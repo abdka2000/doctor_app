@@ -122,8 +122,8 @@ class DetailesReservationPage extends StatelessWidget {
                   if (AppSharedPreferences.getToken().isNotEmpty) {
                     Map<String, String> times = {
                       'date': selectedDay.date ?? DateTime.now().toString(),
-                      'fromTime': selectedTime.fromTime ?? '',
-                      'toTime': selectedTime.toTime ?? '',
+                      'fromTime': selectedTime?.fromTime ?? '',
+                      'toTime': selectedTime?.toTime ?? '',
                     };
                     Navigator.pushNamed(
                         context, RouteNamedScreens.reservationSummaryNameRoute,

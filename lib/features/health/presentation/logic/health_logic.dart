@@ -51,6 +51,7 @@ class HealthLogic {
       });
     }
   }
+
   void patientFilesListener(
     BuildContext context,
     PatientFilesState state,

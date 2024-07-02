@@ -5,7 +5,7 @@ part of 'midical_sessions_cubit.dart';
 class MidicalSessionsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<MidicalSession> sessions;
+  final List<Item> sessions;
   final bool hasReachedMax;
 
   const MidicalSessionsState({
@@ -24,12 +24,12 @@ class MidicalSessionsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props => [failureMessage, status, sessions, hasReachedMax];
 
   MidicalSessionsState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    List<MidicalSession>? sessions,
+    List<Item>? sessions,
     bool? hasReachedMax,
   }) {
     return MidicalSessionsState(

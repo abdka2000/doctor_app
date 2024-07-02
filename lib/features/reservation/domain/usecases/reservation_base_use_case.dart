@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hosptel_app/features/reservation/data/model/reservation_items/reservation_items.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/reservation_response.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/symptom_entity/symptom_entity.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours/user_work_hours.dart';
@@ -8,7 +9,7 @@ import '../entities/available_times/available_times.dart';
 import '../entities/reservation_item/reservation_item.dart';
 
 abstract class ReservationBaseUseCase {
-  Future<Either<Failure, List<ReservationItemEntity>>> getReservation(
+  Future<Either<Failure, ReservationsModel>> getReservation(
       {required bool isFinished,
       required int skipCount,
       required int maxResult});

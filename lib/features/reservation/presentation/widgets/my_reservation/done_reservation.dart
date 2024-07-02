@@ -48,6 +48,7 @@ class DoneReservation extends StatelessWidget {
     ScrollController controller,
   ) {
     return ListView.builder(
+      controller: controller,
       itemCount: reservation.length + 1,
       itemBuilder: (context, index) {
         if (index == reservation.length && !hasReachedMax) {

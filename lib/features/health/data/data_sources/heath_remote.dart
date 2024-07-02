@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:hosptel_app/core/api/api_links.dart';
 import 'package:hosptel_app/core/api/api_methode_get.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
-import 'package:hosptel_app/features/health/data/models/midical_session_model/midical_session_model.dart';
 import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
 import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/patient_files_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/prescription_details_entity/prescription_details_entity.dart';
@@ -11,7 +10,7 @@ import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amo
 import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_entity/user_prescriptio_entity.dart';
 
 abstract class HealthRemote {
-  Future<List<MidicalSession>> getMidicalSessions(
+  Future<MidicalSession> getMidicalSessions(
       {required int skipCount, required int maxResult});
   //-------------------------------------------//
   Future<PrescriptionDetailsEntity> getPrescriptionDetails(
@@ -30,7 +29,7 @@ abstract class HealthRemote {
 
 class HealthRemoteImpl implements HealthRemote {
   @override
-  Future<List<MidicalSession>> getMidicalSessions(
+  Future<MidicalSession> getMidicalSessions(
       {required int skipCount, required int maxResult}) async {
     final token = AppSharedPreferences.getToken();
     Map<String, String> headers = {
@@ -40,14 +39,12 @@ class HealthRemoteImpl implements HealthRemote {
       'SkipCount': skipCount,
       'MaxResultCount': maxResult,
     };
-    return ApiGetMethods<List<MidicalSession>>(addHeader: headers).get(
+    return ApiGetMethods<MidicalSession>(addHeader: headers).get(
         query: query,
         url: ApiGet.getMedicalSession,
         data: ((response) {
           final dataDecoded = jsonDecode(response.body);
-          List items = dataDecoded['result']['items'];
-          List<MidicalSession> sessions =
-              items.map((e) => MidicalSessionModel.fromJson(e)).toList();
+          final sessions = MidicalSession.fromJson(dataDecoded);
           return sessions;
         }));
   }

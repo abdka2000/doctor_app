@@ -18,15 +18,14 @@ class PatientFilesCubit extends Cubit<PatientFilesState> {
       if (filesList.isEmpty) {
         emit(state.copyWith(status: DeafultBlocStatus.loading));
       }
-      final data =
-          await useCase.getUserFiles(maxResult: max, skipCount: skip);
+      final data = await useCase.getUserFiles(maxResult: max, skipCount: skip);
       data.fold(
         (failure) => emit(state.copyWith(
           failureMessage: mapFailureToMessage(failure: failure),
           status: DeafultBlocStatus.error,
         )),
         (files) {
-          if (files.result?.items?.isEmpty ?? true) {
+          if (filesList.length == (files.result?.totalCount ?? 0)) {
             emit(state.copyWith(
               status: DeafultBlocStatus.done,
               hasReachedMax: true,
