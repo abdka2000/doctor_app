@@ -13,6 +13,9 @@ class HealthLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
+      if (state.sessions.length < 3) {
+        context.read<MidicalSessionsCubit>().getSessions();
+      }
       controller.addListener(() {
         if (controller.offset == controller.position.maxScrollExtent) {
           context.read<MidicalSessionsCubit>().getSessions();
@@ -28,6 +31,9 @@ class HealthLogic {
     int id,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
+      if (state.prescriptionDetails.length < 3) {
+        context.read<PrescriptionDetailsCubit>().getPrescriptionDetails(prescriptionId: id);
+      }
       controller.addListener(() {
         if (controller.offset == controller.position.maxScrollExtent) {
           context
@@ -44,6 +50,9 @@ class HealthLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
+      if (state.userPrescriptions.length < 3) {
+        context.read<UserPrescriptionsCubit>().getUserPrescriptions();
+      }
       controller.addListener(() {
         if (controller.offset == controller.position.maxScrollExtent) {
           context.read<UserPrescriptionsCubit>().getUserPrescriptions();
@@ -58,6 +67,9 @@ class HealthLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
+      if (state.files.length < 3) {
+        context.read<PatientFilesCubit>().getPatientFiles();
+      }
       controller.addListener(() {
         if (controller.offset == controller.position.maxScrollExtent) {
           context.read<PatientFilesCubit>().getPatientFiles();

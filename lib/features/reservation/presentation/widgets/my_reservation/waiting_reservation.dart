@@ -27,7 +27,7 @@ class WaitingReservation extends StatelessWidget {
       builder: (context, state) {
         if (state.status == DeafultBlocStatus.done) {
           if (state.reservations.isNotEmpty) {
-            return waitingReservationsList(
+             return waitingReservationsList(
                 state.reservations, state.hasReachedMax, controller);
           } else {
             return const NotFoundReservationWidget();

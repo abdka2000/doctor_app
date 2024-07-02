@@ -15,6 +15,9 @@ class ReservationLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
+      if (state.reservations.length < 3) {
+        context.read<ReservationCubit>().getReservations(isFinished: true);
+      }
       controller.addListener(() {
         if (controller.offset == controller.position.maxScrollExtent) {
           context.read<ReservationCubit>().getReservations(isFinished: true);
@@ -29,8 +32,11 @@ class ReservationLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
+      if (state.reservations.length < 3) {
+        context.read<ReservationCubit>().getReservations(isFinished: false);
+      }
       controller.addListener(() {
-        if (controller.offset == controller.position.maxScrollExtent || state.reservations.length <= 5 ) {
+        if (controller.offset == controller.position.maxScrollExtent) {
           context.read<ReservationCubit>().getReservations(isFinished: false);
         }
       });

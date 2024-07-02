@@ -31,7 +31,7 @@ class ReservationCubit extends Cubit<ReservationState> {
           status: DeafultBlocStatus.error,
         )),
         (reservations) {
-          if (reservationsList.length == (reservations.totalCount ?? 0) || (reservations.items?.isEmpty ?? true)) {
+          if (reservationsList.length == (reservations.totalCount ?? 0)) {
             emit(state.copyWith(
                 status: DeafultBlocStatus.done,
                 hasReachedMax: true,

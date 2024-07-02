@@ -10,6 +10,9 @@ class HomeLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
+      if (state.services.length < 3) {
+        context.read<ServicesCubit>().getServices();
+      }
       controller.addListener(() {
         if (controller.offset == controller.position.maxScrollExtent) {
           context.read<ServicesCubit>().getServices();
