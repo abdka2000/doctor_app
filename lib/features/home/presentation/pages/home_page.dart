@@ -211,7 +211,7 @@ class HomePageDoctorInfo extends StatelessWidget {
                 ),
                 doctorInfo.result?.personalImageUrl != null
                     ? CachedNetworkImage(
-                        imageUrl: doctorInfo.result!.personalImageUrl,
+                        imageUrl: 'http://${doctorInfo.result!.personalImageUrl}',
                         width: 200,
                         height: 200)
                     : Image.asset(

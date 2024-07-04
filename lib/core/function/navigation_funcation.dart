@@ -8,7 +8,10 @@ import '../widget/show_dialog/main_show_dialog_widget.dart';
 import '../../router/app_router.dart';
 
 //? Navigation For Pages :
-void routingNamePage(int index, BuildContext context) {
+void routingNamePage(
+  int index,
+  BuildContext context,
+) {
   switch (index) {
     //? Health Page :
     case 0:
@@ -86,11 +89,13 @@ void isGustOrUserMethode(BuildContext context, {required String routeNmae}) {
     MainShowDialog.customShowDialog(
       barrierDismissible: false,
       onTapBack: () {
+        Navigator.pop(context);
         context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
       },
       hieght: 150.h,
       context,
       onTapFirst: () {
+        Navigator.pop(context);
         context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
       },
       onTapSecound: () {

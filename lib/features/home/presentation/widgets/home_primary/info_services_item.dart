@@ -19,13 +19,15 @@ class InfoServicesItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 150,
+      width: 100,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 9.5.h, horizontal: 15.w),
+            // padding: EdgeInsets.symmetric(vertical: 9.5.h, horizontal: 15.w),
+            // padding: EdgeInsets.symmetric(vertical: 1, horizontal: 1),
             margin: EdgeInsets.only(bottom: 8.h),
             decoration: ShapeDecoration(
               shadows: [
@@ -45,23 +47,28 @@ class InfoServicesItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(9),
               ),
             ),
-            child: CachedNetworkImage(
-              imageUrl: 'http://${item.imageUrl}',
-              fit: BoxFit.contain,
-              height: 100.h,
-              width: 145.w,
-              placeholder: (context, url) => const MainLoadignWidget(),
-            ),
+            // child: CachedNetworkImage(
+            //   imageUrl: 'http://${item.imageUrl}',
+            //   fit: BoxFit.contain,
+            //   placeholder: (context, url) => const MainLoadignWidget(),
+            // ),
             // child: SvgPicture.asset(
             //   'assets/image/svg/mackup.svg',
             // ),
-            //  item.imageUrl != null
-            // ? SvgPicture.network(
-            //     item.imageUrl!,
-            //   )
-            // : SvgPicture.asset(
-            //     'assets/image/svg/mackup.svg',
-            //   ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(9),
+              child: CachedNetworkImage(
+                width: 40.w,
+                height: 40.h,
+                imageUrl: 'http://${item.imageUrl}',
+                fit: BoxFit.contain,
+                placeholder: (context, url) => const MainLoadignWidget(),
+                errorWidget: (context, url, error) => Icon(
+                  Icons.error_outline,
+                  color: AppColorManger.primaryColor,
+                ),
+              ),
+            ),
           ),
           TextUtiels(
             fontFamily: AppFontFamily.tajawalLight,

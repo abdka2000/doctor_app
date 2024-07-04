@@ -12,8 +12,7 @@ class ServicesCubit extends Cubit<ServicesState> {
   final HomeBaseUseCase useCase;
 
   List<ItemModel> servicesList = [];
-  //TODO : Dont Forget it After Editing
-  int max = 4;
+  int max = 5;
   int skip = 0;
 
   Future<void> getServices() async {
@@ -38,7 +37,7 @@ class ServicesCubit extends Cubit<ServicesState> {
             skip = 0;
           } else {
             servicesList.addAll(services.result?.items ?? []);
-            skip += 4;
+            skip += 5;
             emit(state.copyWith(
                 status: DeafultBlocStatus.done, services: servicesList));
           }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,7 +57,7 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
               alignment: Alignment.centerRight,
               children: [
                 Container(
-                  height: 170.h,
+                  height: 275.h,
                   width: 230.w,
                   decoration: BoxDecoration(
                     color: AppColorManger.fillColorCard,
@@ -78,24 +79,32 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
                   ),
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 15.h,
+                      ),
                       TextUtiels(
-                        paddingRight: 30.w,
+                        paddingRight: 80.w,
                         text: widget.advs[index].title!,
                         fontFamily: AppFontFamily.tajawalBold,
                         color: AppColorManger.primaryColor,
                         fontSize: AppFontSizeManger.s16,
-                        height: 3.h,
+                        // height: 3.h,
                       ),
                       Row(
                         children: [
-                          TextUtiels(
-                            paddingLeft: 30.w,
-                            text: widget.advs[index].description!,
-                            fontFamily: AppFontFamily.tajawalRegular,
-                            color: AppColorManger.textColor1,
-                            fontSize: AppFontSizeManger.s10,
-                            height: 1.2,
+                          
+                          SizedBox(
+                            width: 165.w,
+                            child: TextUtiels(
+                              paddingLeft: 30.w,
+                              text: widget.advs[index].description!,
+                              fontFamily: AppFontFamily.tajawalRegular,
+                              color: AppColorManger.textColor1,
+                              fontSize: AppFontSizeManger.s10,
+                              height: 1.2,
+                            ),
                           ),
+                          
                         ],
                       ),
                     ],

@@ -46,8 +46,10 @@ class TextUtiels extends StatelessWidget {
       child: Text(
         textAlign: textAlign ?? TextAlign.end,
         text,
+        
         style: style ??
             TextStyle(
+              overflow: TextOverflow.ellipsis,
               fontFamily: fontFamily ?? AppFontFamily.tajawalRegular,
               fontSize: fontSize ?? 16.sp,
               color: color ?? AppColorManger.white,
