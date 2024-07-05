@@ -176,8 +176,13 @@ class HomePageDoctorInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //? api this text not static :
+                      //TODO : Edit for empty
                       StrokeText(
-                        text: doctorInfo.result?.doctorName ?? "د. علي محمد",
+                        text: (doctorInfo.result?.doctorName == null ||
+                                (doctorInfo.result?.doctorName?.isEmpty ??
+                                    true))
+                            ? "Doctor Name"
+                            : doctorInfo.result!.doctorName!,
                         textStyle: TextStyle(
                           fontSize: AppFontSizeManger.s24,
                           fontFamily: AppFontFamily.extraBold,
@@ -189,8 +194,11 @@ class HomePageDoctorInfo extends StatelessWidget {
                       ),
                       //? api this text not static :
                       TextUtiels(
-                        text: doctorInfo.result?.specialization ??
-                            'اخصائي في الجراحة التجميلية',
+                        text: (doctorInfo.result?.specialization == null ||
+                                (doctorInfo.result?.specialization?.isEmpty ??
+                                    true))
+                            ? 'Doctor Specialization'
+                            : doctorInfo.result!.specialization!,
                         fontFamily: AppFontFamily.tajawalRegular,
                         color: AppColorManger.offWhite,
                         fontSize: AppFontSizeManger.s12,
@@ -199,26 +207,32 @@ class HomePageDoctorInfo extends StatelessWidget {
                       //? api this text not static :
                       InfoDoctor(
                         icon: AppSvgManger.iconPhone,
-                        text: doctorInfo.result?.phoneNumber ?? '0935059787',
+                        text: (doctorInfo.result?.phoneNumber == null ||
+                                (doctorInfo.result?.phoneNumber?.isEmpty ??
+                                    true))
+                            ? '0000000000'
+                            : doctorInfo.result?.phoneNumber,
                       ),
                       SizedBox(height: 8.h),
                       InfoDoctor(
                         icon: AppSvgManger.iconLocation,
-                        text: doctorInfo.result?.address ?? 'دمشق _المزة',
+                        text: (doctorInfo.result?.address == null ||
+                                (doctorInfo.result?.address?.isEmpty ?? true))
+                            ? 'address'
+                            : doctorInfo.result!.address!,
                       ),
                     ],
                   ),
                 ),
-                doctorInfo.result?.personalImageUrl != null
-                    ? CachedNetworkImage(
-                        imageUrl: 'http://${doctorInfo.result!.personalImageUrl}',
-                        width: 200,
-                        height: 200)
-                    : Image.asset(
-                        width: 200,
-                        height: 200,
-                        'assets/image/png/backgroundDoctor.png',
-                      )
+                CachedNetworkImage(
+                  imageUrl: 'http://${doctorInfo.result?.personalImageUrl ?? ''}',
+                  width: 200,
+                  height: 200,
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.error_outline,
+                    color: AppColorManger.colorButtonShowDailog,
+                  ),
+                )
               ],
             ),
           ),
@@ -243,7 +257,10 @@ class HomePageDoctorInfo extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 5.h),
           child: TextUtiels(
-            text: doctorInfo.result?.introduction ?? AppWordManger.textVisible,
+            text: (doctorInfo.result?.introduction == null ||
+                    (doctorInfo.result?.introduction?.isEmpty ?? true))
+                ? "لا يوجد نص حالياً"
+                : doctorInfo.result!.introduction!,
             fontFamily: AppFontFamily.tajawalRegular,
             color: AppColorManger.textColor1,
             fontSize: AppFontSizeManger.s13,

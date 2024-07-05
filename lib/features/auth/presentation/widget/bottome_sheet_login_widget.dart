@@ -157,6 +157,23 @@ class BottomeSheetLoginWidget extends StatelessWidget {
                     );
                   },
                 ),
+                SizedBox(height: 20.h),
+
+                //? Guest Button :
+                MainElevatedButton(
+                  text: AppWordManger.loginGust,
+                  backgroundColor: AppColorManger.secoundryColor,
+                  textColor: AppColorManger.white,
+                  onPreesed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      RouteNamedScreens.homeScreenNameRoute,
+                      (route) => false,
+                    );
+                  },
+                  // horizontalPadding: 80.w,
+                ),
+                SizedBox(height: 20.h),
 
                 //? any account go to page regestir :
                 MovPageText(

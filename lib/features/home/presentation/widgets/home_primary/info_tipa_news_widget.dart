@@ -39,7 +39,7 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
         CarouselSlider.builder(
           //? Option :
           options: CarouselOptions(
-            height: 170.h,
+            height: 230.h,
             enlargeCenterPage: true,
             autoPlay: true,
             autoPlayInterval: const Duration(seconds: 3),
@@ -57,7 +57,7 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
               alignment: Alignment.centerRight,
               children: [
                 Container(
-                  height: 275.h,
+                  height: 230.h,
                   width: 230.w,
                   decoration: BoxDecoration(
                     color: AppColorManger.fillColorCard,
@@ -78,12 +78,13 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
                     ],
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       SizedBox(
-                        height: 15.h,
+                        height: 25.h,
                       ),
                       TextUtiels(
-                        paddingRight: 80.w,
+                        paddingRight: 65.w,
                         text: widget.advs[index].title!,
                         fontFamily: AppFontFamily.tajawalBold,
                         color: AppColorManger.primaryColor,
@@ -132,7 +133,7 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
           count: widget.advs.length,
           effect: JumpingDotEffect(
             spacing: 8,
-            dotWidth: 50.w,
+            dotWidth: 20.w,
             dotHeight: 5.h,
             paintStyle: PaintingStyle.stroke,
             strokeWidth: 1.5,
