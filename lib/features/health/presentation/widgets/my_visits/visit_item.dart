@@ -4,8 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hosptel_app/core/resources/color_manger.dart';
 import 'package:hosptel_app/core/resources/svg_manger.dart';
 import 'package:hosptel_app/core/widget/text_utiles/text_utile_widget.dart';
-import 'package:hosptel_app/features/health/domain/entities/midical_session/item.dart';
-import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
+import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/item.dart';
 import 'package:intl/intl.dart';
 
 class VisitItem extends StatelessWidget {
@@ -66,7 +65,7 @@ class VisitItem extends StatelessWidget {
                   SizedBox(width: 20.w),
                   //? Text For Only Day
                   TextUtiels(
-                    text: DateFormat.EEEE('ar').format(session.creationTime!),
+                    text: DateFormat.EEEE().format(session.creationTime!),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontSize: 11.sp,
                         ),

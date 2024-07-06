@@ -36,7 +36,7 @@ class CardSummaryWidget extends StatelessWidget {
               //? Card Summary :
               TextUtiels(
                 paddingRight: 10.w,
-                text: '${AppSharedPreferences.getName()} : الاسم',
+                text: ' الاسم :  ${AppSharedPreferences.getName()}',
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       fontSize: 20.sp,
                       fontFamily: AppFontFamily.tajawalMedium,

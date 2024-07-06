@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/repeted/error_text.dart';
-import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/item.dart';
+import 'package:hosptel_app/features/health/domain/entities/user_file_entity/item.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/patient_files/patient_files_cubit.dart';
 import 'package:hosptel_app/features/health/presentation/logic/health_logic.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/my_files/empty_my_file.dart';
@@ -22,39 +22,44 @@ class MyFilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
-    return MainBackGround(
-      mainBody: Column(
-        children: [
-          TitlePageWidget(
-            titleText: AppWordManger.myFiles,
-            onTap: () => Navigator.pop(context),
-          ),
-          //? Info List My File :
-          BlocConsumer<PatientFilesCubit, PatientFilesState>(
-            listener: (context, state) {
-              HealthLogic().patientFilesListener(context, state, controller);
-            },
-            builder: (context, state) {
-              if (state.status == DeafultBlocStatus.done) {
-                if (state.files.isNotEmpty) {
-                  return MyFilesList(
-                    controller: controller,
-                    items: state.files,
-                  );
-                } else {
-                  return const EmptyMyFileWidget();
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<PatientFilesCubit>().getPatientFiles();
+      },
+      child: MainBackGround(
+        mainBody: Column(
+          children: [
+            TitlePageWidget(
+              titleText: AppWordManger.myFiles,
+              onTap: () => Navigator.pop(context),
+            ),
+            //? Info List My File :
+            BlocConsumer<PatientFilesCubit, PatientFilesState>(
+              listener: (context, state) {
+                HealthLogic().patientFilesListener(context, state, controller);
+              },
+              builder: (context, state) {
+                if (state.status == DeafultBlocStatus.done) {
+                  if (state.files.isNotEmpty) {
+                    return MyFilesList(
+                      controller: controller,
+                      items: state.files,
+                    );
+                  } else {
+                    return const EmptyMyFileWidget();
+                  }
+                } else if (state.status == DeafultBlocStatus.loading) {
+                  return const MainLoadignWidget();
                 }
-              } else if (state.status == DeafultBlocStatus.loading) {
-                return const MainLoadignWidget();
-              }
-              return ErrorTextWidget(
-                  text: state.failureMessage.message,
-                  onPressed: () {
-                    context.read<PatientFilesCubit>().getPatientFiles();
-                  });
-            },
-          )
-        ],
+                return ErrorTextWidget(
+                    text: state.failureMessage.message,
+                    onPressed: () {
+                      context.read<PatientFilesCubit>().getPatientFiles();
+                    });
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -63,7 +68,8 @@ class MyFilePage extends StatelessWidget {
 class MyFilesList extends StatelessWidget {
   const MyFilesList({
     super.key,
-    required this.items, required this.controller,
+    required this.items,
+    required this.controller,
   });
   final List<Item> items;
   final ScrollController controller;

@@ -7,7 +7,7 @@ import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class CardPymantWidget extends StatelessWidget {
   const CardPymantWidget({super.key, required this.pushedAmount});
-  final int pushedAmount;
+  final double pushedAmount;
   @override
   Widget build(BuildContext context) {
     return Container(

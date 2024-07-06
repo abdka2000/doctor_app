@@ -12,14 +12,14 @@ class InfoTimesWidget extends StatefulWidget {
   State<InfoTimesWidget> createState() => _InfoTimesWidgetState();
 }
 
-AvailableTimes? selectedTime = AvailableTimes();
+AvailableTimes? selectedTime;
 
 class _InfoTimesWidgetState extends State<InfoTimesWidget> {
-  int selectedIndex = 0;
+  int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
-    // selectedTime = widget.times[0];
+    // selectedTime ??= widget.times[selectedIndex];
     return Padding(
       padding: EdgeInsets.only(
         bottom: 20.h,
@@ -42,7 +42,7 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: index == selectedIndex
+                  color: index == selectedIndex 
                       ? AppColorManger.primaryColor
                       : AppColorManger.white,
                   border: Border.all(

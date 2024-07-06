@@ -21,7 +21,8 @@ class InfoDaysAndTimesWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextUtiels(
-                  text: hours[index].fromTime?.replaceRange(5, null, '') ?? '',
+                  // text: hours[index].fromTime?.replaceRange(5, null, '') ?? '',
+                  text: '${hours[index].fromTime?.replaceRange(5, null, '')}_${hours[index].toTime?.replaceRange(5, null, '')}',
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
                         fontSize: 14.sp,
                         fontWeight: AppFontWeightManger.fontWeightSemiBold,

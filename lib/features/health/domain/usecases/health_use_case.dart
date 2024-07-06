@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:hosptel_app/core/error/failure.dart';
-import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
+import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/midical_session_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/patient_files_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/prescription_details_entity/prescription_details_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amount.dart';
+import 'package:hosptel_app/features/health/domain/entities/user_file_entity/user_file_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_entity/user_prescriptio_entity.dart';
 import 'package:hosptel_app/features/health/domain/repository/health_repo.dart';
 import 'package:hosptel_app/features/health/domain/usecases/health_base_use_case.dart';
@@ -13,7 +14,7 @@ class HealthUseCase implements HealthBaseUseCase {
 
   HealthUseCase(this.repo);
   @override
-  Future<Either<Failure, MidicalSession>> getMidicalSession(
+  Future<Either<Failure, MidicalSessionEntity>> getMidicalSession(
       {required int skipCount, required int maxResult}) async {
     return await repo.getMidicalSession(
         skipCount: skipCount, maxResult: maxResult);
@@ -45,7 +46,7 @@ class HealthUseCase implements HealthBaseUseCase {
   }
 
   @override
-  Future<Either<Failure, PatientFilesEntity>> getUserFiles(
+  Future<Either<Failure, UserFileEntity>> getUserFiles(
       {required int skipCount, required int maxResult}) async {
     return await repo.getUserFiles(skipCount: skipCount, maxResult: maxResult);
   }

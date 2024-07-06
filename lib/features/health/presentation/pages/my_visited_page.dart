@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,39 +20,45 @@ class MyVistsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
-    return MainBackGround(
-      mainBody: Column(
-        children: [
-          TitlePageWidget(
-            titleText: AppWordManger.myVisited,
-            onTap: () => Navigator.pop(context),
-          ),
-          BlocConsumer<MidicalSessionsCubit, MidicalSessionsState>(
-            listener: (context, state) {
-              HealthLogic().midicalSessionListener(context, state, controller);
-            },
-            builder: (context, state) {
-              if (state.status == DeafultBlocStatus.done) {
-                if (state.sessions.isNotEmpty) {
-                  return VisitItemsList(
-                    items: state.sessions,
-                    controller: controller,
-                    hasReachedMax: state.hasReachedMax,
-                  );
-                } else {
-                  return const NotFoundMyVisit();
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<MidicalSessionsCubit>().getSessions();
+      },
+      child: MainBackGround(
+        mainBody: Column(
+          children: [
+            TitlePageWidget(
+              titleText: AppWordManger.myVisited,
+              onTap: () => Navigator.pop(context),
+            ),
+            BlocConsumer<MidicalSessionsCubit, MidicalSessionsState>(
+              listener: (context, state) {
+                HealthLogic()
+                    .midicalSessionListener(context, state, controller);
+              },
+              builder: (context, state) {
+                if (state.status == DeafultBlocStatus.done) {
+                  if (state.sessions.isNotEmpty) {
+                    return VisitItemsList(
+                      items: state.sessions,
+                      controller: controller,
+                      hasReachedMax: state.hasReachedMax,
+                    );
+                  } else {
+                    return const NotFoundMyVisit();
+                  }
+                } else if (state.status == DeafultBlocStatus.loading) {
+                  return const MainLoadignWidget();
                 }
-              } else if (state.status == DeafultBlocStatus.loading) {
-                return const MainLoadignWidget();
-              }
-              return ErrorTextWidget(
-                text: state.failureMessage.message,
-                onPressed: () =>
-                    context.read<MidicalSessionsCubit>().getSessions(),
-              );
-            },
-          ),
-        ],
+                return ErrorTextWidget(
+                  text: state.failureMessage.message,
+                  onPressed: () =>
+                      context.read<MidicalSessionsCubit>().getSessions(),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

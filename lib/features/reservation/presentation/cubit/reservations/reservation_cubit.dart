@@ -16,36 +16,33 @@ class ReservationCubit extends Cubit<ReservationState> {
   int skip = 0;
 
   Future<void> getReservations({required bool isFinished}) async {
-    if (!state.hasReachedMax) {
-      if (reservationsList.isEmpty) {
-        emit(state.copyWith(status: DeafultBlocStatus.loading));
-      }
-      final data = await useCase.getReservation(
-        isFinished: isFinished,
-        maxResult: max,
-        skipCount: skip,
-      );
-      data.fold(
-        (failure) => emit(state.copyWith(
-          failureMessage: mapFailureToMessage(failure: failure),
-          status: DeafultBlocStatus.error,
-        )),
-        (reservations) {
-          if (reservationsList.length == (reservations.totalCount ?? 0)) {
-            emit(state.copyWith(
-                status: DeafultBlocStatus.done,
-                hasReachedMax: true,
-                reservations: reservationsList));
-            skip = 0;
-          } else {
-            reservationsList.addAll(reservations.items ?? []);
-            skip += 5;
-            emit(state.copyWith(
-                status: DeafultBlocStatus.done,
-                reservations: reservationsList));
-          }
-        },
-      );
+    if (reservationsList.isEmpty) {
+      emit(state.copyWith(status: DeafultBlocStatus.loading));
     }
+    final data = await useCase.getReservation(
+      isFinished: isFinished,
+      maxResult: max,
+      skipCount: skip,
+    );
+    data.fold(
+      (failure) => emit(state.copyWith(
+        failureMessage: mapFailureToMessage(failure: failure),
+        status: DeafultBlocStatus.error,
+      )),
+      (reservations) {
+        if (reservationsList.length == (reservations.totalCount ?? 0)) {
+          emit(state.copyWith(
+              status: DeafultBlocStatus.done,
+              hasReachedMax: true,
+              reservations: reservationsList));
+          skip = 0;
+        } else {
+          skip += 5;
+          reservationsList.addAll(reservations.items ?? []);
+          emit(state.copyWith(
+              status: DeafultBlocStatus.done, reservations: reservationsList));
+        }
+      },
+    );
   }
 }

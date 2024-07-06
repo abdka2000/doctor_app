@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptel_app/features/home/presentation/cubit/advertisement/advertisement_cubit.dart';
+import 'package:hosptel_app/features/home/presentation/cubit/doctor_info/doctor_info_cubit.dart';
+import 'package:hosptel_app/features/home/presentation/cubit/services/services_cubit.dart';
+import 'package:hosptel_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import '../../../../../core/resources/word_manger.dart';
 import '../../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../../core/widget/main/nav_button_main/cubit/button_nav_cubit.dart';
@@ -11,9 +15,14 @@ import '../../widgets/my_reservation/waiting_reservation.dart';
 import '../../../../../router/app_router.dart';
 import '../../../../../injection/injection_container.dart' as di;
 
-class ReservationPage extends StatelessWidget {
+class ReservationPage extends StatefulWidget {
   const ReservationPage({super.key});
 
+  @override
+  State<ReservationPage> createState() => _ReservationPageState();
+}
+
+class _ReservationPageState extends State<ReservationPage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(

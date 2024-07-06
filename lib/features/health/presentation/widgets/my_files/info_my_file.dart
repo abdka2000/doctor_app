@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/item.dart';
+import 'package:hosptel_app/features/health/domain/entities/user_file_entity/item.dart';
 import 'package:intl/intl.dart';
 import '../../../../../core/resources/svg_manger.dart';
 import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
@@ -26,21 +26,22 @@ class InfoMyFileWidget extends StatelessWidget {
           ),
         ),
         //? Ifno File :
-        Padding(
+        Container(
+          width: 150.w,
           padding: EdgeInsets.only(left: 30.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextUtiels(
-                text: item.fileType ?? '',
+                text: item.fileName ?? '',
                 paddingBottome: 3.h,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       fontSize: 16.sp,
                     ),
               ),
               SizedBox(
-                width: 120.w,
+                width: 130.w,
                 child: Padding(
                   padding: EdgeInsets.only(left: 12.w),
                   child: Row(

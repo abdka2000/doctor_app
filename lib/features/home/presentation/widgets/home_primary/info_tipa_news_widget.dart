@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,6 +23,7 @@ class InfoTipasNewsWidget extends StatefulWidget {
 class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
   late CarouselController _pageController;
   int currentIndex = 0;
+  int dotIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -39,13 +42,17 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
         CarouselSlider.builder(
           //? Option :
           options: CarouselOptions(
-            height: 230.h,
+            height: 170.h,
             enlargeCenterPage: true,
             autoPlay: true,
             autoPlayInterval: const Duration(seconds: 3),
             onPageChanged: (index, reason) {
               setState(() {
                 currentIndex = index;
+                if (dotIndex == 3)
+                  dotIndex = 0;
+                else
+                  dotIndex++;
               });
             },
           ),
@@ -57,7 +64,7 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
               alignment: Alignment.centerRight,
               children: [
                 Container(
-                  height: 230.h,
+                  height: 170.h,
                   width: 230.w,
                   decoration: BoxDecoration(
                     color: AppColorManger.fillColorCard,
@@ -93,19 +100,20 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
                       ),
                       Row(
                         children: [
-                          
                           SizedBox(
                             width: 165.w,
-                            child: TextUtiels(
-                              paddingLeft: 30.w,
-                              text: widget.advs[index].description!,
-                              fontFamily: AppFontFamily.tajawalRegular,
-                              color: AppColorManger.textColor1,
-                              fontSize: AppFontSizeManger.s10,
-                              height: 1.2,
+                            height: 50.h,
+                            child: SingleChildScrollView(
+                              child: TextUtiels(
+                                paddingLeft: 30.w,
+                                text: widget.advs[index].description!,
+                                fontFamily: AppFontFamily.tajawalRegular,
+                                color: AppColorManger.textColor1,
+                                fontSize: AppFontSizeManger.s10,
+                                height: 1.2,
+                              ),
                             ),
                           ),
-                          
                         ],
                       ),
                     ],
@@ -129,23 +137,23 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
 
         //? Scroll Smooth :
         AnimatedSmoothIndicator(
-          activeIndex: currentIndex,
-          count: widget.advs.length,
+          activeIndex: dotIndex,
+          count: 4,
           effect: JumpingDotEffect(
             spacing: 8,
-            dotWidth: 20.w,
+            dotWidth: 50.w,
             dotHeight: 5.h,
             paintStyle: PaintingStyle.stroke,
             strokeWidth: 1.5,
             activeDotColor: AppColorManger.primaryColor,
           ),
-          onDotClicked: (index) {
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.ease,
-            );
-          },
+          // onDotClicked: (index) {
+          //   _pageController.animateToPage(
+          //     index,
+          //     duration: const Duration(milliseconds: 500),
+          //     curve: Curves.ease,
+          //   );
+          // },
         ),
       ],
     );

@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
-import 'package:hosptel_app/features/health/domain/entities/midical_session/item.dart';
-import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
+import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/item.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/my_visits/visit_item.dart';
 
 class VisitItemsList extends StatelessWidget {

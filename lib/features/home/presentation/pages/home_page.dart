@@ -43,111 +43,134 @@ class _HomePageState extends State<HomePage> {
     context.read<ProfileCubit>().getPersonData();
   }
 
+  Future<void> refresh() async {
+    context.read<DoctorInfoCubit>().getDoctorInfo();
+    context.read<ProfileCubit>().getPersonData();
+    context.read<ServicesCubit>().getServices();
+    context.read<AdvertisementCubit>().getAdvertisement();
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
-    return DoubleBackToExitWidget(
-        backgroundColor: AppColorManger.primaryColor,
-        behavior: SnackBarBehavior.floating,
-        width: 280.w,
-        padding: EdgeInsets.only(bottom: 15.h, top: 15.h),
-        snackBarMessage: AppWordManger.preesAnotherForExit,
-        textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontSize: 15.sp,
-            ),
-        child: MainBackGround(
-          mainBody: SingleChildScrollView(
-            child: Column(
-              children: [
-                BlocBuilder<DoctorInfoCubit, DoctorInfoState>(
-                  builder: (context, state) {
-                    if (state.status == DeafultBlocStatus.done) {
-                      return HomePageDoctorInfo(
-                        doctorInfo: state.info,
-                      );
-                    } else if (state.status == DeafultBlocStatus.loading) {
-                      return const HomeLoadingShimmer();
-                    }
-                    return DoctorInfoError(
-                        text: state.failureMessage.message,
-                        onPressed: () {
-                          context.read<ProfileCubit>().getPersonData();
-                          context.read<DoctorInfoCubit>().getDoctorInfo();
-                        });
-                  },
-                ),
-                //?api :
-                SizedBox(height: 18.h),
-                //? Services :
-                const CaptionTextWidget(
-                  text: AppWordManger.services,
-                ),
-                //? api this is :
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25.w,
-                  ),
-                  child: BlocConsumer<ServicesCubit, ServicesState>(
-                    listener: (context, state) {
-                      HomeLogic().servicesListener(context, state, controller);
-                    },
+    return RefreshIndicator(
+      onRefresh: () => refresh(),
+      child: DoubleBackToExitWidget(
+          backgroundColor: AppColorManger.primaryColor,
+          behavior: SnackBarBehavior.floating,
+          width: 280.w,
+          padding: EdgeInsets.only(bottom: 15.h, top: 15.h),
+          snackBarMessage: AppWordManger.preesAnotherForExit,
+          textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 15.sp,
+              ),
+          child: MainBackGround(
+            mainBody: SingleChildScrollView(
+              child: Column(
+                children: [
+                  BlocBuilder<DoctorInfoCubit, DoctorInfoState>(
                     builder: (context, state) {
                       if (state.status == DeafultBlocStatus.done) {
-                        return InfoServicesWidget(
-                          controller: controller,
-                          hasReachedMax: state.hasReachedMax,
-                          items: state.services,
+                        return HomePageDoctorInfo(
+                          doctorInfo: state.info,
                         );
                       } else if (state.status == DeafultBlocStatus.loading) {
-                        return MainLoadignWidget(
-                          height: 160.h,
-                        );
-                      } else {
-                        return ErrorTextWidget(
-                          text: state.failureMessage.message,
-                          height: 160.h,
-                          onPressed: () =>
-                              context.read<ServicesCubit>().getServices(),
-                        );
+                        return const HomeLoadingShimmer();
                       }
+                      return DoctorInfoError(
+                          text: state.failureMessage.message,
+                          onPressed: () {
+                            context.read<ProfileCubit>().getPersonData();
+                            context.read<DoctorInfoCubit>().getDoctorInfo();
+                          });
                     },
                   ),
-                ),
-                //?
-                const CaptionTextWidget(
-                  text: AppWordManger.tipsAndNews,
-                ),
-                SizedBox(height: 18.h),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
-                  child: BlocBuilder<AdvertisementCubit, AdvertisementState>(
-                    builder: (context, state) {
-                      if (state.status == DeafultBlocStatus.done) {
-                        return InfoTipasNewsWidget(
-                          advs: state.advs,
-                        );
-                      } else if (state.status == DeafultBlocStatus.loading) {
-                        return MainLoadignWidget(
-                          height: 170.h,
-                        );
-                      } else {
-                        return ErrorTextWidget(
-                          text: state.failureMessage.message,
-                          height: 170.h,
-                          onPressed: () => context
-                              .read<AdvertisementCubit>()
-                              .getAdvertisement(),
-                        );
-                      }
-                    },
+                  //?api :
+                  SizedBox(height: 18.h),
+                  //? Services :
+                  const CaptionTextWidget(
+                    text: AppWordManger.services,
                   ),
-                ),
-                SizedBox(height: 60.h)
-              ],
+                  //? api this is :
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 25.w,
+                    ),
+                    child: BlocConsumer<ServicesCubit, ServicesState>(
+                      listener: (context, state) {
+                        HomeLogic()
+                            .servicesListener(context, state, controller);
+                      },
+                      builder: (context, state) {
+                        if (state.status == DeafultBlocStatus.done) {
+                          if (state.services.isNotEmpty) {
+                            return InfoServicesWidget(
+                              controller: controller,
+                              hasReachedMax: state.hasReachedMax,
+                              items: state.services,
+                            );
+                          } else {
+                            return const Center(
+                              child: TextUtiels(text: 'لا يوجد خدمات حاليا'),
+                            );
+                          }
+                        } else if (state.status == DeafultBlocStatus.loading) {
+                          return MainLoadignWidget(
+                            height: 160.h,
+                          );
+                        } else {
+                          return ErrorTextWidget(
+                            text: state.failureMessage.message,
+                            height: 160.h,
+                            onPressed: () =>
+                                context.read<ServicesCubit>().getServices(),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  //?
+                  const CaptionTextWidget(
+                    text: AppWordManger.tipsAndNews,
+                  ),
+                  SizedBox(height: 18.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
+                    child: BlocBuilder<AdvertisementCubit, AdvertisementState>(
+                      builder: (context, state) {
+                        if (state.status == DeafultBlocStatus.done) {
+                          if (state.advs.isNotEmpty) {
+                            return InfoTipasNewsWidget(
+                              advs: state.advs,
+                            );
+                          } else {
+                            return const Center(
+                              child: TextUtiels(text: 'لا يوجد نصائح حاليا'),
+                            );
+                          }
+                        } else if (state.status == DeafultBlocStatus.loading) {
+                          return MainLoadignWidget(
+                            height: 170.h,
+                          );
+                        } else {
+                          return ErrorTextWidget(
+                            text: state.failureMessage.message,
+                            height: 170.h,
+                            onPressed: () => context
+                                .read<AdvertisementCubit>()
+                                .getAdvertisement(),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 60.h)
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }
 
@@ -164,8 +187,10 @@ class HomePageDoctorInfo extends StatelessWidget {
             width: double.infinity,
             height: 250.h,
             decoration: BoxDecoration(
-              color: AppColorManger.primaryColor,
-            ),
+                color: AppColorManger.primaryColor,
+                image: DecorationImage(
+                    image: NetworkImage(
+                        'http://${doctorInfo.result?.personalImageUrl ?? ''}'))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -176,7 +201,6 @@ class HomePageDoctorInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //? api this text not static :
-                      //TODO : Edit for empty
                       StrokeText(
                         text: (doctorInfo.result?.doctorName == null ||
                                 (doctorInfo.result?.doctorName?.isEmpty ??
@@ -224,15 +248,20 @@ class HomePageDoctorInfo extends StatelessWidget {
                     ],
                   ),
                 ),
-                CachedNetworkImage(
-                  imageUrl: 'http://${doctorInfo.result?.personalImageUrl ?? ''}',
-                  width: 200,
+                const SizedBox(
+                  width: 170,
                   height: 200,
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.error_outline,
-                    color: AppColorManger.colorButtonShowDailog,
-                  ),
-                )
+                ),
+                // CachedNetworkImage(
+                //   imageUrl:
+                //       'http://${doctorInfo.result?.personalImageUrl ?? ''}',
+                //   width: 200,
+                //   height: 200,
+                //   errorWidget: (context, url, error) => Icon(
+                //     Icons.error_outline,
+                //     color: AppColorManger.colorButtonShowDailog,
+                //   ),
+                // )
               ],
             ),
           ),

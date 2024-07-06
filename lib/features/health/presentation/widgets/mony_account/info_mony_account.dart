@@ -52,8 +52,8 @@ class InfoMonyAccountWidget extends StatelessWidget {
                       ),
                 ),
                 TextUtiels(
-                  text: DateFormat.yMd()
-                      .add_jm()
+                  text: DateFormat.jm()
+                      .add_yMd()
                       .format(items[index].creationTime ?? DateTime.now()),
                   style: Theme.of(context).textTheme.displayMedium?.copyWith(
                         fontSize: 10.sp,

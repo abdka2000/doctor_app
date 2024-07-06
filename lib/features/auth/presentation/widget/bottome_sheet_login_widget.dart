@@ -77,14 +77,14 @@ class BottomeSheetLoginWidget extends StatelessWidget {
                               VilidationApp().validator(value!),
                           hintText: AppWordManger.pleaseEnterYourPhoneNumber,
                           onChange: (value) {
-                            phoneNumber = "0$value";
+                            phoneNumber = value;
                           },
                           textInputType: TextInputType.phone,
                           contentPaddingVertical: 13.h,
                           contentPaddingHorizontal: 27.w,
                           inputFormatter: [
                             FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(9),
+                            LengthLimitingTextInputFormatter(10),
                           ],
                         ),
                       ),

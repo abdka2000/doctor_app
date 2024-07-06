@@ -101,7 +101,7 @@ class BottomeSheetSignUpWidget extends StatelessWidget {
                             enabled: enabled,
                             hintText: AppWordManger.pleaseEnterYourPhoneNumber,
                             onChange: (value) {
-                              request.phomeNumber = "0$value";
+                              request.phomeNumber = value;
                             },
                             validator: (value) =>
                                 VilidationApp().validator(value!),
@@ -110,7 +110,7 @@ class BottomeSheetSignUpWidget extends StatelessWidget {
                             contentPaddingHorizontal: 25.w,
                             inputFormatter: [
                               FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(9),
+                              LengthLimitingTextInputFormatter(10),
                             ],
                           ),
                         ),

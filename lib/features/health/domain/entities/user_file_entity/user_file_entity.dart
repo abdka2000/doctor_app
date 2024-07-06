@@ -1,6 +1,6 @@
 import 'result.dart';
 
-class MidicalSession {
+class UserFileEntity {
   Result? result;
   dynamic targetUrl;
   bool? success;
@@ -8,7 +8,7 @@ class MidicalSession {
   bool? unAuthorizedRequest;
   bool? abp;
 
-  MidicalSession({
+  UserFileEntity({
     this.result,
     this.targetUrl,
     this.success,
@@ -17,8 +17,8 @@ class MidicalSession {
     this.abp,
   });
 
-  factory MidicalSession.fromJson(Map<String, dynamic> json) {
-    return MidicalSession(
+  factory UserFileEntity.fromJson(Map<String, dynamic> json) {
+    return UserFileEntity(
       result: json['result'] == null
           ? null
           : Result.fromJson(json['result'] as Map<String, dynamic>),

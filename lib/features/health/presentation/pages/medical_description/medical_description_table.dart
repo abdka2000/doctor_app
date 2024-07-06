@@ -20,43 +20,50 @@ class MedicalDescriptionTablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
-    return MainBackGround(
-      mainBody: Column(
-        children: [
-          TitlePageWidget(
-            titleText: AppWordManger.medicalDescraption,
-            onTap: () => Navigator.pop(context),
-            paddingBottome: 40.h,
-          ),
-          BlocConsumer<PrescriptionDetailsCubit, PrescriptionDetailsState>(
-            listener: (context, state) {
-              HealthLogic()
-                  .prescriptionDetailsListener(context, state, controller, id);
-            },
-            builder: (context, state) {
-              if (state.status == DeafultBlocStatus.loading) {
-                return const MainLoadignWidget();
-              } else if (state.status == DeafultBlocStatus.done) {
-                if (state.prescriptionDetails.isEmpty) {
-                  return const EmptyMedicalDesciption();
-                } else {
-                  return MidicalTableBody(
-                    controller: controller,
-                    hasReachedMax: state.hasReachedMax,
-                    items: state.prescriptionDetails ?? [],
-                  );
+    return RefreshIndicator(
+      onRefresh: () async {
+        context
+            .read<PrescriptionDetailsCubit>()
+            .getPrescriptionDetails(prescriptionId: id);
+      },
+      child: MainBackGround(
+        mainBody: Column(
+          children: [
+            TitlePageWidget(
+              titleText: AppWordManger.medicalDescraption,
+              onTap: () => Navigator.pop(context),
+              paddingBottome: 40.h,
+            ),
+            BlocConsumer<PrescriptionDetailsCubit, PrescriptionDetailsState>(
+              listener: (context, state) {
+                HealthLogic().prescriptionDetailsListener(
+                    context, state, controller, id);
+              },
+              builder: (context, state) {
+                if (state.status == DeafultBlocStatus.loading) {
+                  return const MainLoadignWidget();
+                } else if (state.status == DeafultBlocStatus.done) {
+                  if (state.prescriptionDetails.isEmpty) {
+                    return const EmptyMedicalDesciption();
+                  } else {
+                    return MidicalTableBody(
+                      controller: controller,
+                      hasReachedMax: state.hasReachedMax,
+                      items: state.prescriptionDetails ?? [],
+                    );
+                  }
                 }
-              }
-              return ErrorTextWidget(
-                  text: state.failureMessage.message,
-                  onPressed: () {
-                    context
-                        .read<PrescriptionDetailsCubit>()
-                        .getPrescriptionDetails(prescriptionId: id);
-                  });
-            },
-          ),
-        ],
+                return ErrorTextWidget(
+                    text: state.failureMessage.message,
+                    onPressed: () {
+                      context
+                          .read<PrescriptionDetailsCubit>()
+                          .getPrescriptionDetails(prescriptionId: id);
+                    });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

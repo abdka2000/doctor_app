@@ -410,7 +410,7 @@ class AppRouter {
                       di.sl<InfoDaysTimesCubit>()..getDaysAndTimes(),
                 ),
                 BlocProvider(
-                  create: (context) => di.sl<TimesForDayCubit>()..getTimes(),
+                  create: (context) => di.sl<TimesForDayCubit>(),
                 )
               ],
               child: const DetailesReservationPage(),

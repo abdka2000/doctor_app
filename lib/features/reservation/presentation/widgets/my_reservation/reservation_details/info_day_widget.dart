@@ -15,7 +15,7 @@ class InfoDayWidget extends StatefulWidget {
   State<InfoDayWidget> createState() => _InfoDayWidgetState();
 }
 
-AvailableDays selectedDay = AvailableDays();
+AvailableDays? selectedDay;
 
 class _InfoDayWidgetState extends State<InfoDayWidget> {
   int selectedIndex = 0;
@@ -65,7 +65,7 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
                     children: [
                       TextUtiels(
                         paddingBottome: 5.h,
-                        text: index == 0 ? 'اليوم' : widget.days[index].name!,
+                        text:widget.days[index].name ?? '',
                         style:
                             Theme.of(context).textTheme.displaySmall?.copyWith(
                                   color: selectedIndex == index

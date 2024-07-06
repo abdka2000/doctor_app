@@ -24,7 +24,7 @@ class InfoServicesWidget extends StatelessWidget {
         controller: controller,
         scrollDirection: Axis.horizontal,
         itemCount: items.length + 1,
-        separatorBuilder: (context, index) => SizedBox(width: 10.w),
+        separatorBuilder: (context, index) => SizedBox(width: 5.w),
         itemBuilder: (context, index) {
           if (index == items.length && !hasReachedMax) {
             return const MainLoadignWidget();

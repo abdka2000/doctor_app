@@ -96,58 +96,63 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                         builder: (context, state) {
                           if (state.status == DeafultBlocStatus.done) {
                             final list = state.symptoms.result?.items ?? [];
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: list.length,
-                                    itemBuilder: (context, index) {
-                                      return Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          TextUtiels(
-                                            text: list[index].name ?? '',
-                                            fontFamily:
-                                                AppFontFamily.tajawalMedium,
-                                            fontSize: 14.sp,
-                                            color: symptomsId
-                                                    .contains(list[index].id)
-                                                ? AppColorManger.primaryColor
-                                                : AppColorManger.colorGrayLight,
-                                          ),
-                                          Checkbox(
-                                            value: symptomsId
-                                                .contains(list[index].id),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                if (symptomsId
-                                                    .contains(list[index].id)) {
-                                                  symptomsId.remove(
-                                                      list[index].id ?? 0);
-                                                } else {
-                                                  symptomsId
-                                                      .add(list[index].id ?? 0);
-                                                }
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
+                            if (list.isNotEmpty) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: list.length,
+                                      itemBuilder: (context, index) {
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            TextUtiels(
+                                              text: list[index].name ?? '',
+                                              fontFamily:
+                                                  AppFontFamily.tajawalMedium,
+                                              fontSize: 14.sp,
+                                              color: symptomsId
+                                                      .contains(list[index].id)
+                                                  ? AppColorManger.primaryColor
+                                                  : AppColorManger
+                                                      .colorGrayLight,
+                                            ),
+                                            Checkbox(
+                                              value: symptomsId
+                                                  .contains(list[index].id),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  if (symptomsId.contains(
+                                                      list[index].id)) {
+                                                    symptomsId.remove(
+                                                        list[index].id ?? 0);
+                                                  } else {
+                                                    symptomsId.add(
+                                                        list[index].id ?? 0);
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                                //? button done Or cancle :
-                                ButtonDoneAndCancle(
-                                  onTap: () {
-                                    setState(() {
-                                      visible = false;
-                                    });
-                                  },
-                                )
-                              ],
-                            );
+                                  //? button done Or cancle :
+                                  ButtonDoneAndCancle(
+                                    onTap: () {
+                                      setState(() {
+                                        visible = false;
+                                      });
+                                    },
+                                  )
+                                ],
+                              );
+                            } else {
+                              return TextUtiels(text: 'لا يوجد أعراض');
+                            }
                           } else if (state.status ==
                               DeafultBlocStatus.loading) {
                             return const MainLoadignWidget();
@@ -164,15 +169,15 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
             ),
 
             //? Button For Continuse Resrvation :
-             Padding(
-                  padding: EdgeInsets.symmetric(vertical: !visible ? 200.h : 0),
-                  child: BlocConsumer<CreateAppoinmentCubit, CreateAppoinmentState>(
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: !visible ? 200.h : 0),
+              child: BlocConsumer<CreateAppoinmentCubit, CreateAppoinmentState>(
                 listener: (context, state) {
                   ReservationLogic().createAppoinmentListener(
                       context,
                       state,
                       visible,
-                      selectedDay.date!.replaceRange(10, null, ''),
+                      selectedDay!.date!.replaceRange(10, null, ''),
                       selectedTime!.fromTime!);
                 },
                 builder: (context, state) {
@@ -191,7 +196,7 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                           endTime: selectedTime?.toTime ??
                               DateFormat.jm().format(DateTime.now()),
                           appointmentDate: DateTime.parse(
-                              selectedDay.date ?? DateTime.now().toString()),
+                              selectedDay!.date ?? DateTime.now().toString()),
                           appointmentSymptoms: symptomsId
                               .map((id) => AppointmentSymptom(symptomId: id))
                               .toList(),

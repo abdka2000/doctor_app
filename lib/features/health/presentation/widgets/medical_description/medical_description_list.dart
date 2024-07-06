@@ -34,7 +34,7 @@ class MidicalTableBody extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 74.w),
+            padding: EdgeInsets.symmetric(horizontal: 80.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -91,34 +91,24 @@ class MidicalTableBody extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TextUtiels(
-                                paddingLeft: 10.w,
-                                text: items[index].medicineName ?? '',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayLarge
-                                    ?.copyWith(
-                                      fontSize: 14.sp,
-                                    ),
+                              SizedBox(
+                                width: 82.w,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: TextUtiels(
+                                    paddingLeft: 10.w,
+                                    text: items[index].medicineName ?? '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.copyWith(
+                                          fontSize: 14.sp,
+                                        ),
+                                  ),
+                                ),
                               ),
                               TextUtiels(
-                                text: 'ابام ${items[index].usageTimes}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                      fontSize: 10.sp,
-                                    ),
-                              ),
-                              // Container(
-                              //   width: 25.w,
-                              //   height: 5.h,
-                              //   color: AppColorManger.secoundryColor,
-                              // ),
-                              TextUtiels(
-                                text: items[index].isBeforeFood ?? false
-                                    ? 'نعم'
-                                    : 'لا',
+                                text: " أيام ${items[index].usageDuration} ",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
@@ -126,8 +116,27 @@ class MidicalTableBody extends StatelessWidget {
                                       fontSize: 10.sp,
                                     ),
                               ),
+                              items[index].isBeforeFood ?? false
+                                  ? Container(
+                                      margin: EdgeInsets.only(right: 20.w),
+                                      width: 25.w,
+                                      height: 5.h,
+                                      color: AppColorManger.secoundryColor,
+                                    )
+                                  : Container(),
+                              // TextUtiels(
+                              //   text: items[index].isBeforeFood ?? false
+                              //       ? 'نعم'
+                              //       : 'لا',
+                              //   style: Theme.of(context)
+                              //       .textTheme
+                              //       .bodySmall
+                              //       ?.copyWith(
+                              //         fontSize: 10.sp,
+                              //       ),
+
                               TextUtiels(
-                                text: items[index].usageDuration.toString(),
+                                text: items[index].usageTimes.toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall

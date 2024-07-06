@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/word_manger.dart';
@@ -32,12 +33,15 @@ class FiledDescriptionMedical extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TextUtiels(
-            paddingRight: 20.w,
-            text: nameMedicine,
-            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  fontSize: 14.sp,
-                ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: TextUtiels(
+              paddingRight: 20.w,
+              text: nameMedicine,
+              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    fontSize: 14.sp,
+                  ),
+            ),
           ),
           TextUtiels(
             paddingRight: 11.w,

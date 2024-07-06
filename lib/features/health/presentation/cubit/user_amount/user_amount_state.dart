@@ -19,7 +19,7 @@ class UserAmountState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status , userAmount];
+  List<Object> get props => [failureMessage, status, userAmount ];
 
   UserAmountState copyWith({
     FailureMessage? failureMessage,

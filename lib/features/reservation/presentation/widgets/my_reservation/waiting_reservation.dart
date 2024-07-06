@@ -19,29 +19,34 @@ class WaitingReservation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
-    return BlocConsumer<ReservationCubit, ReservationState>(
-      listener: (context, state) {
-        ReservationLogic()
-            .reservationWaitingListener(context, state, controller);
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<ReservationCubit>().getReservations(isFinished: false);
       },
-      builder: (context, state) {
-        if (state.status == DeafultBlocStatus.done) {
-          if (state.reservations.isNotEmpty) {
-             return waitingReservationsList(
-                state.reservations, state.hasReachedMax, controller);
-          } else {
-            return const NotFoundReservationWidget();
+      child: BlocConsumer<ReservationCubit, ReservationState>(
+        listener: (context, state) {
+          ReservationLogic()
+              .reservationWaitingListener(context, state, controller);
+        },
+        builder: (context, state) {
+          if (state.status == DeafultBlocStatus.done) {
+            if (state.reservations.isNotEmpty) {
+              return waitingReservationsList(
+                  state.reservations, state.hasReachedMax, controller);
+            } else {
+              return const NotFoundReservationWidget();
+            }
+          } else if (state.status == DeafultBlocStatus.error) {
+            return ErrorTextWidget(
+              text: state.failureMessage.message,
+              onPressed: () => context
+                  .read<ReservationCubit>()
+                  .getReservations(isFinished: false),
+            );
           }
-        } else if (state.status == DeafultBlocStatus.error) {
-          return ErrorTextWidget(
-            text: state.failureMessage.message,
-            onPressed: () => context
-                .read<ReservationCubit>()
-                .getReservations(isFinished: false),
-          );
-        }
-        return const MainLoadignWidget();
-      },
+          return const MainLoadignWidget();
+        },
+      ),
     );
   }
 }

@@ -53,7 +53,7 @@ class AppWordManger {
   static const sorryToCancelTheReservationPlease = 'عذرا ! لإلغاء الحجز يرجى ';
   static const contactUsWithAVoiceCall = 'التواصل معنا بمكالكة صوتية';
   static const thanks = 'شكرا لك .';
-  static const reservationAvilable = 'الحجوزات المتاحة';
+  static const reservationAvilable = ' ساعات العمل';
   static const bookingReservation = 'حجز موعد';
   static const day = 'يوم';
   static const time = 'الوقت';
@@ -67,6 +67,7 @@ class AppWordManger {
   static const continueReservation = 'استمر';
   static const pleaseLoginForGetFeatureMoreAndBetter =
       'يرجى تسجيل الدخول للحصول على مميزات أفضل وأكثر';
+  static const pleaseSelectDayAndTime = 'يرجى اختيار يوم و ساعة محددة';
 //? profile :
   static const welcome = 'مرحبا بك';
   static const fullName = 'الاسم الكامل';

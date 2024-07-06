@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:hosptel_app/core/api/api_links.dart';
 import 'package:hosptel_app/core/api/api_methode_get.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
-import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
+import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/midical_session_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/patient_files_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/prescription_details_entity/prescription_details_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amount.dart';
+import 'package:hosptel_app/features/health/domain/entities/user_file_entity/user_file_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_entity/user_prescriptio_entity.dart';
 
 abstract class HealthRemote {
-  Future<MidicalSession> getMidicalSessions(
+  Future<MidicalSessionEntity> getMidicalSessions(
       {required int skipCount, required int maxResult});
   //-------------------------------------------//
   Future<PrescriptionDetailsEntity> getPrescriptionDetails(
@@ -23,13 +24,13 @@ abstract class HealthRemote {
   //-------------------------------------------------//
   Future<UserAmountEntity> getUserAmount();
   //-------------------------------------------------//
-  Future<PatientFilesEntity> getUserFiles(
+  Future<UserFileEntity> getUserFiles(
       {required int skipCount, required int maxResult});
 }
 
 class HealthRemoteImpl implements HealthRemote {
   @override
-  Future<MidicalSession> getMidicalSessions(
+  Future<MidicalSessionEntity> getMidicalSessions(
       {required int skipCount, required int maxResult}) async {
     final token = AppSharedPreferences.getToken();
     Map<String, String> headers = {
@@ -39,12 +40,12 @@ class HealthRemoteImpl implements HealthRemote {
       'SkipCount': skipCount,
       'MaxResultCount': maxResult,
     };
-    return ApiGetMethods<MidicalSession>(addHeader: headers).get(
+    return ApiGetMethods<MidicalSessionEntity>(addHeader: headers).get(
         query: query,
         url: ApiGet.getMedicalSession,
         data: ((response) {
           final dataDecoded = jsonDecode(response.body);
-          final sessions = MidicalSession.fromJson(dataDecoded);
+          final sessions = MidicalSessionEntity.fromJson(dataDecoded);
           return sessions;
         }));
   }
@@ -115,7 +116,7 @@ class HealthRemoteImpl implements HealthRemote {
   }
 
   @override
-  Future<PatientFilesEntity> getUserFiles(
+  Future<UserFileEntity> getUserFiles(
       {required int skipCount, required int maxResult}) async {
     final token = AppSharedPreferences.getToken();
     Map<String, String> headers = {
@@ -125,11 +126,11 @@ class HealthRemoteImpl implements HealthRemote {
       'SkipCount': skipCount,
       'MaxResultCount': maxResult,
     };
-    return ApiGetMethods<PatientFilesEntity>(addHeader: headers).get(
+    return ApiGetMethods<UserFileEntity>(addHeader: headers).get(
         url: ApiGet.getFiles,
         data: (response) {
           final dataDecoded = jsonDecode(response.body);
-          final files = PatientFilesEntity.fromJson(dataDecoded);
+          final files = UserFileEntity.fromJson(dataDecoded);
           return files;
         },
         query: query);

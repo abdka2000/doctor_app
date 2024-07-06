@@ -7,7 +7,7 @@ import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class CostCardWidget extends StatelessWidget {
   const CostCardWidget({super.key, required this.totalAmount});
-  final int totalAmount;
+  final double totalAmount;
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_time_widget.dart';
 import '../../../../../../core/class/clipping_path_class.dart';
 import '../../../../../../core/resources/color_manger.dart';
 import '../../../../../../core/resources/png_manger.dart';
@@ -28,6 +29,7 @@ class AppBarReservationDetailsWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
+                selectedTime = null;
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 14.w),

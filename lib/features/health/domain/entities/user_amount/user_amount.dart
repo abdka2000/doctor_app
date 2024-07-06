@@ -2,8 +2,8 @@ import 'paged_result_dto.dart';
 
 class UserAmountEntity {
   PagedResultDto? pagedResultDto;
-  int? deptTotalAmount;
-  int? pushTotalAmount;
+  double? deptTotalAmount;
+  double? pushTotalAmount;
 
   UserAmountEntity({
     this.pagedResultDto,
@@ -11,15 +11,18 @@ class UserAmountEntity {
     this.pushTotalAmount,
   });
 
-  factory UserAmountEntity.fromJson(Map<String, dynamic> json) =>
-      UserAmountEntity(
-        pagedResultDto: json['pagedResultDto'] == null
-            ? null
-            : PagedResultDto.fromJson(
-                json['pagedResultDto'] as Map<String, dynamic>),
-        deptTotalAmount: json['deptTotalAmount'] as int?,
-        pushTotalAmount: json['pushTotalAmount'] as int?,
-      );
+  factory UserAmountEntity.fromJson(Map<String, dynamic> data) {
+    Map<String, dynamic> json = data['result'];
+
+    return UserAmountEntity(
+      pagedResultDto: json['pagedResultDto'] == null
+          ? null
+          : PagedResultDto.fromJson(
+              json['pagedResultDto'] as Map<String, dynamic>),
+      deptTotalAmount: json['deptTotalAmount'] as double?,
+      pushTotalAmount: json['pushTotalAmount'] as double?,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'pagedResultDto': pagedResultDto?.toJson(),

@@ -22,7 +22,7 @@ class InfoServicesItem extends StatelessWidget {
       height: 150,
       width: 100,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
@@ -58,8 +58,8 @@ class InfoServicesItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(9),
               child: CachedNetworkImage(
-                width: 40.w,
-                height: 40.h,
+                width: 57.w,
+                height: 57.h,
                 imageUrl: 'http://${item.imageUrl}',
                 fit: BoxFit.contain,
                 placeholder: (context, url) => const MainLoadignWidget(),

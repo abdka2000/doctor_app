@@ -15,37 +15,35 @@ class PrescriptionDetailsCubit extends Cubit<PrescriptionDetailsState> {
   int max = 5;
   int skip = 0;
   Future<void> getPrescriptionDetails({required int prescriptionId}) async {
-    if (!state.hasReachedMax) {
-      if (prescriptionList.isEmpty) {
-        emit(state.copyWith(status: DeafultBlocStatus.loading));
-      }
-      final data = await useCase.getPrescriptionItemDetails(
-        maxResult: max,
-        skipCount: skip,
-        prescriptionId: prescriptionId,
-      );
-      data.fold(
-        (failure) => emit(state.copyWith(
-          failureMessage: mapFailureToMessage(failure: failure),
-          status: DeafultBlocStatus.error,
-        )),
-        (prescription) {
-          if (prescriptionList.length == (prescription.result?.totalCount ?? 0)) {
-            emit(state.copyWith(
-              status: DeafultBlocStatus.done,
-              hasReachedMax: true,
-              prescriptionDetails: prescriptionList,
-            ));
-            skip = 0;
-          } else {
-            prescriptionList.addAll(prescription.result?.items?.toList() ?? []);
-            skip += 5;
-            emit(state.copyWith(
-                status: DeafultBlocStatus.done,
-                prescriptionDetails: prescriptionList));
-          }
-        },
-      );
+    if (prescriptionList.isEmpty) {
+      emit(state.copyWith(status: DeafultBlocStatus.loading));
     }
+    final data = await useCase.getPrescriptionItemDetails(
+      maxResult: max,
+      skipCount: skip,
+      prescriptionId: prescriptionId,
+    );
+    data.fold(
+      (failure) => emit(state.copyWith(
+        failureMessage: mapFailureToMessage(failure: failure),
+        status: DeafultBlocStatus.error,
+      )),
+      (prescription) {
+        if (prescriptionList.length == (prescription.result?.totalCount ?? 0)) {
+          emit(state.copyWith(
+            status: DeafultBlocStatus.done,
+            hasReachedMax: true,
+            prescriptionDetails: prescriptionList,
+          ));
+          skip = 0;
+        } else {
+          prescriptionList.addAll(prescription.result?.items?.toList() ?? []);
+          skip += 5;
+          emit(state.copyWith(
+              status: DeafultBlocStatus.done,
+              prescriptionDetails: prescriptionList));
+        }
+      },
+    );
   }
 }

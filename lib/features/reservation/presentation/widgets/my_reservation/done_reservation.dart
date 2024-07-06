@@ -17,28 +17,34 @@ class DoneReservation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
-    return BlocConsumer<ReservationCubit, ReservationState>(
-      listener: (context, state) {
-        ReservationLogic().reservationDoneListener(context, state, controller);
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<ReservationCubit>().getReservations(isFinished: true);
       },
-      builder: (context, state) {
-        if (state.status == DeafultBlocStatus.done) {
-          if (state.reservations.isNotEmpty) {
-            return doneReservationsList(
-                state.reservations, state.hasReachedMax, controller);
-          } else {
-            return const NotFoundReservationWidget();
+      child: BlocConsumer<ReservationCubit, ReservationState>(
+        listener: (context, state) {
+          ReservationLogic()
+              .reservationDoneListener(context, state, controller);
+        },
+        builder: (context, state) {
+          if (state.status == DeafultBlocStatus.done) {
+            if (state.reservations.isNotEmpty) {
+              return doneReservationsList(
+                  state.reservations, state.hasReachedMax, controller);
+            } else {
+              return const NotFoundReservationWidget();
+            }
+          } else if (state.status == DeafultBlocStatus.error) {
+            return ErrorTextWidget(
+              text: state.failureMessage.message,
+              onPressed: () => context
+                  .read<ReservationCubit>()
+                  .getReservations(isFinished: true),
+            );
           }
-        } else if (state.status == DeafultBlocStatus.error) {
-          return ErrorTextWidget(
-            text: state.failureMessage.message,
-            onPressed: () => context
-                .read<ReservationCubit>()
-                .getReservations(isFinished: true),
-          );
-        }
-        return const MainLoadignWidget();
-      },
+          return const MainLoadignWidget();
+        },
+      ),
     );
   }
 

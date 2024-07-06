@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
+import 'package:hosptel_app/core/widget/text_utiles/text_utile_widget.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/days/days_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/info_days_times/info_days_times_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/times_for_day/times_for_day_cubit.dart';
@@ -102,11 +103,21 @@ class DetailesReservationPage extends StatelessWidget {
                   return MainLoadignWidget(
                     height: 70.h,
                   );
+                } else if (state.status == DeafultBlocStatus.error) {
+                  return ErrorTextWidget(
+                    text: state.failureMessage.message,
+                    height: 110.h,
+                    onPressed: () =>
+                        context.read<TimesForDayCubit>().getTimes(),
+                  );
                 }
-                return ErrorTextWidget(
-                  text: state.failureMessage.message,
-                  height: 110.h,
-                  onPressed: () => context.read<TimesForDayCubit>().getTimes(),
+
+                return TextUtiels(
+                  text: 'يرجي اختيار يوم',
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium
+                      ?.copyWith(fontSize: 24.sp, color: Colors.grey),
                 );
               },
             ),
@@ -119,34 +130,7 @@ class DetailesReservationPage extends StatelessWidget {
                 backgroundColor: AppColorManger.primaryColor,
                 textColor: AppColorManger.white,
                 onPreesed: () {
-                  if (AppSharedPreferences.getToken().isNotEmpty) {
-                    Map<String, String> times = {
-                      'date': selectedDay.date ?? DateTime.now().toString(),
-                      'fromTime': selectedTime?.fromTime ?? '',
-                      'toTime': selectedTime?.toTime ?? '',
-                    };
-                    Navigator.pushNamed(
-                        context, RouteNamedScreens.reservationSummaryNameRoute,
-                        arguments: times);
-                  } else {
-                    MainShowDialog.customShowDialog(
-                      onTapBack: () {
-                        Navigator.pop(context);
-                      },
-                      hieght: 150.h,
-                      context,
-                      onTapFirst: () {
-                        Navigator.pop(context);
-                      },
-                      onTapSecound: () {
-                        Navigator.pushReplacementNamed(
-                            context, RouteNamedScreens.loginScreenNameRoute);
-                      },
-                      firstButtonText: AppWordManger.notUntil,
-                      secoundButtonText: AppWordManger.login,
-                      textPopUp: AppWordManger.loginMustFirst,
-                    );
-                  }
+                  checkDayAndTime(context);
                 },
               ),
             ),
@@ -154,5 +138,35 @@ class DetailesReservationPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void checkDayAndTime(BuildContext context) {
+    if (selectedDay != null && selectedTime != null) {
+      Map<String, String> times = {
+        'date': selectedDay!.date!,
+        'fromTime': selectedTime?.fromTime ?? '',
+        'toTime': selectedTime?.toTime ?? '',
+      };
+      Navigator.pushNamed(
+          context, RouteNamedScreens.reservationSummaryNameRoute,
+          arguments: times);
+    } else {
+      MainShowDialog.customShowDialog(
+        onTapBack: () {
+          Navigator.pop(context);
+        },
+        hieght: 150.h,
+        context,
+        onTapFirst: () {
+          Navigator.pop(context);
+        },
+        onTapSecound: () {
+          Navigator.pop(context);
+        },
+        firstButtonText: AppWordManger.ok,
+        secoundButtonText: AppWordManger.back,
+        textPopUp: AppWordManger.pleaseSelectDayAndTime,
+      );
+    }
   }
 }

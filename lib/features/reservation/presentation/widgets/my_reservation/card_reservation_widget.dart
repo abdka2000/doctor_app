@@ -30,7 +30,7 @@ class CardReservationWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 11.5.h),
         width: 320.w,
-        height: 250.h,
+        height: 215.h,
         decoration: BoxDecoration(
           color: AppColorManger.fillColorCard,
           border: Border.all(
@@ -74,6 +74,7 @@ class CardReservationWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       //? Name Doctor From (Api)
                       TextUtiels(
@@ -89,7 +90,7 @@ class CardReservationWidget extends StatelessWidget {
                       //? Text Date Resevation From Api :
                       TextUtiels(
                         text:
-                            ' ${DateFormat.yMd().add_jm().format(item.appointmentDate ?? DateTime.now())} : ${AppWordManger.dataReservation}',
+                            ' ${DateFormat.jm().addPattern('yyyy/MM/dd').format(item.appointmentDate ?? DateTime.now())} : ${AppWordManger.dataReservation}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: AppColorManger.colorShowDailogButton,
                               fontSize: 16.sp,

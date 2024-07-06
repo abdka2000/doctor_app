@@ -2,10 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:hosptel_app/core/error/failure.dart';
 import 'package:hosptel_app/core/network/check_net.dart';
 import 'package:hosptel_app/features/health/data/data_sources/heath_remote.dart';
-import 'package:hosptel_app/features/health/domain/entities/midical_session/midical_session.dart';
+import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/midical_session_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/patient_files_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/prescription_details_entity/prescription_details_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amount.dart';
+import 'package:hosptel_app/features/health/domain/entities/user_file_entity/user_file_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_entity/user_prescriptio_entity.dart';
 import 'package:hosptel_app/features/health/domain/repository/health_repo.dart';
 
@@ -14,9 +15,9 @@ class HealthRepoImpl implements HealthRepo {
 
   HealthRepoImpl({required this.remote});
   @override
-  Future<Either<Failure, MidicalSession>> getMidicalSession(
+  Future<Either<Failure, MidicalSessionEntity>> getMidicalSession(
       {required int skipCount, required int maxResult}) async {
-    return CheckNet<MidicalSession>().checkNetResponse(
+    return CheckNet<MidicalSessionEntity>().checkNetResponse(
         tryRight: () async {
       final data = await remote.getMidicalSessions(
           maxResult: maxResult, skipCount: skipCount);
@@ -61,9 +62,9 @@ class HealthRepoImpl implements HealthRepo {
   }
 
   @override
-  Future<Either<Failure, PatientFilesEntity>> getUserFiles(
+  Future<Either<Failure, UserFileEntity>> getUserFiles(
       {required int skipCount, required int maxResult}) async {
-    return CheckNet<PatientFilesEntity>().checkNetResponse(tryRight: () async {
+    return CheckNet<UserFileEntity>().checkNetResponse(tryRight: () async {
       final data =
           await remote.getUserFiles(skipCount: skipCount, maxResult: maxResult);
       return Right(data);

@@ -17,7 +17,7 @@ class MoneyAccountBody extends StatelessWidget {
       children: [
         //? Carad Pymant :
         CardPymantWidget(
-          pushedAmount: userAmount.pushTotalAmount ?? 0,
+          pushedAmount: userAmount.pushTotalAmount ?? 0.0,
         ),
         //? Detailes :
         Align(
@@ -52,7 +52,7 @@ class MoneyAccountBody extends StatelessWidget {
         ),
         //? Cost Full :
         CostCardWidget(
-          totalAmount: userAmount.deptTotalAmount ?? 0,
+          totalAmount: userAmount.deptTotalAmount ?? 0.0,
         )
       ],
     );

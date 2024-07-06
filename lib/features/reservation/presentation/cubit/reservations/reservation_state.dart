@@ -24,7 +24,8 @@ class ReservationState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status , hasReachedMax , reservations];
+  List<Object> get props =>
+      [failureMessage, status, hasReachedMax, reservations];
 
   ReservationState copyWith({
     FailureMessage? failureMessage,

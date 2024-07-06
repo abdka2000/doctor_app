@@ -20,8 +20,7 @@ class ReservationRepoImpl implements ReservationRepository {
       {required bool isFinished,
       required int skipCount,
       required int maxResult}) async {
-    return CheckNet<ReservationsModel>().checkNetResponse(
-        tryRight: () async {
+    return CheckNet<ReservationsModel>().checkNetResponse(tryRight: () async {
       final data = await remoteDataSource.getReservation(
           isFinished: isFinished, skipCount: skipCount, maxResult: maxResult);
       return Right(data);

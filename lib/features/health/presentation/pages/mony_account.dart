@@ -26,58 +26,64 @@ class MonyAccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainBackGround(
-      mainBody: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitlePageWidget(
-              titleText: AppWordManger.finisialAccount,
-              onTap: () => Navigator.pop(context),
-              paddingBottome: 15.h,
-            ),
-            //? Image Account :
-            Image.asset(
-              width: 100.w,
-              height: 100.h,
-              AppPngManger.imageProfile,
-            ),
-            //? NAME :
-            TextUtiels(
-              text: AppSharedPreferences.getName(),
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontSize: 20.sp,
-                    color: AppColorManger.textColor2,
-                  ),
-            ),
-            //? Number Phone
-            TextUtiels(
-              text: AppSharedPreferences.getNumber(),
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    fontSize: 20.sp,
-                    color: AppColorManger.lightText,
-                  ),
-            ),
-            BlocBuilder<UserAmountCubit, UserAmountState>(
-              builder: (context, state) {
-                if (state.status == DeafultBlocStatus.done) {
-                  if (state.userAmount.pagedResultDto?.items?.isEmpty ?? true) {
-                    return const EmptyMonyAccountWidget();
-                  } else {
-                    return MoneyAccountBody(
-                      userAmount: state.userAmount,
-                    );
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<UserAmountCubit>().getUserAmount();
+      },
+      child: MainBackGround(
+        mainBody: SingleChildScrollView(
+          child: Column(
+            children: [
+              TitlePageWidget(
+                titleText: AppWordManger.finisialAccount,
+                onTap: () => Navigator.pop(context),
+                paddingBottome: 15.h,
+              ),
+              //? Image Account :
+              Image.asset(
+                width: 100.w,
+                height: 100.h,
+                AppPngManger.imageProfile,
+              ),
+              //? NAME :
+              TextUtiels(
+                text: AppSharedPreferences.getName(),
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontSize: 20.sp,
+                      color: AppColorManger.textColor2,
+                    ),
+              ),
+              //? Number Phone
+              TextUtiels(
+                text: AppSharedPreferences.getNumber(),
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      fontSize: 20.sp,
+                      color: AppColorManger.lightText,
+                    ),
+              ),
+              BlocBuilder<UserAmountCubit, UserAmountState>(
+                builder: (context, state) {
+                  if (state.status == DeafultBlocStatus.done) {
+                    if (state.userAmount.pagedResultDto?.items?.isEmpty ??
+                        true) {
+                      return const EmptyMonyAccountWidget();
+                    } else {
+                      return MoneyAccountBody(
+                        userAmount: state.userAmount,
+                      );
+                    }
+                  } else if (state.status == DeafultBlocStatus.loading) {
+                    return const MainLoadignWidget();
                   }
-                } else if (state.status == DeafultBlocStatus.loading) {
-                  return const MainLoadignWidget();
-                }
-                return ErrorTextWidget(
-                    text: state.failureMessage.message,
-                    onPressed: () {
-                      context.read<UserAmountCubit>().getUserAmount();
-                    });
-              },
-            )
-          ],
+                  return ErrorTextWidget(
+                      text: state.failureMessage.message,
+                      onPressed: () {
+                        context.read<UserAmountCubit>().getUserAmount();
+                      });
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
