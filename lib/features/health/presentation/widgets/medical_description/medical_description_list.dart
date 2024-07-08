@@ -123,7 +123,11 @@ class MidicalTableBody extends StatelessWidget {
                                       height: 5.h,
                                       color: AppColorManger.secoundryColor,
                                     )
-                                  : Container(),
+                                  : Container(
+                                      margin: EdgeInsets.only(right: 20.w),
+                                      width: 25.w,
+                                      height: 5.h,
+                                    ),
                               // TextUtiels(
                               //   text: items[index].isBeforeFood ?? false
                               //       ? 'نعم'

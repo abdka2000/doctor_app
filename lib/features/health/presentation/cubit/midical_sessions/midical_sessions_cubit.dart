@@ -13,8 +13,9 @@ class MidicalSessionsCubit extends Cubit<MidicalSessionsState> {
   List<Item> sessionsList = [];
   int max = 5;
   int skip = 0;
-  Future<void> getSessions() async {
-      if (sessionsList.isEmpty) {
+  Future<void> getSessions({bool isRefresh = false}) async {
+    if (!state.hasReachedMax || isRefresh) {
+      if (sessionsList.isEmpty || isRefresh) {
         emit(state.copyWith(status: DeafultBlocStatus.loading));
       }
       final data =
@@ -42,3 +43,4 @@ class MidicalSessionsCubit extends Cubit<MidicalSessionsState> {
       );
     }
   }
+}

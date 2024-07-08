@@ -17,7 +17,10 @@ abstract class ReservationBaseUseCase {
   Future<Either<Failure, List<AvailableTimes>>> getAvailablesTime(
       {required String date});
   Future<Either<Failure, UserWorkHours>> getWorkHours();
-  Future<Either<Failure, SymptomEntity>> getSymptoms();
+  Future<Either<Failure, SymptomEntity>> getSymptoms({
+    required int skipCount,
+    required int maxResult,
+  });
   Future<Either<Failure, Unit>> createAppoinment(
       {required ReservationResponse reservation});
 }

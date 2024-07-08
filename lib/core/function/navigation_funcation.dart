@@ -60,16 +60,18 @@ void isGuestOrUserForReservation(BuildContext context) {
       barrierDismissible: false,
       onTapBack: () {
         context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
+        Navigator.pop(context);
       },
       hieght: 150.h,
       context,
       onTapFirst: () {
+        Navigator.pop(context);
         context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
       },
       onTapSecound: () {
         context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
-        Navigator.pushReplacementNamed(
-            context, RouteNamedScreens.loginScreenNameRoute);
+        Navigator.pushNamedAndRemoveUntil(
+            context, RouteNamedScreens.loginScreenNameRoute, (route) => false);
       },
       firstButtonText: AppWordManger.notUntil,
       secoundButtonText: AppWordManger.login,
@@ -100,8 +102,8 @@ void isGustOrUserMethode(BuildContext context, {required String routeNmae}) {
       },
       onTapSecound: () {
         context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
-        Navigator.pushReplacementNamed(
-            context, RouteNamedScreens.loginScreenNameRoute);
+        Navigator.pushNamedAndRemoveUntil(
+            context, RouteNamedScreens.loginScreenNameRoute, (route) => false);
       },
       firstButtonText: AppWordManger.notUntil,
       secoundButtonText: AppWordManger.login,

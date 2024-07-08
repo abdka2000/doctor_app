@@ -59,7 +59,6 @@ class EditProfileLogic {
           details: state.failureMessage.details);
     } else if (state.status == DeafultBlocStatus.done) {
       AppSharedPreferences.cashPhoneNumber(phoneNumber: "0$phoneNumber");
-      print("---------- number has Updated!");
       SnackBarUtil.showSnackBar(
         message: AppWordManger.saveDone,
         context: context,

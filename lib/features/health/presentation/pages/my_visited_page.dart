@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hosptel_app/core/resources/enum_manger.dart';
@@ -22,7 +20,7 @@ class MyVistsPage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<MidicalSessionsCubit>().getSessions();
+        context.read<MidicalSessionsCubit>().getSessions(isRefresh: true);
       },
       child: MainBackGround(
         mainBody: Column(
@@ -53,7 +51,7 @@ class MyVistsPage extends StatelessWidget {
                 return ErrorTextWidget(
                   text: state.failureMessage.message,
                   onPressed: () =>
-                      context.read<MidicalSessionsCubit>().getSessions(),
+                      context.read<MidicalSessionsCubit>().getSessions(isRefresh: true),
                 );
               },
             ),

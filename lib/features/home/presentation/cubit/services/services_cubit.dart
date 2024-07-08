@@ -15,32 +15,34 @@ class ServicesCubit extends Cubit<ServicesState> {
   int max = 5;
   int skip = 0;
 
-  Future<void> getServices() async {
-    if (servicesList.isEmpty) {
-      emit(state.copyWith(status: DeafultBlocStatus.loading));
-    }
+  Future<void> getServices({bool isRefresh = false}) async {
+    if (!state.hasReachedMax || isRefresh) {
+      if (servicesList.isEmpty || isRefresh) {
+        emit(state.copyWith(status: DeafultBlocStatus.loading));
+      }
 
-    final data =
-        await useCase.getServicesUseCase(maxResult: max, skipCount: skip);
-    data.fold(
-      (failure) => emit(state.copyWith(
-        failureMessage: mapFailureToMessage(failure: failure),
-        status: DeafultBlocStatus.error,
-      )),
-      (services) {
-        if (servicesList.length == (services.result?.totalCount ?? 0)) {
-          emit(state.copyWith(
-              status: DeafultBlocStatus.done,
-              hasReachedMax: true,
-              services: servicesList));
-          skip = 0;
-        } else {
-          skip += 5;
-          servicesList.addAll(services.result?.items ?? []);
-          emit(state.copyWith(
-              status: DeafultBlocStatus.done, services: servicesList));
-        }
-      },
-    );
+      final data =
+          await useCase.getServicesUseCase(maxResult: max, skipCount: skip);
+      data.fold(
+        (failure) => emit(state.copyWith(
+          failureMessage: mapFailureToMessage(failure: failure),
+          status: DeafultBlocStatus.error,
+        )),
+        (services) {
+          if (servicesList.length == (services.result?.totalCount ?? 0)) {
+            emit(state.copyWith(
+                status: DeafultBlocStatus.done,
+                hasReachedMax: true,
+                services: servicesList));
+            skip = 0;
+          } else {
+            skip += 5;
+            servicesList.addAll(services.result?.items ?? []);
+            emit(state.copyWith(
+                status: DeafultBlocStatus.done, services: servicesList));
+          }
+        },
+      );
+    }
   }
 }

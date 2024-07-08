@@ -19,15 +19,23 @@ class InfoServicesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160.h,
+      height: 132.h,
       child: ListView.separated(
         controller: controller,
         scrollDirection: Axis.horizontal,
         itemCount: items.length + 1,
-        separatorBuilder: (context, index) => SizedBox(width: 5.w),
+        separatorBuilder: (context, index) => SizedBox(width: 25.w),
         itemBuilder: (context, index) {
           if (index == items.length && !hasReachedMax) {
-            return const MainLoadignWidget();
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const MainLoadignWidget(),
+                SizedBox(
+                  height: 20.h,
+                )
+              ],
+            );
           } else if (index == items.length && hasReachedMax)
             return null;
           else

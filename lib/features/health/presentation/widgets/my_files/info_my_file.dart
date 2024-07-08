@@ -28,7 +28,7 @@ class InfoMyFileWidget extends StatelessWidget {
         //? Ifno File :
         Container(
           width: 150.w,
-          padding: EdgeInsets.only(left: 30.w),
+          padding: EdgeInsets.only(left: 22.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,

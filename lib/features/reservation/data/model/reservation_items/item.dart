@@ -1,6 +1,5 @@
 import '../../../domain/entities/reservation_item/reservation_item.dart';
 
-import 'start_time.dart';
 
 class ReservationItemModel extends ReservationItemEntity {
   ReservationItemModel({

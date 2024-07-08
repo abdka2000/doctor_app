@@ -54,9 +54,13 @@ class ReservationRepoImpl implements ReservationRepository {
   }
 
   @override
-  Future<Either<Failure, SymptomEntity>> getSymptoms() async {
+  Future<Either<Failure, SymptomEntity>> getSymptoms({
+    required int skipCount,
+    required int maxResult,
+  }) async {
     return CheckNet<SymptomEntity>().checkNetResponse(tryRight: () async {
-      final data = await remoteDataSource.getSymptoms();
+      final data = await remoteDataSource.getSymptoms(
+          maxResult: maxResult, skipCount: skipCount);
       return Right(data);
     });
   }

@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:hosptel_app/core/api/api_methode_post.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/reservation_response.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/symptom_entity/symptom_entity.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours/user_work_hours.dart';
-
 import '../../../../core/api/api_links.dart';
 import '../../../../core/api/api_methode_get.dart';
 import '../../../../core/shared/shared_pref.dart';
@@ -14,7 +12,6 @@ import '../model/available_times/available_times_model.dart';
 import '../model/reservation_items/reservation_items.dart';
 import '../../domain/entities/availabe_day/available_days.dart';
 import '../../domain/entities/available_times/available_times.dart';
-import '../../domain/entities/reservation_item/reservation_item.dart';
 
 abstract class ReservationRemoteDataSource {
   Future<ReservationsModel> getReservation(
@@ -28,7 +25,10 @@ abstract class ReservationRemoteDataSource {
   //-------------------------------------------//
   Future<UserWorkHours> getWorkHours();
   //-------------------------------------------//
-  Future<SymptomEntity> getSymptoms();
+  Future<SymptomEntity> getSymptoms({
+    required int skipCount,
+    required int maxResult,
+  });
   //-------------------------------------------//
   Future<Unit> createAppoinment({required ReservationResponse reservation});
 }
@@ -118,13 +118,21 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   }
 
   @override
-  Future<SymptomEntity> getSymptoms() async {
+  Future<SymptomEntity> getSymptoms({
+    required int skipCount,
+    required int maxResult,
+  }) async {
     final token = AppSharedPreferences.getToken();
+    final query = {
+      'SkipCount': skipCount,
+      'MaxResultCount': maxResult,
+    };
     Map<String, String> headers = {
       "Authorization": token,
     };
     return ApiGetMethods<SymptomEntity>(addHeader: headers).get(
         url: ApiGet.getSymptoms,
+        query: query,
         data: (responde) {
           final dataDecoded = jsonDecode(responde.body);
           final symptoms = SymptomEntity.fromJson(dataDecoded);

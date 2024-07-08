@@ -20,6 +20,7 @@ class TextUtiels extends StatelessWidget {
     this.paddingTop,
     this.paddingLeft,
     this.style,
+    this.maxLines,
   });
   final String text;
   final String? fontFamily;
@@ -34,6 +35,7 @@ class TextUtiels extends StatelessWidget {
   final double? paddingTop;
   final double? paddingBottome;
   final TextStyle? style;
+  final int? maxLines;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,9 +48,10 @@ class TextUtiels extends StatelessWidget {
       child: Text(
         textAlign: textAlign ?? TextAlign.end,
         text,
+        maxLines: maxLines,
         style: style ??
             TextStyle(
-              // overflow: TextOverflow.ellipsis,
+              // overflow: TextOverflow.fade,
               fontFamily: fontFamily ?? AppFontFamily.tajawalRegular,
               fontSize: fontSize ?? 16.sp,
               color: color ?? AppColorManger.white,

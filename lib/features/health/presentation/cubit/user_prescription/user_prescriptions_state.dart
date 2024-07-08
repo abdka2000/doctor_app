@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 part of 'user_prescriptions_cubit.dart';
 
 class UserPrescriptionState extends Equatable {

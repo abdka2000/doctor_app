@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +14,7 @@ import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms/sym
 import 'package:hosptel_app/features/reservation/presentation/logic/reservation_logic.dart';
 import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_day_widget.dart';
 import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_time_widget.dart';
+import 'package:hosptel_app/features/reservation/presentation/widgets/reservation_now/reservation_summary/symptoms_error.dart';
 import 'package:intl/intl.dart';
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/font_manger.dart';
@@ -39,6 +42,7 @@ bool cancleButton = false;
 
 class _SummaryReservationPageState extends State<SummaryReservationPage> {
   List<int> symptomsId = [];
+  final controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return MainBackGround(
@@ -92,51 +96,74 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                           )
                         ],
                       ),
-                      child: BlocBuilder<SymptomsCubit, SymptomsState>(
+                      child: BlocConsumer<SymptomsCubit, SymptomsState>(
+                        listener: (context, state) {
+                          ReservationLogic()
+                              .symptompsListener(context, state, controller);
+                        },
                         builder: (context, state) {
                           if (state.status == DeafultBlocStatus.done) {
-                            final list = state.symptoms.result?.items ?? [];
-                            if (list.isNotEmpty) {
+                            if (state.items.isNotEmpty) {
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Expanded(
                                     child: ListView.builder(
-                                      itemCount: list.length,
+                                      controller: controller,
+                                      itemCount: state.items.length + 1,
                                       itemBuilder: (context, index) {
-                                        return Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            TextUtiels(
-                                              text: list[index].name ?? '',
-                                              fontFamily:
-                                                  AppFontFamily.tajawalMedium,
-                                              fontSize: 14.sp,
-                                              color: symptomsId
-                                                      .contains(list[index].id)
-                                                  ? AppColorManger.primaryColor
-                                                  : AppColorManger
-                                                      .colorGrayLight,
-                                            ),
-                                            Checkbox(
-                                              value: symptomsId
-                                                  .contains(list[index].id),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  if (symptomsId.contains(
-                                                      list[index].id)) {
-                                                    symptomsId.remove(
-                                                        list[index].id ?? 0);
-                                                  } else {
-                                                    symptomsId.add(
-                                                        list[index].id ?? 0);
-                                                  }
-                                                });
-                                              },
-                                            ),
-                                          ],
-                                        );
+                                        if (index == state.items.length &&
+                                            !state.hasReachedMax) {
+                                          return const MainLoadignWidget();
+                                        } else if (index ==
+                                                state.items.length &&
+                                            state.hasReachedMax) {
+                                          return null;
+                                        } else
+                                          return Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              SizedBox(
+                                                width: 150.h,
+                                                child: TextUtiels(
+                                                  text:
+                                                      state.items[index].name ??
+                                                          '',
+                                                  fontFamily: AppFontFamily
+                                                      .tajawalMedium,
+                                                  fontSize: 14.sp,
+                                                  color: symptomsId.contains(
+                                                          state.items[index].id)
+                                                      ? AppColorManger
+                                                          .primaryColor
+                                                      : AppColorManger
+                                                          .colorGrayLight,
+                                                ),
+                                              ),
+                                              Checkbox(
+                                                value: symptomsId.contains(
+                                                    state.items[index].id),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    if (symptomsId.contains(
+                                                        state
+                                                            .items[index].id)) {
+                                                      symptomsId.remove(state
+                                                              .items[index]
+                                                              .id ??
+                                                          0);
+                                                    } else {
+                                                      symptomsId.add(state
+                                                              .items[index]
+                                                              .id ??
+                                                          0);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          );
                                       },
                                     ),
                                   ),
@@ -151,15 +178,20 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                                 ],
                               );
                             } else {
-                              return TextUtiels(text: 'لا يوجد أعراض');
+                              return const Center(
+                                child: TextUtiels(
+                                  text: 'لا يوجد أعراض',
+                                  color: Colors.black,
+                                ),
+                              );
                             }
                           } else if (state.status ==
                               DeafultBlocStatus.loading) {
                             return const MainLoadignWidget();
                           }
-                          return ErrorTextWidget(
+                          return SymptomsError(
                               text: state.failureMessage.message,
-                              onPressed: () {
+                              onPreesed: () {
                                 context.read<SymptomsCubit>().getSymptoms();
                               });
                         },

@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:hosptel_app/core/function/maping_falure.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_entity/item.dart';
-import 'package:hosptel_app/features/health/domain/entities/user_prescriptio_entity/user_prescriptio_entity.dart';
 import 'package:hosptel_app/features/health/domain/usecases/health_base_use_case.dart';
 
 part 'user_prescriptions_state.dart';
@@ -14,8 +13,9 @@ class UserPrescriptionsCubit extends Cubit<UserPrescriptionState> {
   List<Item> prescriptionList = [];
   int max = 7;
   int skip = 0;
-  Future<void> getUserPrescriptions() async {
-    if (prescriptionList.isEmpty) {
+  Future<void> getUserPrescriptions({bool isRefresh = false}) async {
+    if(!state.hasReachedMax || isRefresh == true){
+      if (prescriptionList.isEmpty || isRefresh == true) {
       emit(state.copyWith(status: DeafultBlocStatus.loading));
     }
     final data = await useCase.getUserPrescriptions(
@@ -45,5 +45,6 @@ class UserPrescriptionsCubit extends Cubit<UserPrescriptionState> {
         }
       },
     );
+    }
   }
 }

@@ -19,7 +19,9 @@ class DoneReservation extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<ReservationCubit>().getReservations(isFinished: true);
+        context
+            .read<ReservationCubit>()
+            .getReservations(isFinished: true, isRefresh: true);
       },
       child: BlocConsumer<ReservationCubit, ReservationState>(
         listener: (context, state) {
@@ -37,9 +39,10 @@ class DoneReservation extends StatelessWidget {
           } else if (state.status == DeafultBlocStatus.error) {
             return ErrorTextWidget(
               text: state.failureMessage.message,
-              onPressed: () => context
-                  .read<ReservationCubit>()
-                  .getReservations(isFinished: true),
+              onPressed: () => context.read<ReservationCubit>().getReservations(
+                    isFinished: true,
+                    isRefresh: true,
+                  ),
             );
           }
           return const MainLoadignWidget();

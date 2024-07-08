@@ -4,7 +4,6 @@ import 'package:hosptel_app/core/api/api_links.dart';
 import 'package:hosptel_app/core/api/api_methode_get.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
 import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/midical_session_entity.dart';
-import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/patient_files_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/prescription_details_entity/prescription_details_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amount.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_file_entity/user_file_entity.dart';
@@ -22,7 +21,8 @@ abstract class HealthRemote {
   Future<UserPrescriptioEntity> getUserPrescrioptions(
       {required int skipCount, required int maxResult});
   //-------------------------------------------------//
-  Future<UserAmountEntity> getUserAmount();
+  Future<UserAmountEntity> getUserAmount(
+      {required int skipCount, required int maxResult});
   //-------------------------------------------------//
   Future<UserFileEntity> getUserFiles(
       {required int skipCount, required int maxResult});
@@ -99,14 +99,20 @@ class HealthRemoteImpl implements HealthRemote {
   }
 
   @override
-  Future<UserAmountEntity> getUserAmount() async {
+  Future<UserAmountEntity> getUserAmount(
+      {required int skipCount, required int maxResult}) async {
     final token = AppSharedPreferences.getToken();
+    final query = {
+      'SkipCount': skipCount,
+      'MaxResultCount': maxResult,
+    };
     Map<String, String> headers = {
       "Authorization": token,
     };
 
     return ApiGetMethods<UserAmountEntity>(addHeader: headers).get(
       url: ApiGet.getUserAmount,
+      query: query,
       data: (response) {
         final dataDecoded = jsonDecode(response.body);
         final amount = UserAmountEntity.fromJson(dataDecoded);

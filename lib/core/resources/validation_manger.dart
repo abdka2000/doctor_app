@@ -1,13 +1,17 @@
 class ValidationWords {
   static const requiredField = 'هذا الحقل مطلوب';
-  static const passwordLength = 'Password must be more than 6 characters';
+  static const passwordLength = 'كلمة السر يجب أن تحوي أكثر من 5 أحرف';
   static const passwordPattren =
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+      'يجب أن تحوي كلمة السر على الأقل حرفاً واحداً كبيرا , واحداَ صغيراً , رقم , و رمز مخصص';
 
-  static const emailPattren = 'Please enter a valid email';
-  static const reenterPasswoprd = 'Reenter password is required';
-  static const betweenAge = 'more than (and age)';
-  static const andAge = 'more than (and age)';
-  static const ensurePasssword = 'ensure password example(Abc@123)';
-  static const phoneNumber = 'Please enter a valid phone number(+963)';
+  static const emailPattren = 'الرجاء إدخال بريد الكتروني صحيح';
+  static const reenterPasswoprd = 'إعادة كلمة السر مطلوبة';
+  // static const betweenAge = 'more than (and age)';
+  static const betweenAge = 'أكثر من (العمر)';
+  static const andAge = 'أكثر من (العمر)';
+  // static const andAge = 'more than (and age)';
+  // static const ensurePasssword = 'ensure password example(Abc@123)';
+  static const ensurePasssword = 'تأكد من كلمة السر مثال (Abc@123)';
+  // static const phoneNumber = 'Please enter a valid phone number(+963)';
+  static const phoneNumber = 'الرجاء إدخال رقم هاتف صحيح (+963)';
 }

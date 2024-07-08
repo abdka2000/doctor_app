@@ -5,10 +5,8 @@ import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/repeted/error_text.dart';
-import 'package:hosptel_app/features/health/domain/entities/user_amount/item.dart';
-import 'package:hosptel_app/features/health/domain/entities/user_amount/paged_result_dto.dart';
-import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amount.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/user_amount/user_amount_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/logic/health_logic.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/mony_account/empty_account_mony.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/mony_account/money_account_body.dart';
 import '../../../../core/resources/color_manger.dart';
@@ -17,18 +15,16 @@ import '../../../../core/resources/word_manger.dart';
 import '../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../core/widget/repeted/titel_pages_widget.dart';
 import '../../../../core/widget/text_utiles/text_utile_widget.dart';
-import '../widgets/mony_account/card_pymant_widget.dart';
-import '../widgets/mony_account/const_card_widget.dart';
-import '../widgets/mony_account/info_mony_account.dart';
 
 class MonyAccountPage extends StatelessWidget {
   const MonyAccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<UserAmountCubit>().getUserAmount();
+        context.read<UserAmountCubit>().getUserAmount(isRefresh: true);
       },
       child: MainBackGround(
         mainBody: SingleChildScrollView(
@@ -61,14 +57,20 @@ class MonyAccountPage extends StatelessWidget {
                       color: AppColorManger.lightText,
                     ),
               ),
-              BlocBuilder<UserAmountCubit, UserAmountState>(
+              BlocConsumer<UserAmountCubit, UserAmountState>(
+                listener: (context, state) {
+                  HealthLogic()
+                      .patientAmountListener(context, state, controller);
+                },
                 builder: (context, state) {
                   if (state.status == DeafultBlocStatus.done) {
-                    if (state.userAmount.pagedResultDto?.items?.isEmpty ??
-                        true) {
+                    if (state.items.isEmpty) {
                       return const EmptyMonyAccountWidget();
                     } else {
                       return MoneyAccountBody(
+                        items: state.items,
+                        controller: controller,
+                        hasReachedMax: state.hasReachedMax,
                         userAmount: state.userAmount,
                       );
                     }
@@ -78,7 +80,7 @@ class MonyAccountPage extends StatelessWidget {
                   return ErrorTextWidget(
                       text: state.failureMessage.message,
                       onPressed: () {
-                        context.read<UserAmountCubit>().getUserAmount();
+                        context.read<UserAmountCubit>().getUserAmount(isRefresh: true);
                       });
                 },
               )

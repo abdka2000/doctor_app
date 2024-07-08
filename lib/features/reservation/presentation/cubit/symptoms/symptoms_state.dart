@@ -3,34 +3,38 @@ part of 'symptoms_cubit.dart';
 class SymptomsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final SymptomEntity symptoms;
+  final List<Item> items;
+  final bool hasReachedMax;
 
   const SymptomsState({
-    required this.symptoms,
+    required this.hasReachedMax,
+    required this.items,
     required this.status,
     required this.failureMessage,
   });
 
   factory SymptomsState.initial() {
     return SymptomsState(
-      failureMessage: FailureMessage(message: '', statusCode: 0),
-      status: DeafultBlocStatus.initial,
-      symptoms: SymptomEntity(),
-    );
+        failureMessage: FailureMessage(message: '', statusCode: 0),
+        status: DeafultBlocStatus.initial,
+        items: [],
+        hasReachedMax: false);
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props => [failureMessage, status , items,hasReachedMax];
 
   SymptomsState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    SymptomEntity? symptoms,
+    bool? hasReachedMax,
+    List<Item>? items,
   }) {
     return SymptomsState(
       failureMessage: failureMessage ?? this.failureMessage,
       status: status ?? this.status,
-      symptoms: symptoms ?? this.symptoms,
+      items: items ?? this.items,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 }

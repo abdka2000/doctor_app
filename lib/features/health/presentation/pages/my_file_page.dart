@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
@@ -24,7 +24,7 @@ class MyFilePage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<PatientFilesCubit>().getPatientFiles();
+        context.read<PatientFilesCubit>().getPatientFiles(isRefresh: true);
       },
       child: MainBackGround(
         mainBody: Column(
@@ -42,6 +42,7 @@ class MyFilePage extends StatelessWidget {
                 if (state.status == DeafultBlocStatus.done) {
                   if (state.files.isNotEmpty) {
                     return MyFilesList(
+                      hasReachedMax: state.hasReachedMax,
                       controller: controller,
                       items: state.files,
                     );
@@ -54,7 +55,7 @@ class MyFilePage extends StatelessWidget {
                 return ErrorTextWidget(
                     text: state.failureMessage.message,
                     onPressed: () {
-                      context.read<PatientFilesCubit>().getPatientFiles();
+                      context.read<PatientFilesCubit>().getPatientFiles(isRefresh: true);
                     });
               },
             )
@@ -70,18 +71,23 @@ class MyFilesList extends StatelessWidget {
     super.key,
     required this.items,
     required this.controller,
+    required this.hasReachedMax,
   });
   final List<Item> items;
   final ScrollController controller;
+  final bool hasReachedMax;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
         controller: controller,
-        itemCount: 2,
+        itemCount: items.length + 1,
         separatorBuilder: (context, index) => SizedBox(height: 20.h),
         padding: EdgeInsets.symmetric(horizontal: 20.h),
         itemBuilder: (context, index) {
+          if (index == items.length && !hasReachedMax)
+            return const MainLoadignWidget();
+          else if (index == items.length && hasReachedMax) return null;
           return Container(
             width: 320.w,
             height: 145.h,

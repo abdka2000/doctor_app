@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hosptel_app/core/function/validation_funcation.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
+import 'package:hosptel_app/core/resources/validation_manger.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
+import 'package:hosptel_app/core/widget/sanck_bar/main_snack_bar.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_number/edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/logic/edit_profile_logic.dart';
 import '../../../../core/resources/color_manger.dart';
@@ -68,10 +71,13 @@ class EditNumberPage extends StatelessWidget {
                   paddingbottome: 20.h,
                 ),
                 MainTextFormFiled(
+                  // validator: (val) {
+                  //   VilidationApp().validatorPhone(val ?? '');
+                  // },
                   enabled: true,
                   inputFormatter: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(9),
+                    LengthLimitingTextInputFormatter(10),
                   ],
                   hintText: AppWordManger.pleaseWritePhoneNumber,
                   filedWidth: 260.w,
@@ -106,9 +112,15 @@ class EditNumberPage extends StatelessWidget {
                   backgroundColor: AppColorManger.secoundryColor,
                   textColor: AppColorManger.white,
                   onPreesed: () {
-                    context
-                        .read<EditNumberCubit>()
-                        .editNumber(phoneNumber: controller.text);
+                    if (controller.text.length == 10) {
+                      context
+                          .read<EditNumberCubit>()
+                          .editNumber(phoneNumber: controller.text);
+                    } else {
+                      SnackBarUtil.showSnackBar(
+                          message: 'يجب أن يكون الرقم من 10 خانات',
+                          context: context);
+                    }
                   },
                 );
               },

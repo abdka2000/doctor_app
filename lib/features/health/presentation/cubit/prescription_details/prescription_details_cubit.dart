@@ -14,8 +14,9 @@ class PrescriptionDetailsCubit extends Cubit<PrescriptionDetailsState> {
   List<Item> prescriptionList = [];
   int max = 5;
   int skip = 0;
-  Future<void> getPrescriptionDetails({required int prescriptionId}) async {
-    if (prescriptionList.isEmpty) {
+  Future<void> getPrescriptionDetails({required int prescriptionId , bool isRefresh = false}) async {
+   if(!state.hasReachedMax || isRefresh){
+     if (prescriptionList.isEmpty || isRefresh) {
       emit(state.copyWith(status: DeafultBlocStatus.loading));
     }
     final data = await useCase.getPrescriptionItemDetails(
@@ -45,5 +46,6 @@ class PrescriptionDetailsCubit extends Cubit<PrescriptionDetailsState> {
         }
       },
     );
+   }
   }
 }

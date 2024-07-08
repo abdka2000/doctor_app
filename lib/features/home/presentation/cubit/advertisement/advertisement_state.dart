@@ -21,7 +21,7 @@ class AdvertisementState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status];
+  List<Object> get props => [failureMessage, status , advs];
 
   AdvertisementState copyWith({
     FailureMessage? failureMessage,

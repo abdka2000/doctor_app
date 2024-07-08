@@ -40,8 +40,11 @@ class ReservationUseCaseImpl implements ReservationBaseUseCase {
   }
 
   @override
-  Future<Either<Failure, SymptomEntity>> getSymptoms() async {
-    return await repo.getSymptoms();
+  Future<Either<Failure, SymptomEntity>> getSymptoms({
+    required int skipCount,
+    required int maxResult,
+  }) async {
+    return await repo.getSymptoms(maxResult: maxResult, skipCount: skipCount);
   }
 
   @override

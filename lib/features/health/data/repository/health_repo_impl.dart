@@ -3,7 +3,6 @@ import 'package:hosptel_app/core/error/failure.dart';
 import 'package:hosptel_app/core/network/check_net.dart';
 import 'package:hosptel_app/features/health/data/data_sources/heath_remote.dart';
 import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/midical_session_entity.dart';
-import 'package:hosptel_app/features/health/domain/entities/patient_files_entity/patient_files_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/prescription_details_entity/prescription_details_entity.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_amount/user_amount.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_file_entity/user_file_entity.dart';
@@ -54,9 +53,9 @@ class HealthRepoImpl implements HealthRepo {
   }
 
   @override
-  Future<Either<Failure, UserAmountEntity>> getUserAmounts() async {
+  Future<Either<Failure, UserAmountEntity>> getUserAmounts({required int skipCount, required int maxResult}) async {
     return CheckNet<UserAmountEntity>().checkNetResponse(tryRight: () async {
-      final data = await remote.getUserAmount();
+      final data = await remote.getUserAmount(maxResult: maxResult,skipCount: skipCount);
       return Right(data);
     });
   }

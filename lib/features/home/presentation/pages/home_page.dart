@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> refresh() async {
     context.read<DoctorInfoCubit>().getDoctorInfo();
     context.read<ProfileCubit>().getPersonData();
-    context.read<ServicesCubit>().getServices();
+    context.read<ServicesCubit>().getServices(isRefresh: true);
     context.read<AdvertisementCubit>().getAdvertisement();
   }
 
@@ -120,10 +120,12 @@ class _HomePageState extends State<HomePage> {
                           );
                         } else {
                           return ErrorTextWidget(
+                            isScrollable: false,
                             text: state.failureMessage.message,
                             height: 160.h,
-                            onPressed: () =>
-                                context.read<ServicesCubit>().getServices(),
+                            onPressed: () => context
+                                .read<ServicesCubit>()
+                                .getServices(isRefresh: true),
                           );
                         }
                       },
@@ -155,6 +157,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         } else {
                           return ErrorTextWidget(
+                            isScrollable: false,
                             text: state.failureMessage.message,
                             height: 170.h,
                             onPressed: () => context
@@ -187,10 +190,14 @@ class HomePageDoctorInfo extends StatelessWidget {
             width: double.infinity,
             height: 250.h,
             decoration: BoxDecoration(
-                color: AppColorManger.primaryColor,
-                image: DecorationImage(
-                    image: NetworkImage(
-                        'http://${doctorInfo.result?.personalImageUrl ?? ''}'))),
+              color: AppColorManger.primaryColor,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(
+                  'http://${doctorInfo.result?.personalImageUrl ?? ''}',
+                ),
+              ),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

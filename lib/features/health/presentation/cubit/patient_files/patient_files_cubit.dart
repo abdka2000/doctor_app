@@ -13,31 +13,33 @@ class PatientFilesCubit extends Cubit<PatientFilesState> {
   List<Item> filesList = [];
   int max = 5;
   int skip = 0;
-  Future<void> getPatientFiles() async {
-      if (filesList.isEmpty) {
-        emit(state.copyWith(status: DeafultBlocStatus.loading));
-      }
-      final data = await useCase.getUserFiles(maxResult: max, skipCount: skip);
-      data.fold(
-        (failure) => emit(state.copyWith(
-          failureMessage: mapFailureToMessage(failure: failure),
-          status: DeafultBlocStatus.error,
-        )),
-        (files) {
-          if (filesList.length == (files.result?.totalCount ?? 0)) {
-            emit(state.copyWith(
-              status: DeafultBlocStatus.done,
-              hasReachedMax: true,
-              files: filesList,
-            ));
-            skip = 0;
-          } else {
-            filesList.addAll(files.result?.items ?? []);
-            skip += 5;
-            emit(state.copyWith(
-                status: DeafultBlocStatus.done, files: filesList));
-          }
-        },
-      );
+  Future<void> getPatientFiles({bool isRefresh = false}) async {
+    if(!state.hasReachedMax || isRefresh){
+      if (filesList.isEmpty || isRefresh) {
+      emit(state.copyWith(status: DeafultBlocStatus.loading));
+    }
+    final data = await useCase.getUserFiles(maxResult: max, skipCount: skip);
+    data.fold(
+      (failure) => emit(state.copyWith(
+        failureMessage: mapFailureToMessage(failure: failure),
+        status: DeafultBlocStatus.error,
+      )),
+      (files) {
+        if (filesList.length == (files.result?.totalCount ?? 0)) {
+          emit(state.copyWith(
+            status: DeafultBlocStatus.done,
+            hasReachedMax: true,
+            files: filesList,
+          ));
+          skip = 0;
+        } else {
+          filesList.addAll(files.result?.items?.toList() ?? []);
+          skip += 5;
+          emit(
+              state.copyWith(status: DeafultBlocStatus.done, files: filesList));
+        }
+      },
+    );
     }
   }
+}

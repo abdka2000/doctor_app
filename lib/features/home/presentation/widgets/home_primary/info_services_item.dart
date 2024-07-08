@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hosptel_app/core/resources/color_manger.dart';
 import 'package:hosptel_app/core/resources/font_manger.dart';
@@ -19,8 +18,8 @@ class InfoServicesItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150,
-      width: 100,
+      height: 87.h,
+      width: 62.w,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,6 +70,7 @@ class InfoServicesItem extends StatelessWidget {
             ),
           ),
           TextUtiels(
+            maxLines: 1,
             fontFamily: AppFontFamily.tajawalLight,
             textAlign: TextAlign.center,
             // text: 'العلاج\n بالأوكسجين',

@@ -14,7 +14,7 @@ class HomeLogic {
         context.read<ServicesCubit>().getServices();
       }
       controller.addListener(() {
-        if (controller.offset == controller.position.maxScrollExtent) {
+        if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
           context.read<ServicesCubit>().getServices();
         }
       });

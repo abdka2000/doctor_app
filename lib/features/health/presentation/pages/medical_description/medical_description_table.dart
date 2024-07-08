@@ -22,9 +22,10 @@ class MedicalDescriptionTablePage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context
-            .read<PrescriptionDetailsCubit>()
-            .getPrescriptionDetails(prescriptionId: id);
+        context.read<PrescriptionDetailsCubit>().getPrescriptionDetails(
+              prescriptionId: id,
+              isRefresh: true,
+            );
       },
       child: MainBackGround(
         mainBody: Column(
@@ -49,7 +50,7 @@ class MedicalDescriptionTablePage extends StatelessWidget {
                     return MidicalTableBody(
                       controller: controller,
                       hasReachedMax: state.hasReachedMax,
-                      items: state.prescriptionDetails ?? [],
+                      items: state.prescriptionDetails,
                     );
                   }
                 }
@@ -58,7 +59,10 @@ class MedicalDescriptionTablePage extends StatelessWidget {
                     onPressed: () {
                       context
                           .read<PrescriptionDetailsCubit>()
-                          .getPrescriptionDetails(prescriptionId: id);
+                          .getPrescriptionDetails(
+                            prescriptionId: id,
+                            isRefresh: true,
+                          );
                     });
               },
             ),

@@ -63,10 +63,10 @@ class HomeLoadingShimmer extends StatelessWidget {
                     ],
                   ),
                 ),
-                const ShimmerWidget(
-                  width: 200,
+                ShimmerWidget(
+                  width: 170.w,
                   height: 200,
-                  color: Color.fromARGB(255, 15, 126, 205),
+                  // color: Color.fromARGB(255, 15, 126, 205),
                 ),
               ],
             ),

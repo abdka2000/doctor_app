@@ -4,11 +4,9 @@ import 'package:hosptel_app/features/home/domain/entity/doctor_info_entity/docto
 
 import '../../../../../core/api/api_links.dart';
 import '../../../../../core/api/api_methode_get.dart';
-import '../../../../../core/api/api_methods.dart';
 import '../../models/doctor_adv/adv_item_model.dart';
 import '../../models/doctor_adv/doctor_adv_model.dart';
 import '../../models/doctor_services/doctor_services_model.dart';
-import '../../models/doctor_services/item_model.dart';
 
 abstract class HomeReomte {
   Future<DoctorServicesModel> getServices(
