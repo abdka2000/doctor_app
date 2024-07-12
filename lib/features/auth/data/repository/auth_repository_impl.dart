@@ -63,4 +63,35 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(data);
     });
   }
+
+  @override
+  Future<Either<Failure, Unit>> confirmForgotPassword(
+      {required String phoneNumber, required String code}) async {
+    return CheckNet<Unit>().checkNetResponse(tryRight: () async {
+      final data = await remote.confirmForgetPassword(
+          phoneNumber: phoneNumber, code: code);
+      return Right(data);
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> forgotPassword(
+      {required String phoneNumber}) async {
+    return CheckNet<Unit>().checkNetResponse(tryRight: () async {
+      final data = await remote.forgotPassword(phoneNumber: phoneNumber);
+      return Right(data);
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resetPassword(
+      {required String phoneNumber,
+      required String code,
+      required String newPassword}) async {
+    return CheckNet<Unit>().checkNetResponse(tryRight: () async {
+      final data = await remote.resetPassword(
+          phoneNumber: phoneNumber, code: code, password: newPassword);
+      return Right(data);
+    });
+  }
 }

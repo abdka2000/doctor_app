@@ -26,6 +26,8 @@ class AppWordManger {
   static const forgetPassword = 'نسيت كلمة المرور';
   static const sendCodeForEnsure = 'إرسال رمز التأكيد';
   static const accountAlradyFind = 'إذا كان لديك حساب مسبقا يرجى ';
+  static const resetPassword = 'إعادة تعيين كلمة المررور';
+  static const confirmNewPassword = 'تأكيد كلمة السر الجديدة';
   //?
   static const health = 'صحتي';
   static const notification = 'الاشعارات';
@@ -86,7 +88,7 @@ class AppWordManger {
   static const no = 'لا';
   static const pleaseWriteSomeThingYouRemember = 'يرجى كتابة شيئ تتذكره';
   static const newPassword = 'كلمة السر الجديدة';
-  static const mustbeSavenNumbers = 'يجب أن يكون 7 ارقام';
+  static const mustbeSavenNumbers = 'يجب أن يكون 7 خانات';
   static const confirmTheNewPassword = 'تأكيد كلمة السر الجديدة';
   static const reEnterPassword = 'إعادة كتابة كلمة السر';
   static const enterOldPassword = ' أدخل كلمة السر القديمة';

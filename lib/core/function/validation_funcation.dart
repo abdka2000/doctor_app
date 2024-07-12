@@ -19,6 +19,16 @@ class VilidationApp {
     }
   }
 
+  //? validation for confirm new password
+  String? validateForConfirmPassword(String value, String password) {
+    if (value.isEmpty) {
+      return ValidationWords.requiredField;
+    } else if (value != password) {
+      return ValidationWords.confirmPassword;
+    }
+    return null;
+  }
+
 //? validation any drop dowan form filed
   String? validateDropdownFormField(dynamic value) {
     if (value == null) {
@@ -31,7 +41,7 @@ class VilidationApp {
   String? validatorPassword(String value, BuildContext context) {
     if (value.isEmpty) {
       return ValidationWords.requiredField;
-    } else if (value.length < 6) {
+    } else if (value.length < 7) {
       return ValidationWords.passwordLength;
     }
     // else if (!RagularExpression.passwordPattern.hasMatch(value)) {

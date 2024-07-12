@@ -37,6 +37,13 @@ class ApiPost {
   static const login = 'TokenAuth/AuthenticatePatient';
   static const confirmPatientAccount =
       'services/app/Account/ConfirmPatientAccount';
+  static const forgetPassword = 'services/app/Patient/ForgotPassword';
+  static const confirmForgetPassword =
+      'services/app/Patient/ConfirmForgotPasswordCode';
+  static const resetPassword =
+      'services/app/Patient/ResetPassword';
+
+
   //? Profile
   static const sendEditPhoneNumber =
       'services/app/Patient/SendConfirmationCodeForEditNumber';

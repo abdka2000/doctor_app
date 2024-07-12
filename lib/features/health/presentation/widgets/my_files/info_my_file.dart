@@ -43,9 +43,9 @@ class InfoMyFileWidget extends StatelessWidget {
               SizedBox(
                 width: 130.w,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 12.w),
+                  padding: EdgeInsets.zero,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextUtiels(
                         text: DateFormat.jm()
@@ -55,6 +55,9 @@ class InfoMyFileWidget extends StatelessWidget {
                                   fontSize: 10.sp,
                                 ),
                       ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
                       TextUtiels(
                         text: DateFormat('yyyy/MM/dd')
                             .format(item.creationTime ?? DateTime.now()),
@@ -62,6 +65,9 @@ class InfoMyFileWidget extends StatelessWidget {
                             Theme.of(context).textTheme.displaySmall?.copyWith(
                                   fontSize: 10.sp,
                                 ),
+                      ),
+                      SizedBox(
+                        width: 5.w,
                       ),
                       TextUtiels(
                         text: '${item.fileSize} kB',

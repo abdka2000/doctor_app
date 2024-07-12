@@ -24,4 +24,17 @@ abstract class AuthRepository {
     required String phoneNumber,
     required String code,
   });
+
+  //? Repository for Forgot Password:
+  Future<Either<Failure, Unit>> forgotPassword({required String phoneNumber});
+
+  //? Repository for Confirm Password Code
+  Future<Either<Failure, Unit>> confirmForgotPassword(
+      {required String phoneNumber, required String code});
+
+  //? Repository for Reset Password
+  Future<Either<Failure, Unit>> resetPassword(
+      {required String phoneNumber,
+      required String code,
+      required String newPassword});
 }

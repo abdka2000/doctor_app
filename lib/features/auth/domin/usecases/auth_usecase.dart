@@ -37,8 +37,37 @@ class AuthUseCaseImpl implements AuthBaseUseCase {
     return await repository.logIn(request: request);
   }
 
+  //? Use Case Send Code
   @override
   Future<Either<Failure, Unit>> sendCode({required String phoneNum}) async {
     return await repository.sendCode(phoneNum: phoneNum);
+  }
+
+  //? Use Caase Forgot Password
+  @override
+  Future<Either<Failure, Unit>> forgotPassword(
+      {required String phoneNumber}) async {
+    return await repository.forgotPassword(phoneNumber: phoneNumber);
+  }
+
+  //? Use Case Confirm Password
+  @override
+  Future<Either<Failure, Unit>> confirmForgotPassword(
+      {required String phoneNumber, required String code}) async {
+    return await repository.confirmForgotPassword(
+        phoneNumber: phoneNumber, code: code);
+  }
+
+  //? Use Case Reset Passsword
+  @override
+  Future<Either<Failure, Unit>> resetPassword(
+      {required String phoneNumber,
+      required String code,
+      required String newPassword}) async {
+    return await repository.resetPassword(
+      phoneNumber: phoneNumber,
+      code: code,
+      newPassword: newPassword,
+    );
   }
 }

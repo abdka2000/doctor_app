@@ -38,6 +38,7 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      // mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CarouselSlider.builder(
           //? Option :
@@ -87,8 +88,9 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      //TODO
                       SizedBox(
-                        height: 25.h,
+                        height: 20.h,
                       ),
                       TextUtiels(
                         paddingRight: 65.w,
@@ -98,9 +100,10 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
                         fontSize: AppFontSizeManger.s16,
                         // height: 3.h,
                       ),
-                      Row(
-                        children: [
-                          SizedBox(
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 65.w),
+                          child: SizedBox(
                             width: 165.w,
                             height: 50.h,
                             child: SingleChildScrollView(
@@ -114,7 +117,10 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
                               ),
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.h,
                       ),
                     ],
                   ),

@@ -25,7 +25,7 @@ class InfoMonyAccountWidget extends StatelessWidget {
       controller: controller,
       separatorBuilder: (context, index) => SizedBox(height: 10.h),
       itemCount: items.length + 1,
-      padding: EdgeInsets.only(top: 20.h),
+      padding: EdgeInsets.symmetric(vertical: 23.h, horizontal: 5.w),
       itemBuilder: (context, index) {
         if (index == items.length && !hasReachedMax)
           return const MainLoadignWidget();
@@ -33,11 +33,12 @@ class InfoMonyAccountWidget extends StatelessWidget {
           return null;
         else
           return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 5.h),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextUtiels(
                       text: 'ل.س',
@@ -47,7 +48,7 @@ class InfoMonyAccountWidget extends StatelessWidget {
                           ),
                     ),
                     TextUtiels(
-                      text: items[index].amount.toString(),
+                      text: ' ${items[index].amount.toString()}',
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             fontFamily: AppFontFamily.extraBold,
                             fontSize: 20.sp,
@@ -56,6 +57,7 @@ class InfoMonyAccountWidget extends StatelessWidget {
                   ],
                 ),
               ),
+              Spacer(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -80,6 +82,9 @@ class InfoMonyAccountWidget extends StatelessWidget {
                         ),
                   ),
                 ],
+              ),
+              SizedBox(
+                width: 13.w,
               ),
               //? Icon :
               Container(

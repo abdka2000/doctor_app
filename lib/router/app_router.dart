@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptel_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
+import 'package:hosptel_app/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:hosptel_app/features/auth/presentation/pages/verification_forget_password_page.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions/midical_sessions_cubit.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/patient_files/patient_files_cubit.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/prescription_details/prescription_details_cubit.dart';
@@ -120,7 +123,10 @@ class AppRouter {
       case RouteNamedScreens.forgetPasswordPage:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const ForgetPasswordPage();
+            return BlocProvider(
+              create: (context) => di.sl<ForgetPasswordCubit>(),
+              child: const ForgetPasswordPage(),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);
@@ -135,23 +141,23 @@ class AppRouter {
           },
         ); //? End Forget Password Screen:
       //? Start Forget Password Verification Code  Screen:
-      case RouteNamedScreens.forgetPasswordVerificationCodeScreenNameRoute:
-        return PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return const ConfirmFrogetPassword();
-          },
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(-1, 0);
-            const end = Offset.zero;
-            const curve = Curves.ease;
-            var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            return SlideTransition(
-              position: animation.drive(tween),
-              child: child,
-            );
-          },
-        ); //? End Forget Password Screen:
+      // case RouteNamedScreens.forgetPasswordVerificationCodeScreenNameRoute:
+      //   return PageRouteBuilder(
+      //     pageBuilder: (context, animation, secondaryAnimation) {
+      //       return const ConfirmFrogetPassword();
+      //     },
+      //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      //       const begin = Offset(-1, 0);
+      //       const end = Offset.zero;
+      //       const curve = Curves.ease;
+      //       var tween =
+      //           Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      //       return SlideTransition(
+      //         position: animation.drive(tween),
+      //         child: child,
+      //       );
+      //     },
+      //   ); //? End Forget Password Screen:
 
       //? Start Verificatio for Number :
       case RouteNamedScreens.reciveNumberVerificationPageScreenNameRoute:
@@ -551,7 +557,35 @@ class AppRouter {
             );
           },
         ); //? End Edit Number Page :
-
+      //? Start Foget Password Verification Page:
+      case RouteNamedScreens.forgetPasswordVerificationCodeScreenNameRoute:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final phoneNumber = arguments as String;
+            return BlocProvider(
+              create: (context) => di.sl<ForgetPasswordCubit>(),
+              child: VerificationForgetPasswordPage(
+                phoneNumber: phoneNumber,
+              ),
+            );
+          },
+        );
+      //? End Forget Passowrd Verification Page
+      //? Start Reset Password Page:
+      case RouteNamedScreens.resetPasswordRoute:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final args = arguments as List<String>;
+            return BlocProvider(
+              create: (context) => di.sl<ForgetPasswordCubit>(),
+              child: ResetPasswordPage(
+                phoneNumber: args[0],
+                code: args[1],
+              ),
+            );
+          },
+        );
+      //? End Reset Passowrd Page
       //? Start Verfication Edit Number Page :
       case RouteNamedScreens.verificationEditNumberNameRoute:
         return PageRouteBuilder(
@@ -593,12 +627,15 @@ class RouteNamedScreens {
 
   //? Start Auth Feature :
   static const loginScreenNameRoute = '/login-screen';
+  static const reciveNumberForForgetPassword =
+      '/forget-password-verifivation-screen';
   static const signUpScreenNameRoute = '/signUp-screen';
   static const forgetPasswordVerificationCodeScreenNameRoute =
       '/forget-password-verification-screen';
   static const forgetPasswordPage = '/forget-password-screen';
   static const reciveNumberVerificationPageScreenNameRoute =
       '/verification-number-screen';
+  static const resetPasswordRoute = '/reset-password-screen';
   //? End Auth Feature :
   //? Strart Home Feature :
   static const homeScreenNameRoute = '/home-screen';

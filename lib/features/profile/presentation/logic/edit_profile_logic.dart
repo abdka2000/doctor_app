@@ -71,19 +71,22 @@ class EditProfileLogic {
   void listenerChangePassword(
     ChangePasswordState state,
     BuildContext context,
+    GlobalKey<FormState> key,
   ) {
-    if (state.status == DeafultBlocStatus.error) {
-      SnackBarUtil.showSnackBar(
-          message: state.failureMessage.message,
+    if (key.currentState!.validate()) {
+      if (state.status == DeafultBlocStatus.error) {
+        SnackBarUtil.showSnackBar(
+            message: state.failureMessage.message,
+            context: context,
+            details: state.failureMessage.details);
+      } else if (state.status == DeafultBlocStatus.done) {
+        SnackBarUtil.showSnackBar(
+          message: AppWordManger.saveDone,
           context: context,
-          details: state.failureMessage.details);
-    } else if (state.status == DeafultBlocStatus.done) {
-      SnackBarUtil.showSnackBar(
-        message: AppWordManger.saveDone,
-        context: context,
-        isSucces: true,
-      );
-      context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
+          isSucces: true,
+        );
+        context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
+      }
     }
   }
 

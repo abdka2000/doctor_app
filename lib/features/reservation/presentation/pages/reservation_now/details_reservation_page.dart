@@ -9,7 +9,6 @@ import 'package:hosptel_app/features/reservation/presentation/cubit/times_for_da
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/enum_manger.dart';
 import '../../../../../core/resources/word_manger.dart';
-import '../../../../../core/shared/shared_pref.dart';
 import '../../../../../core/widget/button/main_elevated_button.dart';
 import '../../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../../core/widget/show_dialog/main_show_dialog_widget.dart';
@@ -43,15 +42,26 @@ class DetailesReservationPage extends StatelessWidget {
             BlocBuilder<InfoDaysTimesCubit, InfoDaysTimesState>(
               builder: (context, state) {
                 if (state.status == DeafultBlocStatus.done) {
-                  return InfoDaysAndTimesWidget(
-                    hours: state.hours.result ?? [],
-                  );
+                  if (state.hours.result?.isEmpty ?? true) {
+                    return TextUtiels(
+                      text: "لا يوجد ساعات عمل حالياَ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium
+                          ?.copyWith(fontSize: 24.sp, color: Colors.grey),
+                    );
+                  } else {
+                    return InfoDaysAndTimesWidget(
+                      hours: state.hours.result ?? [],
+                    );
+                  }
                 } else if (state.status == DeafultBlocStatus.loading) {
                   return MainLoadignWidget(
                     height: 105.h,
                   );
                 }
                 return ErrorTextWidget(
+                  isScrollable: false,
                   text: state.failureMessage.message,
                   height: 105.h,
                   onPressed: () =>
@@ -73,15 +83,26 @@ class DetailesReservationPage extends StatelessWidget {
             BlocBuilder<DaysCubit, DaysState>(
               builder: (context, state) {
                 if (state.status == DeafultBlocStatus.done) {
-                  return InfoDayWidget(
-                    days: state.days,
-                  );
+                  if (state.days.isEmpty) {
+                    return TextUtiels(
+                      text: "لا يوجد أيام حالياَ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium
+                          ?.copyWith(fontSize: 24.sp, color: Colors.grey),
+                    );
+                  } else {
+                    return InfoDayWidget(
+                      days: state.days,
+                    );
+                  }
                 } else if (state.status == DeafultBlocStatus.loading) {
                   return MainLoadignWidget(
                     height: 83.h,
                   );
                 }
                 return ErrorTextWidget(
+                  isScrollable: false,
                   text: state.failureMessage.message,
                   height: 110.h,
                   onPressed: () => context.read<DaysCubit>().getDays(),
@@ -105,6 +126,7 @@ class DetailesReservationPage extends StatelessWidget {
                   );
                 } else if (state.status == DeafultBlocStatus.error) {
                   return ErrorTextWidget(
+                    isScrollable: false,
                     text: state.failureMessage.message,
                     height: 110.h,
                     onPressed: () =>

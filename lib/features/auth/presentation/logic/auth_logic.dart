@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptel_app/core/resources/word_manger.dart';
+import 'package:hosptel_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
 import '../../../../core/resources/enum_manger.dart';
 import '../../../../core/widget/sanck_bar/main_snack_bar.dart';
@@ -41,6 +43,42 @@ class AuthLogic {
         context,
         RouteNamedScreens.homeScreenNameRoute,
         // arguments: phoneNumber,
+      );
+    }
+  }
+
+  void listenerResetPassword(
+    ForgetPasswordState state,
+    BuildContext context,
+    String phoneNumber,
+  ) {
+    if (state.status == DeafultBlocStatus.error) {
+      SnackBarUtil.showSnackBar(
+          message: state.failureMessage.message, context: context);
+    } else if (state.status == DeafultBlocStatus.done) {
+      SnackBarUtil.showSnackBar(
+          message: AppWordManger.saveDone, context: context, isSucces: true);
+      Navigator.pushNamed(
+        context,
+        RouteNamedScreens.loginScreenNameRoute,
+        // arguments: phoneNumber,
+      );
+    }
+  }
+
+  void listenerForgetPassword(
+    ForgetPasswordState state,
+    BuildContext context,
+    String phoneNumber,
+  ) {
+    if (state.status == DeafultBlocStatus.error) {
+      SnackBarUtil.showSnackBar(
+          message: state.failureMessage.message, context: context);
+    } else if (state.status == DeafultBlocStatus.done) {
+      Navigator.pushNamed(
+        context,
+        RouteNamedScreens.forgetPasswordVerificationCodeScreenNameRoute,
+        arguments: phoneNumber,
       );
     }
   }

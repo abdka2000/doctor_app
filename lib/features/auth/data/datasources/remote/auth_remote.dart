@@ -27,6 +27,19 @@ abstract class AuthRemote {
   Future<LoginResponseEntity> logIn({
     required LoginRequest request,
   });
+  //? Forgot Password Remote:
+  Future<Unit> forgotPassword({required String phoneNumber});
+  //? Confirm Password Remote :
+  Future<Unit> confirmForgetPassword({
+    required String phoneNumber,
+    required String code,
+  });
+  //? Reset Password Remote:
+  Future<Unit> resetPassword({
+    required String phoneNumber,
+    required String code,
+    required String password,
+  });
 }
 
 class AuthRemoteImpl implements AuthRemote {
@@ -82,6 +95,45 @@ class AuthRemoteImpl implements AuthRemote {
       query: query,
       url: ApiPost.sendLink,
       data: (response) => unit,
+    );
+  }
+
+  @override
+  Future<Unit> forgotPassword({required String phoneNumber}) async {
+    final query = {
+      "phoneNumber": phoneNumber,
+    };
+    return ApiPostMethods<Unit>().post(
+        url: ApiPost.forgetPassword, query: query, data: (response) => unit);
+  }
+
+  @override
+  Future<Unit> confirmForgetPassword(
+      {required String phoneNumber, required String code}) async {
+    final query = {
+      "phoneNumber": phoneNumber,
+      "code": code,
+    };
+    return ApiPostMethods<Unit>().post(
+        url: ApiPost.confirmForgetPassword,
+        data: (response) => unit,
+        query: query);
+  }
+
+  @override
+  Future<Unit> resetPassword(
+      {required String phoneNumber,
+      required String code,
+      required String password}) async {
+    final body = {
+      "phoneNumber": phoneNumber,
+      "code": code,
+      "newPassword": password,
+    };
+    return ApiPostMethods<Unit>().post(
+      url: ApiPost.resetPassword,
+      data: (response) => unit,
+      body: body,
     );
   }
 }

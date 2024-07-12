@@ -19,34 +19,53 @@ class SymptomsCubit extends Cubit<SymptomsState> {
   int skip = 0;
 
   Future<void> getSymptoms() async {
-    if (symptomssList.isEmpty) {
-      emit(state.copyWith(status: DeafultBlocStatus.loading));
-    }
-    final times = await useCase.getSymptoms(maxResult: max, skipCount: skip);
-    times.fold(
-      (failure) {
-        emit(state.copyWith(
-          failureMessage: mapFailureToMessage(failure: failure),
-          status: DeafultBlocStatus.error,
-        ));
-      },
-      (symptoms) {
-        if (symptomssList.length == (symptoms.result?.totalCount ?? 0) ||
-            (symptoms.result?.items?.isEmpty ?? true)) {
+    if (!state.hasReachedMax) {
+      if (symptomssList.isEmpty) {
+        emit(state.copyWith(status: DeafultBlocStatus.loading));
+      }
+      final times = await useCase.getSymptoms(maxResult: max, skipCount: skip);
+      times.fold(
+        (failure) {
           emit(state.copyWith(
-              status: DeafultBlocStatus.done,
-              hasReachedMax: true,
-              items: symptomssList));
-          skip = 0;
-        } else {
-          skip += 5;
-          symptomssList.addAll(symptoms.result?.items ?? []);
-          emit(state.copyWith(
-            status: DeafultBlocStatus.done,
-            items: symptomssList,
+            failureMessage: mapFailureToMessage(failure: failure),
+            status: DeafultBlocStatus.error,
           ));
-        }
-      },
-    );
+        },
+        (symptoms) {
+          if (symptomssList.length <= (symptoms.result?.totalCount ?? 0)) {
+            symptomssList.addAll(symptoms.result?.items ?? []);
+            emit(state.copyWith(
+              status: DeafultBlocStatus.done,
+              items: symptomssList,
+            ));
+            skip += 5;
+            print('--------------------${symptomssList.length}');
+          } else {
+            emit(state.copyWith(
+                status: DeafultBlocStatus.done,
+                hasReachedMax: true,
+                items: symptomssList));
+            skip = 0;
+            print('--------------------${symptomssList.length}');
+          }
+          // if (symptomssList.length >= (symptoms.result?.totalCount ?? 0) ||
+          //     (symptoms.result?.items?.isEmpty ?? true)) {
+          //   emit(state.copyWith(
+          //       status: DeafultBlocStatus.done,
+          //       hasReachedMax: true,
+          //       items: symptomssList));
+          //   skip = 0;
+          //   print('--------------------${symptomssList.length}');
+          // } else {
+          //   symptomssList.addAll(symptoms.result?.items ?? []);
+          //   emit(state.copyWith(
+          //     status: DeafultBlocStatus.done,
+          //     items: symptomssList,
+          //   ));
+          //   skip += 5;
+          // }
+        },
+      );
+    }
   }
 }

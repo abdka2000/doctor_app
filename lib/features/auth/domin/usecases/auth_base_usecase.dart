@@ -23,4 +23,17 @@ abstract class AuthBaseUseCase {
   Future<Either<Failure, Unit>> logIn({
     required LoginRequest request,
   });
+
+  //? Base Use Case Forgot Password:
+  Future<Either<Failure, Unit>> forgotPassword({required String phoneNumber});
+
+  //? Base Use Case Confirm Password
+  Future<Either<Failure, Unit>> confirmForgotPassword(
+      {required String phoneNumber, required String code});
+
+  //? Base Use Case Reset Password
+  Future<Either<Failure, Unit>> resetPassword(
+      {required String phoneNumber,
+      required String code,
+      required String newPassword});
 }

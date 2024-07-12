@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:hosptel_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
 import 'package:hosptel_app/features/health/data/data_sources/heath_remote.dart';
 import 'package:hosptel_app/features/health/data/repository/health_repo_impl.dart';
@@ -65,6 +66,7 @@ Future<void> init() async {
   sl.registerFactory(() => ConfirmAccountCubit(useCase: sl()));
   sl.registerFactory(() => LoginCubit(useCase: sl()));
   sl.registerFactory(() => SendCodeCubit(sl()));
+  sl.registerFactory(() => ForgetPasswordCubit(sl()));
 //?
 //? Usecase
   sl.registerLazySingleton<AuthBaseUseCase>(

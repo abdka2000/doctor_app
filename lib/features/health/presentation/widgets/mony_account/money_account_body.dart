@@ -45,6 +45,7 @@ class MoneyAccountBody extends StatelessWidget {
         Container(
           width: 320.w,
           height: 180.h,
+          // padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 23.h),
           decoration: BoxDecoration(
               color: AppColorManger.fillColorCard,
               boxShadow: [
