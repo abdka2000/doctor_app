@@ -1,4 +1,3 @@
-import 'start_time.dart';
 
 class ReservationItemEntity {
   final int? id;
@@ -8,10 +7,10 @@ class ReservationItemEntity {
   final String? dayName;
 
   ReservationItemEntity({
-    required this.id,
-    required this.order,
-    required this.appointmentDate,
-    required this.startTime,
-    required this.dayName,
+     this.id,
+     this.order,
+     this.appointmentDate,
+     this.startTime,
+     this.dayName,
   });
 }

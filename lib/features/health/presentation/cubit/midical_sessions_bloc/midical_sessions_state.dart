@@ -1,41 +1,40 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+part of 'midical_sessions_bloc.dart';
 
-part of 'patient_files_cubit.dart';
 
-class PatientFilesState extends Equatable {
+class MidicalSessionsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<Item> files;
+  final List<Item> sessions;
   final bool hasReachedMax;
 
-  const PatientFilesState({
-    required this.files,
+  const MidicalSessionsState({
+    required this.sessions,
     required this.status,
     required this.failureMessage,
     required this.hasReachedMax,
   });
 
-  factory PatientFilesState.initial() {
-    return PatientFilesState(
+  factory MidicalSessionsState.initial() {
+    return MidicalSessionsState(
         hasReachedMax: false,
         failureMessage: FailureMessage(message: '', statusCode: 0),
-        status: DeafultBlocStatus.initial,
-        files: []);
+        status: DeafultBlocStatus.loading,
+        sessions: const []);
   }
 
   @override
-  List<Object> get props => [failureMessage, status, hasReachedMax, files];
+  List<Object> get props => [failureMessage, status, sessions, hasReachedMax];
 
-  PatientFilesState copyWith({
+  MidicalSessionsState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    List<Item>? files,
+    List<Item>? sessions,
     bool? hasReachedMax,
   }) {
-    return PatientFilesState(
+    return MidicalSessionsState(
         failureMessage: failureMessage ?? this.failureMessage,
         status: status ?? this.status,
-        files: files ?? this.files,
+        sessions: sessions ?? this.sessions,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax);
   }
 }

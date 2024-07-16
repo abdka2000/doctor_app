@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/repeted/error_text.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions/midical_sessions_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions_bloc/midical_sessions_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/logic/health_logic.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/my_visits/not_found_my_visit.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/my_visits/visit_items_list.dart';
@@ -20,7 +20,9 @@ class MyVistsPage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<MidicalSessionsCubit>().getSessions(isRefresh: true);
+        context
+            .read<MidicalSessionsBloc>()
+            .add(const GetUserMidicalSessions(isRefresh: true));
       },
       child: MainBackGround(
         mainBody: Column(
@@ -29,7 +31,7 @@ class MyVistsPage extends StatelessWidget {
               titleText: AppWordManger.myVisited,
               onTap: () => Navigator.pop(context),
             ),
-            BlocConsumer<MidicalSessionsCubit, MidicalSessionsState>(
+            BlocConsumer<MidicalSessionsBloc, MidicalSessionsState>(
               listener: (context, state) {
                 HealthLogic()
                     .midicalSessionListener(context, state, controller);
@@ -49,10 +51,10 @@ class MyVistsPage extends StatelessWidget {
                   return const MainLoadignWidget();
                 }
                 return ErrorTextWidget(
-                  text: state.failureMessage.message,
-                  onPressed: () =>
-                      context.read<MidicalSessionsCubit>().getSessions(isRefresh: true),
-                );
+                    text: state.failureMessage.message,
+                    onPressed: () => context
+                        .read<MidicalSessionsBloc>()
+                        .add(const GetUserMidicalSessions(isRefresh: true)));
               },
             ),
           ],

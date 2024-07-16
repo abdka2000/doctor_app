@@ -6,7 +6,6 @@ import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours
 import '../../../../core/error/failure.dart';
 import '../entities/availabe_day/available_days.dart';
 import '../entities/available_times/available_times.dart';
-import '../entities/reservation_item/reservation_item.dart';
 
 abstract class ReservationRepository {
   Future<Either<Failure, ReservationsModel>> getReservation(

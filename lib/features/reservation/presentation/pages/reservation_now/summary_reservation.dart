@@ -5,12 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
-import 'package:hosptel_app/core/widget/repeted/error_text.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/appointment_symptom.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/reservation_response.dart';
-import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/start_time.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/create_appoinment/create_appoinment_cubit.dart';
-import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms/symptoms_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms_bloc/symptoms_bloc.dart';
 import 'package:hosptel_app/features/reservation/presentation/logic/reservation_logic.dart';
 import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_day_widget.dart';
 import 'package:hosptel_app/features/reservation/presentation/widgets/my_reservation/reservation_details/info_time_widget.dart';
@@ -22,12 +20,10 @@ import '../../../../../core/resources/word_manger.dart';
 import '../../../../../core/widget/button/main_elevated_button.dart';
 import '../../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../../core/widget/repeted/titel_pages_widget.dart';
-import '../../../../../core/widget/show_dialog/main_show_dialog_widget.dart';
 import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 import '../../widgets/reservation_now/reservation_summary/card_summary.dart';
 import '../../widgets/reservation_now/reservation_summary/card_symptoms.dart';
 import '../../widgets/reservation_now/reservation_summary/choose_type_symptoms.dart';
-import '../../../../../router/app_router.dart';
 
 class SummaryReservationPage extends StatefulWidget {
   const SummaryReservationPage({super.key, required this.times});
@@ -67,7 +63,7 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
               onTap: () {
                 setState(() {
                   visible = !visible;
-                  if (visible) context.read<SymptomsCubit>().getSymptoms();
+                  context.read<SymptomsBloc>().add(GetSymptoms());
                 });
               },
             ),
@@ -96,7 +92,7 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                           )
                         ],
                       ),
-                      child: BlocConsumer<SymptomsCubit, SymptomsState>(
+                      child: BlocConsumer<SymptomsBloc, SymptomsState>(
                         listener: (context, state) {
                           ReservationLogic()
                               .symptompsListener(context, state, controller);
@@ -192,7 +188,7 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                           return SymptomsError(
                               text: state.failureMessage.message,
                               onPreesed: () {
-                                context.read<SymptomsCubit>().getSymptoms();
+                                context.read<SymptomsBloc>().add(GetSymptoms());
                               });
                         },
                       )),

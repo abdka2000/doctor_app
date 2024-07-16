@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions/midical_sessions_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/patient_files/patient_files_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/prescription_details/prescription_details_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/user_amount/user_amount_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/user_prescription/user_prescriptions_cubit.dart';
+import 'package:hosptel_app/core/resources/word_manger.dart';
+import 'package:hosptel_app/core/widget/loading/main_loading.dart';
+import 'package:hosptel_app/core/widget/sanck_bar/main_snack_bar.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/download_bloc/download_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions_bloc/midical_sessions_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/patient_files_bloc/patient_files_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/prescription_details_bloc/prescription_details_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/user_amount_bloc/user_amount_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/user_prescriptions_bloc/user_prescriptions_bloc.dart';
+import 'package:hosptel_app/router/app_router.dart';
 
 class HealthLogic {
   void midicalSessionListener(
@@ -14,12 +20,14 @@ class HealthLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
-      if (state.sessions.length < 6) {
-        context.read<MidicalSessionsCubit>().getSessions();
+      if (state.sessions.length < 5) {
+        context.read<MidicalSessionsBloc>().add(const GetUserMidicalSessions());
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
-          context.read<MidicalSessionsCubit>().getSessions();
+          context
+              .read<MidicalSessionsBloc>()
+              .add(const GetUserMidicalSessions());
         }
       });
     }
@@ -32,16 +40,16 @@ class HealthLogic {
     int id,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
-      if (state.prescriptionDetails.length < 6) {
+      if (state.prescriptionDetails.length < 5) {
         context
-            .read<PrescriptionDetailsCubit>()
-            .getPrescriptionDetails(prescriptionId: id);
+            .read<PrescriptionDetailsBloc>()
+            .add(GetPrescriptionDetails(prescriptionId: id));
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
           context
-              .read<PrescriptionDetailsCubit>()
-              .getPrescriptionDetails(prescriptionId: id);
+              .read<PrescriptionDetailsBloc>()
+              .add(GetPrescriptionDetails(prescriptionId: id));
         }
       });
     }
@@ -54,11 +62,13 @@ class HealthLogic {
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
       if (state.userPrescriptions.length < 7) {
-        context.read<UserPrescriptionsCubit>().getUserPrescriptions();
+        context.read<UserPrescriptionsBloc>().add(const GetUserPrescriptions());
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
-          context.read<UserPrescriptionsCubit>().getUserPrescriptions();
+          context
+              .read<UserPrescriptionsBloc>()
+              .add(const GetUserPrescriptions());
         }
       });
     }
@@ -70,12 +80,12 @@ class HealthLogic {
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
-      if (state.files.length < 6) {
-        context.read<PatientFilesCubit>().getPatientFiles();
+      if (state.files.length < 5) {
+        context.read<PatientFilesBloc>().add(const GetUserFiles());
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
-          context.read<PatientFilesCubit>().getPatientFiles();
+          context.read<PatientFilesBloc>().add(const GetUserFiles());
         }
       });
     }
@@ -88,13 +98,42 @@ class HealthLogic {
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
       if (state.items.length < 5) {
-        context.read<UserAmountCubit>().getUserAmount();
+        context.read<UserAmountBloc>().add(const GetUserAmount());
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
-          context.read<UserAmountCubit>().getUserAmount();
+          context.read<UserAmountBloc>().add(const GetUserAmount());
         }
       });
+    }
+  }
+
+  void downloadFileListener(DownloadState state, BuildContext context) {
+    if (state.status == DeafultBlocStatus.done) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      SnackBarUtil.showSnackBar(
+          message: AppWordManger.doneFileDownlad,
+          context: context,
+          isSucces: true);
+      Navigator.canPop(context) ? Navigator.pop(context) : null;
+    } else if (state.status == DeafultBlocStatus.error) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      SnackBarUtil.showSnackBar(
+        message: state.failureMessage.message,
+        context: context,
+      );
+
+      Navigator.canPop(context) ? Navigator.pop(context) : null;
+    } else if (state.status == DeafultBlocStatus.loading) {
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: SizedBox(
+                    width: 100.h,
+                    height: 100.h,
+                    child: const MainLoadignWidget()),
+              ));
     }
   }
 }

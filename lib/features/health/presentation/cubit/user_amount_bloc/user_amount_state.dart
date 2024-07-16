@@ -1,4 +1,5 @@
-part of 'user_amount_cubit.dart';
+part of 'user_amount_bloc.dart';
+
 
 class UserAmountState extends Equatable {
   final DeafultBlocStatus status;
@@ -18,10 +19,10 @@ class UserAmountState extends Equatable {
   factory UserAmountState.initial() {
     return UserAmountState(
         failureMessage: FailureMessage(message: '', statusCode: 0),
-        status: DeafultBlocStatus.initial,
+        status: DeafultBlocStatus.loading,
         userAmount: UserAmountEntity(),
         hasReachedMax: false,
-        items: []);
+        items: const []);
   }
 
   @override

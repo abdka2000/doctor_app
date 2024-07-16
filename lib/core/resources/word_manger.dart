@@ -131,6 +131,8 @@ class AppWordManger {
   static const timeOfUse = 'الاستخدام اليومي';
   static const afterFood = 'قبل الطعام';
   static const dontAnyDescriptionMedcal = 'ليس لديك أي وصفة بعد.';
+  static const sureYouWantToDownload = 'هل متأكد أنك تود تنزيل الملف ؟';
+  static const doneFileDownlad = 'تم تنزيل الملف بنجاح';
 
   //? Share :
   static const notUntil = 'ليس الآن';

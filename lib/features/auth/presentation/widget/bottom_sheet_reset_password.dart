@@ -1,6 +1,6 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,16 +12,10 @@ import '../../../../core/resources/enum_manger.dart';
 import '../../../../core/resources/svg_manger.dart';
 import '../../../../core/resources/word_manger.dart';
 import '../../../../core/widget/button/main_elevated_button.dart';
-import '../../../../core/widget/form_filed/main_form_filed.dart';
 import '../../../../core/widget/loading/main_loading.dart';
-import '../../../../core/widget/repeted/charater_city_widget.dart';
 import '../../../../core/widget/text_utiles/text_utile_widget.dart';
 import '../../../../core/widget/form_filed/text_form_filed_pasword_widget.dart';
-import '../../domin/entities/req/login_request_entite.dart';
-import '../cubit/login/login_cubit.dart';
 import '../logic/auth_logic.dart';
-import 'move_page_text_widget.dart';
-import '../../../../router/app_router.dart';
 
 class BottomeSheetResetPasswordWidget extends StatelessWidget {
   const BottomeSheetResetPasswordWidget(

@@ -53,9 +53,11 @@ class HealthRepoImpl implements HealthRepo {
   }
 
   @override
-  Future<Either<Failure, UserAmountEntity>> getUserAmounts({required int skipCount, required int maxResult}) async {
+  Future<Either<Failure, UserAmountEntity>> getUserAmounts(
+      {required int skipCount, required int maxResult}) async {
     return CheckNet<UserAmountEntity>().checkNetResponse(tryRight: () async {
-      final data = await remote.getUserAmount(maxResult: maxResult,skipCount: skipCount);
+      final data = await remote.getUserAmount(
+          maxResult: maxResult, skipCount: skipCount);
       return Right(data);
     });
   }
@@ -66,6 +68,15 @@ class HealthRepoImpl implements HealthRepo {
     return CheckNet<UserFileEntity>().checkNetResponse(tryRight: () async {
       final data =
           await remote.getUserFiles(skipCount: skipCount, maxResult: maxResult);
+      return Right(data);
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> downloadFile(
+      {required String url, required String name}) async {
+    return CheckNet<Unit>().checkNetResponse(tryRight: () async {
+      final data = await remote.downloadFile(url: url, name: name);
       return Right(data);
     });
   }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:hosptel_app/core/api/api_links.dart';
+import 'package:hosptel_app/core/api/api_methode_download.dart';
 import 'package:hosptel_app/core/api/api_methode_get.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
 import 'package:hosptel_app/features/health/domain/entities/midical_session_entity/midical_session_entity.dart';
@@ -26,6 +28,8 @@ abstract class HealthRemote {
   //-------------------------------------------------//
   Future<UserFileEntity> getUserFiles(
       {required int skipCount, required int maxResult});
+  //-------------------------------------------------//
+  Future<Unit> downloadFile({required String url, required String name});
 }
 
 class HealthRemoteImpl implements HealthRemote {
@@ -140,5 +144,11 @@ class HealthRemoteImpl implements HealthRemote {
           return files;
         },
         query: query);
+  }
+
+  @override
+  Future<Unit> downloadFile({required String url, required String name}) async {
+    return ApiDownloadMethods<Unit>()
+        .downlad(url: url, fileName: name, data: (response) => unit);
   }
 }

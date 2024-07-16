@@ -7,7 +7,7 @@ import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/repeted/error_text.dart';
 import 'package:hosptel_app/features/health/domain/entities/user_file_entity/item.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/patient_files/patient_files_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/patient_files_bloc/patient_files_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/logic/health_logic.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/my_files/empty_my_file.dart';
 import '../../../../core/resources/color_manger.dart';
@@ -24,7 +24,9 @@ class MyFilePage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<PatientFilesCubit>().getPatientFiles(isRefresh: true);
+        context
+            .read<PatientFilesBloc>()
+            .add(const GetUserFiles(isRefresh: true));
       },
       child: MainBackGround(
         mainBody: Column(
@@ -34,7 +36,7 @@ class MyFilePage extends StatelessWidget {
               onTap: () => Navigator.pop(context),
             ),
             //? Info List My File :
-            BlocConsumer<PatientFilesCubit, PatientFilesState>(
+            BlocConsumer<PatientFilesBloc, PatientFilesState>(
               listener: (context, state) {
                 HealthLogic().patientFilesListener(context, state, controller);
               },
@@ -55,7 +57,9 @@ class MyFilePage extends StatelessWidget {
                 return ErrorTextWidget(
                     text: state.failureMessage.message,
                     onPressed: () {
-                      context.read<PatientFilesCubit>().getPatientFiles(isRefresh: true);
+                      context
+                          .read<PatientFilesBloc>()
+                          .add(const GetUserFiles(isRefresh: true));
                     });
               },
             )

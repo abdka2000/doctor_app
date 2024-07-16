@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-
-part of 'services_cubit.dart';
+part of 'services_bloc.dart';
 
 class ServicesState extends Equatable {
   final DeafultBlocStatus status;
@@ -19,8 +17,8 @@ class ServicesState extends Equatable {
     return ServicesState(
         hasReachedMax: false,
         failureMessage: FailureMessage(message: '', statusCode: 0),
-        status: DeafultBlocStatus.initial,
-        services: []);
+        status: DeafultBlocStatus.loading,
+        services: const []);
   }
 
   @override

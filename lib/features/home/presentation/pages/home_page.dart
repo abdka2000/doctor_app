@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/features/home/domain/entity/doctor_info_entity/doctor_info_entity.dart';
 import 'package:hosptel_app/features/home/presentation/cubit/doctor_info/doctor_info_cubit.dart';
+import 'package:hosptel_app/features/home/presentation/cubit/services_bloc/services_bloc.dart';
 import 'package:hosptel_app/features/home/presentation/logic/home_logic.dart';
 import 'package:hosptel_app/features/home/presentation/widgets/home_primary/doctor_info_error.dart';
 import 'package:hosptel_app/features/home/presentation/widgets/home_primary/home_loading_shimmer.dart';
@@ -20,7 +21,6 @@ import '../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../core/widget/repeted/error_text.dart';
 import '../../../../core/widget/text_utiles/text_utile_widget.dart';
 import '../cubit/advertisement/advertisement_cubit.dart';
-import '../cubit/services/services_cubit.dart';
 import '../widgets/home_primary/caption_text_widget.dart';
 import '../widgets/home_primary/info_doctor_widget.dart';
 import '../widgets/home_primary/info_services_widget.dart';
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> refresh() async {
     context.read<DoctorInfoCubit>().getDoctorInfo();
     context.read<ProfileCubit>().getPersonData();
-    context.read<ServicesCubit>().getServices(isRefresh: true);
+    context.read<ServicesBloc>().add(const GetServices(isRefresh: true));
     context.read<AdvertisementCubit>().getAdvertisement();
   }
 
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.symmetric(
                       horizontal: 25.w,
                     ),
-                    child: BlocConsumer<ServicesCubit, ServicesState>(
+                    child: BlocConsumer<ServicesBloc, ServicesState>(
                       listener: (context, state) {
                         HomeLogic()
                             .servicesListener(context, state, controller);
@@ -124,8 +124,8 @@ class _HomePageState extends State<HomePage> {
                             text: state.failureMessage.message,
                             height: 160.h,
                             onPressed: () => context
-                                .read<ServicesCubit>()
-                                .getServices(isRefresh: true),
+                                .read<ServicesBloc>()
+                                .add(const GetServices(isRefresh: true)),
                           );
                         }
                       },

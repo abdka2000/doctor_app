@@ -5,8 +5,8 @@ import 'package:hosptel_app/core/resources/word_manger.dart';
 import 'package:hosptel_app/core/widget/sanck_bar/main_snack_bar.dart';
 import 'package:hosptel_app/core/widget/show_dialog/main_show_dialog_widget.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/create_appoinment/create_appoinment_cubit.dart';
-import 'package:hosptel_app/features/reservation/presentation/cubit/reservations/reservation_cubit.dart';
-import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms/symptoms_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/reservations_bloc/reservations_bloc.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms_bloc/symptoms_bloc.dart';
 import 'package:hosptel_app/router/app_router.dart';
 
 class ReservationLogic {
@@ -17,11 +17,11 @@ class ReservationLogic {
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
       if (state.items.length < 3) {
-        context.read<SymptomsCubit>().getSymptoms();
+        context.read<SymptomsBloc>().add(GetSymptoms());
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.9)) {
-          context.read<SymptomsCubit>().getSymptoms();
+          context.read<SymptomsBloc>().add(GetSymptoms());
         }
       });
     }
@@ -29,16 +29,18 @@ class ReservationLogic {
 
   reservationDoneListener(
     BuildContext context,
-    ReservationState state,
+    ReservationsState state,
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
       if (state.reservations.length < 3) {
-        context.read<ReservationCubit>().getReservations(isFinished: true);
+        context.read<ReservationsBloc>().add(const GetReservations(isFinished: true));
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
-          context.read<ReservationCubit>().getReservations(isFinished: true);
+          context
+              .read<ReservationsBloc>()
+              .add(const GetReservations(isFinished: true));
         }
       });
     }
@@ -46,16 +48,20 @@ class ReservationLogic {
 
   reservationWaitingListener(
     BuildContext context,
-    ReservationState state,
+    ReservationsState state,
     ScrollController controller,
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
       if (state.reservations.length < 3) {
-        context.read<ReservationCubit>().getReservations(isFinished: false);
+        context
+            .read<ReservationsBloc>()
+            .add(const GetReservations(isFinished: false));
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {
-          context.read<ReservationCubit>().getReservations(isFinished: false);
+          context
+              .read<ReservationsBloc>()
+              .add(const GetReservations(isFinished: false));
         }
       });
     }

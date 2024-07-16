@@ -1,13 +1,13 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/reservations_bloc/reservations_bloc.dart';
 import 'package:hosptel_app/features/reservation/presentation/logic/reservation_logic.dart';
 import '../../../../../core/resources/enum_manger.dart';
 import '../../../../../core/resources/svg_manger.dart';
 import '../../../../../core/widget/loading/main_loading.dart';
 import '../../../../../core/widget/repeted/error_text.dart';
 import '../../../domain/entities/reservation_item/reservation_item.dart';
-import '../../cubit/reservations/reservation_cubit.dart';
 import 'card_reservation_widget.dart';
 import 'not_found_resevation.dart';
 
@@ -20,10 +20,10 @@ class DoneReservation extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         context
-            .read<ReservationCubit>()
-            .getReservations(isFinished: true, isRefresh: true);
+            .read<ReservationsBloc>()
+            .add(const GetReservations(isFinished: true, isRefresh: true));
       },
-      child: BlocConsumer<ReservationCubit, ReservationState>(
+      child: BlocConsumer<ReservationsBloc, ReservationsState>(
         listener: (context, state) {
           ReservationLogic()
               .reservationDoneListener(context, state, controller);
@@ -39,10 +39,10 @@ class DoneReservation extends StatelessWidget {
           } else if (state.status == DeafultBlocStatus.error) {
             return ErrorTextWidget(
               text: state.failureMessage.message,
-              onPressed: () => context.read<ReservationCubit>().getReservations(
-                    isFinished: true,
-                    isRefresh: true,
-                  ),
+              onPressed: () =>   context
+              .read<ReservationsBloc>()
+              .add(const GetReservations(isFinished: true))
+      
             );
           }
           return const MainLoadignWidget();

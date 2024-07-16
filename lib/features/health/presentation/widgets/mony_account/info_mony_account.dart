@@ -57,7 +57,7 @@ class InfoMonyAccountWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -69,7 +69,7 @@ class InfoMonyAccountWidget extends StatelessWidget {
                           color: AppColorManger.textGray,
                         ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2,
                   ),
                   TextUtiels(

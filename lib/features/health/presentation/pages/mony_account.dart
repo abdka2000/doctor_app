@@ -5,7 +5,7 @@ import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/repeted/error_text.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/user_amount/user_amount_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/user_amount_bloc/user_amount_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/logic/health_logic.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/mony_account/empty_account_mony.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/mony_account/money_account_body.dart';
@@ -24,7 +24,7 @@ class MonyAccountPage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<UserAmountCubit>().getUserAmount(isRefresh: true);
+        context.read<UserAmountBloc>().add(const GetUserAmount(isRefresh: true));
       },
       child: MainBackGround(
         mainBody: SingleChildScrollView(
@@ -57,7 +57,7 @@ class MonyAccountPage extends StatelessWidget {
                       color: AppColorManger.lightText,
                     ),
               ),
-              BlocConsumer<UserAmountCubit, UserAmountState>(
+              BlocConsumer<UserAmountBloc, UserAmountState>(
                 listener: (context, state) {
                   HealthLogic()
                       .patientAmountListener(context, state, controller);
@@ -80,7 +80,7 @@ class MonyAccountPage extends StatelessWidget {
                   return ErrorTextWidget(
                       text: state.failureMessage.message,
                       onPressed: () {
-                        context.read<UserAmountCubit>().getUserAmount(isRefresh: true);
+        context.read<UserAmountBloc>().add(const GetUserAmount(isRefresh: true));
                       });
                 },
               )

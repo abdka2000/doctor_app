@@ -1,6 +1,4 @@
 import 'appointment_symptom.dart';
-import 'end_time.dart';
-import 'start_time.dart';
 
 class ReservationResponse {
   DateTime? appointmentDate;

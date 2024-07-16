@@ -33,6 +33,5 @@ class SymptomsError extends StatelessWidget {
             onPreesed: onPreesed)
       ],
     );
-    ;
   }
 }

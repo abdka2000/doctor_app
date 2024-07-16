@@ -28,4 +28,7 @@ abstract class HealthRepo {
   //? Repo for User Files
   Future<Either<Failure, UserFileEntity>> getUserFiles(
       {required int skipCount, required int maxResult});
+  //? Repo for download file
+  Future<Either<Failure, Unit>> downloadFile(
+      {required String url, required String name});
 }

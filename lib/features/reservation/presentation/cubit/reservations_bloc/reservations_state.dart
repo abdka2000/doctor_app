@@ -1,39 +1,38 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+part of 'reservations_bloc.dart';
 
-part of 'reservation_cubit.dart';
 
-class ReservationState extends Equatable {
+class ReservationsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
   final List<ReservationItemEntity> reservations;
   final bool hasReachedMax;
 
-  const ReservationState({
+  const ReservationsState({
     required this.hasReachedMax,
     required this.reservations,
     required this.status,
     required this.failureMessage,
   });
 
-  factory ReservationState.initial() {
-    return ReservationState(
+  factory ReservationsState.initial() {
+    return ReservationsState(
         hasReachedMax: false,
         failureMessage: FailureMessage(message: '', statusCode: 0),
-        status: DeafultBlocStatus.initial,
-        reservations: []);
+        status: DeafultBlocStatus.loading,
+        reservations: const []);
   }
 
   @override
   List<Object> get props =>
       [failureMessage, status, hasReachedMax, reservations];
 
-  ReservationState copyWith({
+  ReservationsState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
     List<ReservationItemEntity>? reservations,
     bool? hasReachedMax,
   }) {
-    return ReservationState(
+    return ReservationsState(
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
         failureMessage: failureMessage ?? this.failureMessage,
         status: status ?? this.status,

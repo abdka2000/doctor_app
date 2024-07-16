@@ -51,4 +51,10 @@ class HealthUseCase implements HealthBaseUseCase {
       {required int skipCount, required int maxResult}) async {
     return await repo.getUserFiles(skipCount: skipCount, maxResult: maxResult);
   }
+
+  @override
+  Future<Either<Failure, Unit>> downloadFile(
+      {required String url, required String name}) async {
+    return await repo.downloadFile(url: url, name: name);
+  }
 }

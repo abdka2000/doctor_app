@@ -8,7 +8,6 @@ import '../../../../core/network/check_net.dart';
 import '../data_sources/reservation_remote_data_source.dart';
 import '../../domain/entities/availabe_day/available_days.dart';
 import '../../domain/entities/available_times/available_times.dart';
-import '../../domain/entities/reservation_item/reservation_item.dart';
 import '../../domain/repository/reservation_repo.dart';
 
 class ReservationRepoImpl implements ReservationRepository {

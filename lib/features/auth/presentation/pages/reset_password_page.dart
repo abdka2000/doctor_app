@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hosptel_app/core/resources/png_manger.dart';
 import 'package:hosptel_app/features/auth/presentation/widget/bottom_sheet_reset_password.dart';
-import 'package:hosptel_app/features/auth/presentation/widget/bottome_sheet_verification_widget.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage(
@@ -26,6 +25,6 @@ class ResetPasswordPage extends StatelessWidget {
         phoneNumber: phoneNumber,
       ),
     );
-    ;
+    
   }
 }

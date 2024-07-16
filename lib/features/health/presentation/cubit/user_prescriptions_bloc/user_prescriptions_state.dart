@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+part of 'user_prescriptions_bloc.dart';
 
-part of 'user_prescriptions_cubit.dart';
 
 class UserPrescriptionState extends Equatable {
   final DeafultBlocStatus status;
@@ -19,8 +18,8 @@ class UserPrescriptionState extends Equatable {
     return UserPrescriptionState(
         hasReachedMax: false,
         failureMessage: FailureMessage(message: '', statusCode: 0),
-        status: DeafultBlocStatus.initial,
-        userPrescriptions: []);
+        status: DeafultBlocStatus.loading,
+        userPrescriptions: const []);
   }
 
   @override

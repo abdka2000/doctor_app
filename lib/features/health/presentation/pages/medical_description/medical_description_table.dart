@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/repeted/error_text.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/prescription_details/prescription_details_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/prescription_details_bloc/prescription_details_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/logic/health_logic.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/medical_description/empty_medical_description.dart';
 import 'package:hosptel_app/features/health/presentation/widgets/medical_description/medical_description_list.dart';
@@ -22,10 +22,9 @@ class MedicalDescriptionTablePage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<PrescriptionDetailsCubit>().getPrescriptionDetails(
-              prescriptionId: id,
-              isRefresh: true,
-            );
+        context
+            .read<PrescriptionDetailsBloc>()
+            .add(GetPrescriptionDetails(prescriptionId: id, isRefresh: true));
       },
       child: MainBackGround(
         mainBody: Column(
@@ -35,7 +34,7 @@ class MedicalDescriptionTablePage extends StatelessWidget {
               onTap: () => Navigator.pop(context),
               paddingBottome: 40.h,
             ),
-            BlocConsumer<PrescriptionDetailsCubit, PrescriptionDetailsState>(
+            BlocConsumer<PrescriptionDetailsBloc, PrescriptionDetailsState>(
               listener: (context, state) {
                 HealthLogic().prescriptionDetailsListener(
                     context, state, controller, id);
@@ -57,12 +56,9 @@ class MedicalDescriptionTablePage extends StatelessWidget {
                 return ErrorTextWidget(
                     text: state.failureMessage.message,
                     onPressed: () {
-                      context
-                          .read<PrescriptionDetailsCubit>()
-                          .getPrescriptionDetails(
-                            prescriptionId: id,
-                            isRefresh: true,
-                          );
+                      context.read<PrescriptionDetailsBloc>().add(
+                          GetPrescriptionDetails(
+                              prescriptionId: id, isRefresh: true));
                     });
               },
             ),

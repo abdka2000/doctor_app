@@ -1,4 +1,4 @@
-part of 'symptoms_cubit.dart';
+part of 'symptoms_bloc.dart';
 
 class SymptomsState extends Equatable {
   final DeafultBlocStatus status;
@@ -16,8 +16,8 @@ class SymptomsState extends Equatable {
   factory SymptomsState.initial() {
     return SymptomsState(
         failureMessage: FailureMessage(message: '', statusCode: 0),
-        status: DeafultBlocStatus.initial,
-        items: [],
+        status: DeafultBlocStatus.loading,
+        items: const [],
         hasReachedMax: false);
   }
 

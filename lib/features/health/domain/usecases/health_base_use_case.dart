@@ -23,4 +23,6 @@ abstract class HealthBaseUseCase {
       {required int skipCount, required int maxResult});
   Future<Either<Failure, UserFileEntity>> getUserFiles(
       {required int skipCount, required int maxResult});
+      Future<Either<Failure, Unit>> downloadFile(
+      {required String url, required String name});
 }

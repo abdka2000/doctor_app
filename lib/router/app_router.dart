@@ -4,12 +4,14 @@ import 'package:hosptel_app/features/auth/presentation/cubit/forget_password/for
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
 import 'package:hosptel_app/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:hosptel_app/features/auth/presentation/pages/verification_forget_password_page.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions/midical_sessions_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/patient_files/patient_files_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/prescription_details/prescription_details_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/user_amount/user_amount_cubit.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/user_prescription/user_prescriptions_cubit.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/download_bloc/download_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions_bloc/midical_sessions_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/patient_files_bloc/patient_files_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/prescription_details_bloc/prescription_details_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/user_amount_bloc/user_amount_bloc.dart';
+import 'package:hosptel_app/features/health/presentation/cubit/user_prescriptions_bloc/user_prescriptions_bloc.dart';
 import 'package:hosptel_app/features/home/presentation/cubit/doctor_info/doctor_info_cubit.dart';
+import 'package:hosptel_app/features/home/presentation/cubit/services_bloc/services_bloc.dart';
 import 'package:hosptel_app/features/intro/presentation/cubit/navigate_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/confirm_edit_number/confirm_edit_number_cubit.dart';
@@ -19,11 +21,10 @@ import 'package:hosptel_app/features/profile/presentation/cubit/edit_profile/edi
 import 'package:hosptel_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/create_appoinment/create_appoinment_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/info_days_times/info_days_times_cubit.dart';
-import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms/symptoms_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/symptoms_bloc/symptoms_bloc.dart';
 import '../features/auth/presentation/cubit/confirm_account/confirm_account_cubit.dart';
 import '../features/auth/presentation/cubit/create_Account/create_account_cubit.dart';
 import '../features/auth/presentation/cubit/login/login_cubit.dart';
-import '../features/auth/presentation/pages/confirm_forget_password_page.dart';
 import '../features/health/presentation/pages/medical_description/medical_description_main_page.dart';
 import '../features/health/presentation/pages/medical_description/medical_description_table.dart';
 import '../features/health/presentation/pages/mony_account.dart';
@@ -35,7 +36,6 @@ import '../features/auth/presentation/pages/confrim_number_page.dart';
 import '../features/auth/presentation/pages/signup_page.dart';
 import '../features/health/presentation/pages/health_page.dart';
 import '../features/home/presentation/cubit/advertisement/advertisement_cubit.dart';
-import '../features/home/presentation/cubit/services/services_cubit.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/home/presentation/pages/home_secoundry.dart';
 import '../features/intro/presentation/page/intro_page.dart';
@@ -192,7 +192,8 @@ class AppRouter {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                    create: (context) => di.sl<ServicesCubit>()..getServices()),
+                    create: (context) =>
+                        di.sl<ServicesBloc>()..add(const GetServices())),
                 BlocProvider(create: (context) => di.sl<ProfileCubit>()),
                 BlocProvider(
                     create: (context) =>
@@ -257,7 +258,8 @@ class AppRouter {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             return BlocProvider(
-              create: (context) => di.sl<MidicalSessionsCubit>()..getSessions(),
+              create: (context) => di.sl<MidicalSessionsBloc>()
+                ..add(const GetUserMidicalSessions()),
               child: const MyVistsPage(),
             );
           },
@@ -278,9 +280,14 @@ class AppRouter {
       case RouteNamedScreens.myFileNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return BlocProvider(
-              create: (context) =>
-                  di.sl<PatientFilesCubit>()..getPatientFiles(),
+            return MultiBlocProvider(
+              providers: [
+                // BlocProvider(create: (context) => di.sl<DownloadBloc>()),
+                BlocProvider(
+                  create: (context) =>
+                      di.sl<PatientFilesBloc>()..add(const GetUserFiles()),
+                ),
+              ],
               child: const MyFilePage(),
             );
           },
@@ -302,8 +309,8 @@ class AppRouter {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             return BlocProvider(
-              create: (context) =>
-                  di.sl<UserPrescriptionsCubit>()..getUserPrescriptions(),
+              create: (context) => di.sl<UserPrescriptionsBloc>()
+                ..add(const GetUserPrescriptions()),
               child: const MidicalDesciptionPage(),
             );
           },
@@ -325,8 +332,8 @@ class AppRouter {
           pageBuilder: (context, animation, secondaryAnimation) {
             int id = arguments as int;
             return BlocProvider(
-              create: (context) => di.sl<PrescriptionDetailsCubit>()
-                ..getPrescriptionDetails(prescriptionId: id),
+              create: (context) => di.sl<PrescriptionDetailsBloc>()
+                ..add(GetPrescriptionDetails(prescriptionId: id)),
               child: MedicalDescriptionTablePage(id: id),
             );
           },
@@ -348,7 +355,8 @@ class AppRouter {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             return BlocProvider(
-              create: (context) => di.sl<UserAmountCubit>()..getUserAmount(),
+              create: (context) =>
+                  di.sl<UserAmountBloc>()..add(const GetUserAmount()),
               child: const MonyAccountPage(),
             );
           },
@@ -442,7 +450,7 @@ class AppRouter {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (context) => di.sl<SymptomsCubit>(),
+                  create: (context) => di.sl<SymptomsBloc>(),
                 ),
                 BlocProvider(
                   create: (context) => di.sl<CreateAppoinmentCubit>(),

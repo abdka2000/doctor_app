@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hosptel_app/features/home/presentation/cubit/advertisement/advertisement_cubit.dart';
-import 'package:hosptel_app/features/home/presentation/cubit/doctor_info/doctor_info_cubit.dart';
-import 'package:hosptel_app/features/home/presentation/cubit/services/services_cubit.dart';
-import 'package:hosptel_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
+import 'package:hosptel_app/features/reservation/presentation/cubit/reservations_bloc/reservations_bloc.dart';
 import '../../../../../core/resources/word_manger.dart';
 import '../../../../../core/widget/main/back_ground_main/back_ground_main.dart';
 import '../../../../../core/widget/main/nav_button_main/cubit/button_nav_cubit.dart';
 import '../../../../../core/widget/repeted/titel_pages_widget.dart';
-import '../../cubit/reservations/reservation_cubit.dart';
 import '../../widgets/my_reservation/done_reservation.dart';
 import '../../widgets/my_reservation/tab_bar_widget.dart';
 import '../../widgets/my_reservation/waiting_reservation.dart';
@@ -51,14 +47,14 @@ class _ReservationPageState extends State<ReservationPage> {
                   children: [
                     //? Resevation Finished :
                     BlocProvider(
-                      create: (context) => di.sl<ReservationCubit>()
-                        ..getReservations(isFinished: true),
+                      create: (context) => di.sl<ReservationsBloc>()
+                        ..add(const GetReservations(isFinished: true)),
                       child: const DoneReservation(),
                     ),
                     //? Resevation As Soon As Wating  :
                     BlocProvider(
-                      create: (context) => di.sl<ReservationCubit>()
-                        ..getReservations(isFinished: false),
+                      create: (context) => di.sl<ReservationsBloc>()
+                        ..add(const GetReservations(isFinished: false)),
                       child: const WaitingReservation(),
                     ),
                   ],
