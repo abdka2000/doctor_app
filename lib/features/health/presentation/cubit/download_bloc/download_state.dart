@@ -1,6 +1,5 @@
 part of 'download_bloc.dart';
 
-
 class DownloadState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;

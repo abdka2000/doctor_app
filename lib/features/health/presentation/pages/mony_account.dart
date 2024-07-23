@@ -24,7 +24,9 @@ class MonyAccountPage extends StatelessWidget {
     final controller = ScrollController();
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<UserAmountBloc>().add(const GetUserAmount(isRefresh: true));
+        context
+            .read<UserAmountBloc>()
+            .add(const GetUserAmount(isRefresh: true));
       },
       child: MainBackGround(
         mainBody: SingleChildScrollView(
@@ -80,7 +82,9 @@ class MonyAccountPage extends StatelessWidget {
                   return ErrorTextWidget(
                       text: state.failureMessage.message,
                       onPressed: () {
-        context.read<UserAmountBloc>().add(const GetUserAmount(isRefresh: true));
+                        context
+                            .read<UserAmountBloc>()
+                            .add(const GetUserAmount(isRefresh: true));
                       });
                 },
               )

@@ -65,7 +65,7 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
                     children: [
                       TextUtiels(
                         paddingBottome: 5.h,
-                        text:widget.days[index].name ?? '',
+                        text: widget.days[index].name ?? '',
                         style:
                             Theme.of(context).textTheme.displaySmall?.copyWith(
                                   color: selectedIndex == index

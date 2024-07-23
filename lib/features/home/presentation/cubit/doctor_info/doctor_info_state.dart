@@ -19,7 +19,7 @@ class DoctorInfoState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status , info];
+  List<Object> get props => [failureMessage, status, info];
 
   DoctorInfoState copyWith({
     FailureMessage? failureMessage,

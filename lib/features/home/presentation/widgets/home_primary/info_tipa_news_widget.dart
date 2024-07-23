@@ -88,7 +88,6 @@ class InfoTipasNewsWidgetState extends State<InfoTipasNewsWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      //TODO
                       SizedBox(
                         height: 20.h,
                       ),

@@ -38,12 +38,10 @@ class DoneReservation extends StatelessWidget {
             }
           } else if (state.status == DeafultBlocStatus.error) {
             return ErrorTextWidget(
-              text: state.failureMessage.message,
-              onPressed: () =>   context
-              .read<ReservationsBloc>()
-              .add(const GetReservations(isFinished: true))
-      
-            );
+                text: state.failureMessage.message,
+                onPressed: () => context
+                    .read<ReservationsBloc>()
+                    .add(const GetReservations(isFinished: true)));
           }
           return const MainLoadignWidget();
         },

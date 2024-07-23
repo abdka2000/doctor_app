@@ -17,4 +17,7 @@ abstract class ProfileRepository {
       String currentPassword, String newPassword);
   //? Repo Delete Account
   Future<Either<Failure, Unit>> deleteAccount();
+  //? Repo Log Out
+  Future<Either<Failure, Unit>> logOut();
+
 }

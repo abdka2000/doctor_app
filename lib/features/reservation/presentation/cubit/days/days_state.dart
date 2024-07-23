@@ -22,7 +22,7 @@ class DaysState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status , days];
+  List<Object> get props => [failureMessage, status, days];
 
   DaysState copyWith({
     FailureMessage? failureMessage,

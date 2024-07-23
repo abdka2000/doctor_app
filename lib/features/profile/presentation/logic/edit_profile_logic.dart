@@ -12,6 +12,7 @@ import 'package:hosptel_app/features/profile/presentation/cubit/confirm_edit_num
 import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_number/edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_profile/edit_profile_cubit.dart';
+import 'package:hosptel_app/features/profile/presentation/cubit/log_out/log_out_cubit.dart';
 import 'package:hosptel_app/router/app_router.dart';
 
 class EditProfileLogic {
@@ -97,13 +98,38 @@ class EditProfileLogic {
           context, RouteNamedScreens.loginScreenNameRoute);
       context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
     } else if (state.status == DeafultBlocStatus.error) {
+      Navigator.pop(context);
       SnackBarUtil.showSnackBar(
           message: state.failureMessage.message,
           context: context,
           details: state.failureMessage.details);
-      Navigator.pop(context);
-      Navigator.pop(context);
     } else if (state.status == DeafultBlocStatus.loading) {
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: SizedBox(
+                    width: 100.h,
+                    height: 100.h,
+                    child: const MainLoadignWidget()),
+              ));
+    }
+  }
+  
+  void logOutListener(LogOutState state, BuildContext context) {
+    if (state.status == DeafultBlocStatus.done) {
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(
+          context, RouteNamedScreens.loginScreenNameRoute);
+      context.read<ButtonNavCubit>().changeIndexButtonNav(2, context);
+    } else if (state.status == DeafultBlocStatus.error) {
+      Navigator.pop(context);
+      SnackBarUtil.showSnackBar(
+          message: state.failureMessage.message,
+          context: context,
+          details: state.failureMessage.details);
+    } else if (state.status == DeafultBlocStatus.loading) {
+      Navigator.pop(context);
       showDialog(
           context: context,
           builder: (context) => AlertDialog(

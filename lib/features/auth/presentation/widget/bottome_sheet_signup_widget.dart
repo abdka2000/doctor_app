@@ -24,18 +24,35 @@ import 'move_page_text_widget.dart';
 import '../../../profile/presentation/widgets/gender_back_widget.dart';
 import '../../../../router/app_router.dart';
 
-class BottomeSheetSignUpWidget extends StatelessWidget {
+class BottomeSheetSignUpWidget extends StatefulWidget {
   const BottomeSheetSignUpWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKeyCreateAccount = GlobalKey();
-    CreateAccoutRequestEntite request = CreateAccoutRequestEntite();
-    TextEditingController controller = TextEditingController();
-    bool enabled = true;
+  State<BottomeSheetSignUpWidget> createState() =>
+      _BottomeSheetSignUpWidgetState();
+}
 
+class _BottomeSheetSignUpWidgetState extends State<BottomeSheetSignUpWidget> {
+  GlobalKey<FormState> formKeyCreateAccount = GlobalKey();
+  CreateAccoutRequestEntite request = CreateAccoutRequestEntite();
+  late TextEditingController controller;
+  bool enabled = true;
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 520.h,

@@ -7,4 +7,4 @@ class SymptomsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetSymptoms extends SymptomsEvent{}
+class GetSymptoms extends SymptomsEvent {}

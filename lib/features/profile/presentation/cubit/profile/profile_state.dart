@@ -25,7 +25,7 @@ class ProfileState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status , person];
+  List<Object> get props => [failureMessage, status, person];
 
   ProfileState copyWith({
     FailureMessage? failureMessage,

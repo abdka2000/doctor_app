@@ -29,7 +29,8 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
                     status: DeafultBlocStatus.error,
                   )), (services) {
             if (services.result?.items?.isEmpty ?? true) {
-              emit(state.copyWith(hasReachedMax: true));
+              emit(state.copyWith(
+                  hasReachedMax: true, status: DeafultBlocStatus.done));
             } else {
               emit(state.copyWith(
                 status: DeafultBlocStatus.done,
@@ -40,8 +41,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
           });
         } else {
           final data = await useCase.getServicesUseCase(
-              skipCount: state.services.length,
-              maxResult: max);
+              skipCount: state.services.length, maxResult: max);
           data.fold(
             (failure) => emit(state.copyWith(
               failureMessage: mapFailureToMessage(failure: failure),

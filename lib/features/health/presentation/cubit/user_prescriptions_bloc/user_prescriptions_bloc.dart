@@ -30,7 +30,8 @@ class UserPrescriptionsBloc
                     status: DeafultBlocStatus.error,
                   )), (prescriptions) {
             if (prescriptions.result?.items?.isEmpty ?? true) {
-              emit(state.copyWith(hasReachedMax: true));
+              emit(state.copyWith(
+                  hasReachedMax: true, status: DeafultBlocStatus.done));
             } else {
               emit(state.copyWith(
                 status: DeafultBlocStatus.done,

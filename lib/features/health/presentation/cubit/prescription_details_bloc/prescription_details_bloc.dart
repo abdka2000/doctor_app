@@ -18,20 +18,23 @@ class PrescriptionDetailsBloc
       : super(PrescriptionDetailsState.initial()) {
     int max = 5;
     on<PrescriptionDetailsEvent>((event, emit) async {
-if (event is GetPrescriptionDetails) {
+      if (event is GetPrescriptionDetails) {
         if (state.hasReachedMax && !event.isRefresh) return;
         if (event.isRefresh)
           emit(state.copyWith(status: DeafultBlocStatus.loading));
         if (state.status == DeafultBlocStatus.loading) {
-          final data =
-              await useCase.getPrescriptionItemDetails(prescriptionId: event.prescriptionId,skipCount: 0, maxResult: max);
+          final data = await useCase.getPrescriptionItemDetails(
+              prescriptionId: event.prescriptionId,
+              skipCount: 0,
+              maxResult: max);
           data.fold(
               (failure) => emit(state.copyWith(
                     failureMessage: mapFailureToMessage(failure: failure),
                     status: DeafultBlocStatus.error,
                   )), (prescreptions) {
             if (prescreptions.result?.items?.isEmpty ?? true) {
-              emit(state.copyWith(hasReachedMax: true));
+              emit(state.copyWith(
+                  hasReachedMax: true, status: DeafultBlocStatus.done));
             } else {
               emit(state.copyWith(
                 status: DeafultBlocStatus.done,
@@ -42,8 +45,9 @@ if (event is GetPrescriptionDetails) {
           });
         } else {
           final data = await useCase.getPrescriptionItemDetails(
-            prescriptionId: event.prescriptionId,
-              skipCount: state.prescriptionDetails.length, maxResult: max);
+              prescriptionId: event.prescriptionId,
+              skipCount: state.prescriptionDetails.length,
+              maxResult: max);
           data.fold(
             (failure) => emit(state.copyWith(
               failureMessage: mapFailureToMessage(failure: failure),
@@ -64,6 +68,7 @@ if (event is GetPrescriptionDetails) {
             },
           );
         }
-      }    },transformer: droppable());
+      }
+    }, transformer: droppable());
   }
 }

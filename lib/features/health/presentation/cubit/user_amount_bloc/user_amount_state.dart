@@ -1,6 +1,5 @@
 part of 'user_amount_bloc.dart';
 
-
 class UserAmountState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;

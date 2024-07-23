@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:hosptel_app/core/error/failure.dart';
 import 'package:hosptel_app/core/network/check_net.dart';
@@ -59,6 +61,14 @@ class ProfileRepoImpl implements ProfileRepository {
     return CheckNet<Unit>().checkNetResponse(tryRight: () async {
       final data = await remote.deleteAccount();
       AppSharedPreferences.clear();
+      return Right(data);
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> logOut() async {
+    return CheckNet<Unit>().checkNetResponse(tryRight: () async {
+      final data = await remote.logOut();
       return Right(data);
     });
   }

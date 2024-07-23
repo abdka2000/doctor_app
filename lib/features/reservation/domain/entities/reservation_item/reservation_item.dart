@@ -1,4 +1,3 @@
-
 class ReservationItemEntity {
   final int? id;
   final int? order;
@@ -7,10 +6,10 @@ class ReservationItemEntity {
   final String? dayName;
 
   ReservationItemEntity({
-     this.id,
-     this.order,
-     this.appointmentDate,
-     this.startTime,
-     this.dayName,
+    this.id,
+    this.order,
+    this.appointmentDate,
+    this.startTime,
+    this.dayName,
   });
 }

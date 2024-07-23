@@ -178,9 +178,9 @@ class ChangePasswordPage extends StatelessWidget {
                     onPreesed: () {
                       if (key.currentState!.validate()) {
                         // if (newPassword1 == newPassword2) {
-                          context.read<ChangePasswordCubit>().changePassword(
-                              currentPassword: currentPassword,
-                              newPassword: newPassword1);
+                        context.read<ChangePasswordCubit>().changePassword(
+                            currentPassword: currentPassword,
+                            newPassword: newPassword1);
                         // } else {
                         //   SnackBarUtil.showSnackBar(
                         //       message: "كلمة السر الجديدة غير متطابقة",

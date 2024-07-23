@@ -1,6 +1,5 @@
 part of 'prescription_details_bloc.dart';
 
-
 class PrescriptionDetailsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;

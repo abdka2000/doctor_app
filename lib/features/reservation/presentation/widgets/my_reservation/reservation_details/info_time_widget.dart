@@ -42,7 +42,7 @@ class _InfoTimesWidgetState extends State<InfoTimesWidget> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: index == selectedIndex 
+                  color: index == selectedIndex
                       ? AppColorManger.primaryColor
                       : AppColorManger.white,
                   border: Border.all(

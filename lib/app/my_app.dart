@@ -4,6 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/theme/them_app.dart';
 import '../core/widget/main/nav_button_main/cubit/button_nav_cubit.dart';
 import '../router/app_router.dart';
+import 'package:toastification/toastification.dart';
+
+class Context {
+  static final navKey = GlobalKey<NavigatorState>();
+}
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -15,10 +20,13 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return BlocProvider(
           create: (context) => ButtonNavCubit(),
-          child: MaterialApp(
-            onGenerateRoute: appRouter.onGenerateRoute,
-            debugShowCheckedModeBanner: false,
-            theme: appTheme,
+          child: ToastificationWrapper(
+            child: MaterialApp(
+              onGenerateRoute: appRouter.onGenerateRoute,
+              debugShowCheckedModeBanner: false,
+              theme: appTheme,
+              key: Context.navKey,
+            ),
           ),
         );
       },

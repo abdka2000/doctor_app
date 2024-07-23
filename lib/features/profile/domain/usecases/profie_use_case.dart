@@ -39,4 +39,9 @@ class ProfileUseCase implements ProfileBaseUseCase {
   Future<Either<Failure, Unit>> deleteAccount() async {
     return await repo.deleteAccount();
   }
+
+  @override
+  Future<Either<Failure, Unit>> logOut() async {
+    return await repo.logOut();
+  }
 }

@@ -28,7 +28,8 @@ class PatientFilesBloc extends Bloc<PatientFilesEvent, PatientFilesState> {
                     status: DeafultBlocStatus.error,
                   )), (files) {
             if (files.result?.items?.isEmpty ?? true) {
-              emit(state.copyWith(hasReachedMax: true));
+              emit(state.copyWith(
+                  hasReachedMax: true, status: DeafultBlocStatus.done));
             } else {
               emit(state.copyWith(
                 status: DeafultBlocStatus.done,

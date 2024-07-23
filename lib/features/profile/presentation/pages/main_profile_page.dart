@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
+import 'package:hosptel_app/features/profile/presentation/cubit/log_out/log_out_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/logic/edit_profile_logic.dart';
 import '../../../../core/resources/word_manger.dart';
 import '../../../../core/widget/main/back_ground_main/back_ground_main.dart';
@@ -67,6 +68,7 @@ class ProfilePage extends StatelessWidget {
                   );
                 },
               ),
+
               //? Delete My Account :
               BlocConsumer<DeleteAccountCubit, DeleteAccountState>(
                 listener: (context, state) {
@@ -86,6 +88,30 @@ class ProfilePage extends StatelessWidget {
                       textPopUp: AppWordManger.areYoueSureDeletedAccount,
                       onTapFirst: () =>
                           context.read<DeleteAccountCubit>().deleteAccount(),
+                      onTapSecound: () => Navigator.pop(context),
+                    );
+                  },
+                ),
+              ),
+
+              //? Log Out :
+              BlocListener<LogOutCubit, LogOutState>(
+                listener: (context, state) {
+                  EditProfileLogic().logOutListener(state, context);
+                },
+                child: CardMainProfile(
+                  paddingLeft: 145,
+                  text: AppWordManger.logOut,
+                  onTap: () {
+                    MainShowDialog.customShowDialog(
+                      onTapBack: () {
+                        Navigator.pop(context);
+                      },
+                      context,
+                      firstButtonText: AppWordManger.yes,
+                      secoundButtonText: AppWordManger.no,
+                      textPopUp: AppWordManger.areYouSureLogOut,
+                      onTapFirst: () => context.read<LogOutCubit>().logOut(),
                       onTapSecound: () => Navigator.pop(context),
                     );
                   },

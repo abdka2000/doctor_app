@@ -43,7 +43,8 @@ class SymptomsBloc extends Bloc<SymptomsEvent, SymptomsState> {
             )),
             (symptoms) {
               if (symptoms.result?.items?.isEmpty ?? true) {
-                emit(state.copyWith(hasReachedMax: true));
+                emit(state.copyWith(
+                    hasReachedMax: true, status: DeafultBlocStatus.done));
               } else {
                 emit(
                   state.copyWith(

@@ -17,12 +17,29 @@ import '../../../../core/widget/text_utiles/text_utile_widget.dart';
 import '../widgets/bacground_profile.dart';
 import '../widgets/label_text_form_filed.dart';
 
-class EditNumberPage extends StatelessWidget {
+class EditNumberPage extends StatefulWidget {
   const EditNumberPage({super.key});
 
   @override
+  State<EditNumberPage> createState() => _EditNumberPageState();
+}
+
+class _EditNumberPageState extends State<EditNumberPage> {
+  late TextEditingController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
     return MainBackGround(
       mainBody: SingleChildScrollView(
         child: Column(

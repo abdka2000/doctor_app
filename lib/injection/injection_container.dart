@@ -15,6 +15,12 @@ import 'package:hosptel_app/features/health/presentation/cubit/user_prescription
 import 'package:hosptel_app/features/home/presentation/cubit/doctor_info/doctor_info_cubit.dart';
 import 'package:hosptel_app/features/home/presentation/cubit/services_bloc/services_bloc.dart';
 import 'package:hosptel_app/features/intro/presentation/cubit/navigate_cubit.dart';
+import 'package:hosptel_app/features/notification/data/data_sources/notifications_remote.dart';
+import 'package:hosptel_app/features/notification/data/repository/notifications_repo_impl.dart';
+import 'package:hosptel_app/features/notification/domain/repository/notifications_repository.dart';
+import 'package:hosptel_app/features/notification/domain/usecases/notifications_base_use_case.dart';
+import 'package:hosptel_app/features/notification/domain/usecases/notifications_use_case.dart';
+import 'package:hosptel_app/features/notification/presentation/cubit/notifications_bloc/notifications_bloc.dart';
 import 'package:hosptel_app/features/profile/data/data_sources/profile_remote.dart';
 import 'package:hosptel_app/features/profile/data/repository/profile_repo_impl.dart';
 import 'package:hosptel_app/features/profile/domain/repository/profile_repo.dart';
@@ -25,6 +31,7 @@ import 'package:hosptel_app/features/profile/presentation/cubit/confirm_edit_num
 import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_number/edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_profile/edit_profile_cubit.dart';
+import 'package:hosptel_app/features/profile/presentation/cubit/log_out/log_out_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/create_appoinment/create_appoinment_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/info_days_times/info_days_times_cubit.dart';
@@ -113,6 +120,7 @@ Future<void> init() async {
       () => ConfirmEditNumberCubit(sl()));
   sl.registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(sl()));
   sl.registerFactory<DeleteAccountCubit>(() => DeleteAccountCubit(sl()));
+  sl.registerFactory<LogOutCubit>(() => LogOutCubit(sl()));
 
   //? Use Cases
   sl.registerLazySingleton<ProfileBaseUseCase>(
@@ -166,6 +174,23 @@ Future<void> init() async {
   //? Remote
   sl.registerLazySingleton<ReservationRemoteDataSource>(
       () => ReservationRemoteDataSourceImpl());
+//? End Features - reservations
+
+//? Featuser - Notifications
+  //? Cubit - Bloc
+  sl.registerFactory(() => NotificationsBloc(sl()));
+
+  //? Use Cases
+  sl.registerLazySingleton<NotificationsBaseUseCase>(
+      () => NotificationsUseCase(repo: sl()));
+
+  //? Repo
+  sl.registerLazySingleton<NotificationsRepo>(
+      () => NotificationsRepoImpl(remote: sl()));
+
+  //? Remote
+  sl.registerLazySingleton<NotificationsRemote>(
+      () => NotificationsRemoteImpl());
 
 //? Features - Global
   sl.registerLazySingleton<NetworkInfo>(

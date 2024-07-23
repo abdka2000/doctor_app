@@ -1,6 +1,5 @@
 import '../../../domain/entities/reservation_item/reservation_item.dart';
 
-
 class ReservationItemModel extends ReservationItemEntity {
   ReservationItemModel({
     super.id,

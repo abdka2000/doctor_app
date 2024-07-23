@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hosptel_app/core/api/api_links.dart';
 import 'package:hosptel_app/core/api/api_methode_delete.dart';
 import 'package:hosptel_app/core/api/api_methode_post.dart';
@@ -12,11 +13,18 @@ import '../../../../../core/api/api_methode_get.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<Person> getProfileData();
+  //-------------------------------------------------//
   Future<Unit> editProfile(Person person);
+  //-------------------------------------------------//
   Future<Unit> editPhoneNumber(String phoneNumber);
+  //-------------------------------------------------//
   Future<Unit> confirmEditPhoneNumber(String phoneNumber, String code);
+  //-------------------------------------------------//
   Future<Unit> changePassword(String currentPassword, String newPassword);
+  //-------------------------------------------------//
   Future<Unit> deleteAccount();
+  //-------------------------------------------------//
+  Future<Unit> logOut();
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
@@ -117,5 +125,23 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     AppSharedPreferences.clear();
     return ApiDeleteMethods<Unit>(addHeader: headers)
         .delete(url: ApiDelete.deleteAccount, data: (response) => unit);
+  }
+
+  @override
+  Future<Unit> logOut() async {
+    final token = AppSharedPreferences.getToken();
+    final firebaseToken = await getFirebaseToken();
+    final body = {"firebaseToken": firebaseToken};
+    Map<String, String> headers = {
+      "Authorization": token,
+    };
+    return ApiPostMethods<Unit>(addHeader: headers)
+        .post(url: ApiPost.logOut, data: (response) => unit, body: body);
+  }
+
+  //? Get Firebase Token :
+  Future<String> getFirebaseToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    return token ?? '';
   }
 }

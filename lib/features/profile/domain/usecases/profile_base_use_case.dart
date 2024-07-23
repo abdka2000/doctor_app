@@ -11,4 +11,5 @@ abstract class ProfileBaseUseCase {
   Future<Either<Failure, Unit>> changePassword(
       String currentPassword, String newPassword);
   Future<Either<Failure, Unit>> deleteAccount();
+  Future<Either<Failure, Unit>> logOut();
 }

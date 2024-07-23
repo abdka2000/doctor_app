@@ -5,7 +5,6 @@ import '../../../../core/resources/color_manger.dart';
 import '../../../../core/resources/font_manger.dart';
 import '../../../../core/resources/png_manger.dart';
 
-
 class VerificationForgetPasswordPage extends StatelessWidget {
   const VerificationForgetPasswordPage({super.key, required this.phoneNumber});
   final String phoneNumber;

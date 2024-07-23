@@ -22,7 +22,7 @@ class TimesForDayState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status , times];
+  List<Object> get props => [failureMessage, status, times];
 
   TimesForDayState copyWith({
     FailureMessage? failureMessage,

@@ -30,7 +30,8 @@ class MidicalSessionsBloc
                     status: DeafultBlocStatus.error,
                   )), (sessions) {
             if (sessions.result?.items?.isEmpty ?? true) {
-              emit(state.copyWith(hasReachedMax: true));
+              emit(state.copyWith(
+                  hasReachedMax: true, status: DeafultBlocStatus.done));
             } else {
               emit(state.copyWith(
                 status: DeafultBlocStatus.done,

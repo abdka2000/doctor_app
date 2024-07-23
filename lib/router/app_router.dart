@@ -4,7 +4,6 @@ import 'package:hosptel_app/features/auth/presentation/cubit/forget_password/for
 import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
 import 'package:hosptel_app/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:hosptel_app/features/auth/presentation/pages/verification_forget_password_page.dart';
-import 'package:hosptel_app/features/health/presentation/cubit/download_bloc/download_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions_bloc/midical_sessions_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/patient_files_bloc/patient_files_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/prescription_details_bloc/prescription_details_bloc.dart';
@@ -13,11 +12,13 @@ import 'package:hosptel_app/features/health/presentation/cubit/user_prescription
 import 'package:hosptel_app/features/home/presentation/cubit/doctor_info/doctor_info_cubit.dart';
 import 'package:hosptel_app/features/home/presentation/cubit/services_bloc/services_bloc.dart';
 import 'package:hosptel_app/features/intro/presentation/cubit/navigate_cubit.dart';
+import 'package:hosptel_app/features/notification/presentation/cubit/notifications_bloc/notifications_bloc.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/confirm_edit_number/confirm_edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_number/edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/edit_profile/edit_profile_cubit.dart';
+import 'package:hosptel_app/features/profile/presentation/cubit/log_out/log_out_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/create_appoinment/create_appoinment_cubit.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/info_days_times/info_days_times_cubit.dart';
@@ -377,7 +378,11 @@ class AppRouter {
       case RouteNamedScreens.notificationNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const NotificationPage();
+            return BlocProvider(
+              create: (context) =>
+                  di.sl<NotificationsBloc>()..add(const GetNotifications()),
+              child: const NotificationPage(),
+            );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);
@@ -478,8 +483,15 @@ class AppRouter {
       case RouteNamedScreens.profileNameRoute:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return BlocProvider(
-              create: (context) => di.sl<DeleteAccountCubit>(),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => di.sl<DeleteAccountCubit>(),
+                ),
+                BlocProvider(
+                  create: (context) => di.sl<LogOutCubit>(),
+                ),
+              ],
               child: const ProfilePage(),
             );
           },

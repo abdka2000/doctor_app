@@ -83,7 +83,9 @@ class AppWordManger {
   static const changePassword = 'تغيير كلمة السر';
   static const updateMyNumber = 'تعديل رقمي';
   static const deleteAccount = 'حذف حسابي';
+  static const logOut = 'تسجيل الخروج';
   static const areYoueSureDeletedAccount = 'هل تريد بالتأكيد حذف حسابك؟';
+  static const areYouSureLogOut = 'هل تريد بالتأكيد تسجيل الخروج؟';
   static const yes = 'نعم';
   static const no = 'لا';
   static const pleaseWriteSomeThingYouRemember = 'يرجى كتابة شيئ تتذكره';

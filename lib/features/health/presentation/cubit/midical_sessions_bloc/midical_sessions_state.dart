@@ -1,6 +1,5 @@
 part of 'midical_sessions_bloc.dart';
 
-
 class MidicalSessionsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;

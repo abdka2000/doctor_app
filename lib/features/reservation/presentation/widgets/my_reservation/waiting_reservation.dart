@@ -40,12 +40,9 @@ class WaitingReservation extends StatelessWidget {
             }
           } else if (state.status == DeafultBlocStatus.error) {
             return ErrorTextWidget(
-              text: state.failureMessage.message,
-              onPressed: () =>    context
-            .read<ReservationsBloc>()
-            .add(const GetReservations(isFinished: false, isRefresh: true))
-    
-            );
+                text: state.failureMessage.message,
+                onPressed: () => context.read<ReservationsBloc>().add(
+                    const GetReservations(isFinished: false, isRefresh: true)));
           }
           return const MainLoadignWidget();
         },

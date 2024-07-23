@@ -30,7 +30,8 @@ class UserAmountBloc extends Bloc<UserAmountEvent, UserAmountState> {
                     status: DeafultBlocStatus.error,
                   )), (amount) {
             if (amount.pagedResultDto?.items?.isEmpty ?? true) {
-              emit(state.copyWith(hasReachedMax: true));
+              emit(state.copyWith(
+                  hasReachedMax: true, status: DeafultBlocStatus.done));
             } else {
               emit(state.copyWith(
                 status: DeafultBlocStatus.done,

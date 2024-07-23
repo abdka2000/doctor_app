@@ -22,7 +22,7 @@ class SymptomsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [failureMessage, status , items,hasReachedMax];
+  List<Object> get props => [failureMessage, status, items, hasReachedMax];
 
   SymptomsState copyWith({
     FailureMessage? failureMessage,

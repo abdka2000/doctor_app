@@ -34,7 +34,9 @@ class ReservationLogic {
   ) {
     if (state.status == DeafultBlocStatus.done && !state.hasReachedMax) {
       if (state.reservations.length < 3) {
-        context.read<ReservationsBloc>().add(const GetReservations(isFinished: true));
+        context
+            .read<ReservationsBloc>()
+            .add(const GetReservations(isFinished: true));
       }
       controller.addListener(() {
         if (controller.offset >= (controller.position.maxScrollExtent * 0.8)) {

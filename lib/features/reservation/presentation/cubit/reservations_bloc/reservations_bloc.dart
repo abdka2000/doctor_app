@@ -48,7 +48,8 @@ class ReservationsBloc extends Bloc<ReservationsEvent, ReservationsState> {
             )),
             (reservation) {
               if (reservation.items?.isEmpty ?? true) {
-                emit(state.copyWith(hasReachedMax: true));
+                emit(state.copyWith(
+                    hasReachedMax: true, status: DeafultBlocStatus.done));
               } else {
                 emit(
                   state.copyWith(

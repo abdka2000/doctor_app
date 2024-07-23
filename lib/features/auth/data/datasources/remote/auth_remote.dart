@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../../../../core/api/api_links.dart';
 import '../../../../../core/api/api_methode_post.dart';
 import '../../../../../core/api/api_methods.dart';
@@ -73,9 +73,15 @@ class AuthRemoteImpl implements AuthRemote {
 
   //?  Log in Impl :
   @override
-  Future<LoginResponseEntity> logIn({required LoginRequest request}) {
+  Future<LoginResponseEntity> logIn({required LoginRequest request}) async {
+    final firebaseToken = await getFirebaseToken();
+    final body = {
+      "password": request.password,
+      "phoneNumber": request.phoneNumber,
+      "firebaseToken": firebaseToken,
+    };
     return ApiPostMethods<LoginResponseEntity>().post(
-      body: request.toJson(),
+      body: body,
       url: ApiPost.login,
       data: (response) {
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -135,5 +141,11 @@ class AuthRemoteImpl implements AuthRemote {
       data: (response) => unit,
       body: body,
     );
+  }
+
+  //? Get Firebase Token :
+  Future<String> getFirebaseToken() async {
+    final firebaseToken = await FirebaseMessaging.instance.getToken();
+    return firebaseToken ?? '';
   }
 }

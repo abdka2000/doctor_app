@@ -26,6 +26,9 @@ class ApiGet {
   static const getUserAmount =
       'services/app/PatientAccount/GetAllAccountsForPatient';
   static const getFiles = 'services/app/PatientAttachmnet/GetAllForPatient';
+  //? Notifications
+  static const getNotifications =
+      'services/app/PatientNotification/GetAllForPatient';
 }
 //?
 
@@ -40,9 +43,7 @@ class ApiPost {
   static const forgetPassword = 'services/app/Patient/ForgotPassword';
   static const confirmForgetPassword =
       'services/app/Patient/ConfirmForgotPasswordCode';
-  static const resetPassword =
-      'services/app/Patient/ResetPassword';
-
+  static const resetPassword = 'services/app/Patient/ResetPassword';
 
   //? Profile
   static const sendEditPhoneNumber =
@@ -50,9 +51,13 @@ class ApiPost {
   static const confirmEditPhoneNumber =
       'services/app/Patient/SendConfirmationCodeForEditNumber';
   static const changePassword = 'services/app/Patient/ChangePassword';
+  static const logOut = 'services/app/Patient/Logout';
   //? Reservations
   static const createAppoinment =
       'services/app/Appointment/CreateAppointmentByPatient';
+  //? Notifications
+  static const setNotificationsReaded =
+      'services/app/PatientNotification/SetNotificationsAsReaded';
 }
 //
 

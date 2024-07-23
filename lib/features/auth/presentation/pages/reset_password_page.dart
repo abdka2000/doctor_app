@@ -25,6 +25,5 @@ class ResetPasswordPage extends StatelessWidget {
         phoneNumber: phoneNumber,
       ),
     );
-    
   }
 }

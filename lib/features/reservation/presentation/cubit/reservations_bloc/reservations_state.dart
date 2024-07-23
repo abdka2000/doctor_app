@@ -1,6 +1,5 @@
 part of 'reservations_bloc.dart';
 
-
 class ReservationsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;

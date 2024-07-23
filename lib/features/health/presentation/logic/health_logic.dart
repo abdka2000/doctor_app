@@ -11,7 +11,6 @@ import 'package:hosptel_app/features/health/presentation/cubit/patient_files_blo
 import 'package:hosptel_app/features/health/presentation/cubit/prescription_details_bloc/prescription_details_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/user_amount_bloc/user_amount_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/user_prescriptions_bloc/user_prescriptions_bloc.dart';
-import 'package:hosptel_app/router/app_router.dart';
 
 class HealthLogic {
   void midicalSessionListener(

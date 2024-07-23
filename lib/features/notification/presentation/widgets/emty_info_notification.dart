@@ -7,12 +7,20 @@ class EmptyInfoNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextUtiels(
-      paddingTop: 120.h,
-      text: 'لايوجد اشعارات حتى الآن.',
-      style: Theme.of(context).textTheme.displayMedium?.copyWith(
-            fontSize: 24.sp,
+    return Expanded(
+      child: ListView(
+        children: [
+          Center(
+            child: TextUtiels(
+              paddingTop: 120.h,
+              text: 'لايوجد اشعارات حتى الآن.',
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                    fontSize: 24.sp,
+                  ),
+            ),
           ),
+        ],
+      ),
     );
   }
 }

@@ -36,6 +36,10 @@ class InfoProfilePageBody extends StatefulWidget {
 }
 
 class _InfoProfilePageBodyState extends State<InfoProfilePageBody> {
+  TextEditingController birthController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -47,9 +51,14 @@ class _InfoProfilePageBodyState extends State<InfoProfilePageBody> {
     nameController.text = widget.person.fullName ?? '';
   }
 
-  TextEditingController birthController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    phoneController.dispose();
+    birthController.dispose();
+    nameController.dispose();
+  }
+
   bool enabled = true;
   @override
   Widget build(BuildContext context) {
