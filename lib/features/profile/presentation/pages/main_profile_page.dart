@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptel_app/core/shared/shared_pref.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/log_out/log_out_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/logic/edit_profile_logic.dart';
@@ -120,6 +121,8 @@ class ProfilePage extends StatelessWidget {
                         context
                             .read<ButtonNavCubit>()
                             .changeIndexButtonNav(2, context, isLogout: true);
+
+                        AppSharedPreferences.clear();
                       },
                       onTapSecound: () => Navigator.pop(context),
                     );
