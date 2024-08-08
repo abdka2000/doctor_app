@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hosptel_app/core/widget/show_dialog/main_show_dialog_widget.dart';
+import 'package:hosptel_app/features/auth/presentation/cubit/send_code/send_code_cubit.dart';
+import 'package:hosptel_app/features/auth/presentation/logic/auth_logic.dart';
 import '../../../../core/resources/color_manger.dart';
 import '../../../../core/resources/enum_manger.dart';
 import '../../../../core/resources/font_manger.dart';
@@ -36,116 +39,129 @@ class BottomeSheetVerifivcationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 24.h,
-            ),
-            child: Center(
-              child: SvgPicture.asset(
-                width: 20.w,
-                height: 4.h,
-                AppSvgManger.rowBottomeSheet,
+    return BlocListener<SendCodeCubit, SendCodeState>(
+      listener: (context, state) =>
+          AuthLogic().listenerSendCode(context, state),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 24.h,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  width: 20.w,
+                  height: 4.h,
+                  AppSvgManger.rowBottomeSheet,
+                ),
               ),
             ),
-          ),
-          //? This is Icon Back And Text
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: EdgeInsetsDirectional.only(start: 14.w),
-                  child: SvgPicture.asset(
-                    width: 30.w,
-                    height: 30.h,
-                    AppSvgManger.iconArrow,
+            //? This is Icon Back And Text
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.only(start: 14.w),
+                    child: SvgPicture.asset(
+                      width: 30.w,
+                      height: 30.h,
+                      AppSvgManger.iconArrow,
+                    ),
                   ),
                 ),
-              ),
-              TextUtiels(
-                paddingRight: 19.w,
-                text: AppWordManger.writeNumber,
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      fontSize: AppFontSizeManger.s24,
-                    ),
-              ),
-            ],
-          ),
-          TextUtiels(
-            paddingRight: 19.w,
-            paddingTop: 10.h,
-            text: 'تم إرسال رمز برسالة نصية إلى ',
-            color: AppColorManger.lightColor,
-            fontSize: 17.sp,
-          ),
-          TextUtiels(
-            text: numberPhone,
-            color: fontColorSubText,
-            fontSize: fontSizeSubText,
-            fontFamily: fontFamailySubText,
-            paddingTop: 10.h,
-            paddingRight: 18.w,
-            // paddingBottome: 10.h,
-          ),
-          //? Confirm Code
-          PinCodeFiledWidget(
-            onChange: (value) {},
-            onCompleted: (vale) {
-              code = vale;
-            },
-          ),
-          BlocConsumer<ConfirmAccountCubit, ConfirmAccountState>(
-            listener: (context, state) {
-              if (state.status == DeafultBlocStatus.error) {
-                SnackBarUtil.showSnackBar(
-                  message: state.failureMessage.message,
-                  context: context,
-                );
-              } else if (state.status == DeafultBlocStatus.done) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteNamedScreens.loginScreenNameRoute,
-                  (route) => false,
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state.status == DeafultBlocStatus.loading) {
-                return const MainLoadignWidget();
-              }
-              return Center(
-                child: MainElevatedButton(
-                  horizontalPadding: 90.w,
-                  text: AppWordManger.doneVerification,
-                  backgroundColor: AppColorManger.primaryColor,
-                  textColor: AppColorManger.white,
-                  onPreesed: () {
-                    context.read<ConfirmAccountCubit>().confirmAccount(
-                          phoneNumber: numberPhone,
-                          code: code,
-                        );
-                  },
+                TextUtiels(
+                  paddingRight: 19.w,
+                  text: AppWordManger.writeNumber,
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        fontSize: AppFontSizeManger.s24,
+                      ),
                 ),
-              );
-            },
-          ),
-          MovPageText(
-            movPageText: AppWordManger.resendMessage,
-            onTap: () {
-              if (kDebugMode) {
-                print(numberPhone.split(' ')[1]);
-              }
-            },
-            primaryText: AppWordManger.dontGetVerificationCode,
-          ),
-        ],
+              ],
+            ),
+            TextUtiels(
+              paddingRight: 19.w,
+              paddingTop: 10.h,
+              text: 'تم إرسال رمز برسالة نصية إلى ',
+              color: AppColorManger.lightColor,
+              fontSize: 17.sp,
+            ),
+            TextUtiels(
+              text: numberPhone,
+              color: fontColorSubText,
+              fontSize: fontSizeSubText,
+              fontFamily: fontFamailySubText,
+              paddingTop: 10.h,
+              paddingRight: 18.w,
+              // paddingBottome: 10.h,
+            ),
+            //? Confirm Code
+            PinCodeFiledWidget(
+              onChange: (value) {},
+              onCompleted: (vale) {
+                code = vale;
+              },
+            ),
+
+            // Verify code button :
+            BlocConsumer<ConfirmAccountCubit, ConfirmAccountState>(
+              listener: (context, state) {
+                if (state.status == DeafultBlocStatus.error) {
+                  SnackBarUtil.showSnackBar(
+                    message: state.failureMessage.message,
+                    context: context,
+                  );
+                } else if (state.status == DeafultBlocStatus.done) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteNamedScreens.loginScreenNameRoute,
+                    (route) => false,
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state.status == DeafultBlocStatus.loading) {
+                  return const MainLoadignWidget();
+                }
+                return Center(
+                  child: MainElevatedButton(
+                    horizontalPadding: 90.w,
+                    text: AppWordManger.doneVerification,
+                    backgroundColor: AppColorManger.primaryColor,
+                    textColor: AppColorManger.white,
+                    onPreesed: () {
+                      if (code.length < 3) {
+                        SnackBarUtil.showSnackBar(
+                            message: 'أدخل الكود كاملا', context: context);
+                      } else {
+                        context.read<ConfirmAccountCubit>().confirmAccount(
+                              phoneNumber: numberPhone,
+                              code: code,
+                            );
+                      }
+                    },
+                  ),
+                );
+              },
+            ),
+
+            // Reserf Code :
+            MovPageText(
+              movPageText: AppWordManger.resendMessage,
+              onTap: () {
+                context
+                    .read<SendCodeCubit>()
+                    .sendCode(phoneNum: numberPhone, isResend: true);
+              },
+              primaryText: AppWordManger.dontGetVerificationCode,
+            ),
+          ],
+        ),
       ),
     );
   }

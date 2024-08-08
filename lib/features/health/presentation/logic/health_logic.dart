@@ -5,6 +5,7 @@ import 'package:hosptel_app/core/resources/enum_manger.dart';
 import 'package:hosptel_app/core/resources/word_manger.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/sanck_bar/main_snack_bar.dart';
+import 'package:hosptel_app/core/widget/show_dialog/main_show_dialog_widget.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/download_bloc/download_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/midical_sessions_bloc/midical_sessions_bloc.dart';
 import 'package:hosptel_app/features/health/presentation/cubit/patient_files_bloc/patient_files_bloc.dart';
@@ -125,14 +126,7 @@ class HealthLogic {
       Navigator.canPop(context) ? Navigator.pop(context) : null;
     } else if (state.status == DeafultBlocStatus.loading) {
       Navigator.pop(context);
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                content: SizedBox(
-                    width: 100.h,
-                    height: 100.h,
-                    child: const MainLoadignWidget()),
-              ));
+      MainShowDialog.loadingDialog(context: context);
     }
   }
 }

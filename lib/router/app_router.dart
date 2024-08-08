@@ -165,12 +165,21 @@ class AppRouter {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             final phoneNumber = arguments as String;
-            return BlocProvider(
-              create: (context) => di.sl<ConfirmAccountCubit>(),
-              child: ConfirmPhoneNumberPage(
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => di.sl<ConfirmAccountCubit>(),
+                ),
+                BlocProvider(
+                  create: (context) =>
+                      di.sl<SendCodeCubit>()..sendCode(phoneNum: phoneNumber),
+                ),
+              ],
+              child:ConfirmPhoneNumberPage(
                 phoneNumber: phoneNumber,
               ),
             );
+           
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);

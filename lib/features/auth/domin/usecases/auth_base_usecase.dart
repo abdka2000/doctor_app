@@ -20,7 +20,7 @@ abstract class AuthBaseUseCase {
   });
 
   //? Base Use Case Log In:
-  Future<Either<Failure, Unit>> logIn({
+  Future<Either<Failure, bool>> logIn({
     required LoginRequest request,
   });
 

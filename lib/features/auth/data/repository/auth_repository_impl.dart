@@ -43,14 +43,15 @@ class AuthRepositoryImpl implements AuthRepository {
   //? Log in Repository Impl :
 
   @override
-  Future<Either<Failure, Unit>> logIn({required LoginRequest request}) async {
-    return CheckNet<Unit>().checkNetResponse(
+  Future<Either<Failure, bool>> logIn({required LoginRequest request}) async {
+    return CheckNet<bool>().checkNetResponse(
       tryRight: () async {
         final data = await remote.logIn(request: request);
         String token = "Bearer ${data.result!.accessToken}";
         AppSharedPreferences.clear();
         AppSharedPreferences.cashToke(token: token);
-        return const Right(unit);
+        final isConfirmed = data.details == "True" ? false : true;
+        return Right(isConfirmed);
       },
     );
   }

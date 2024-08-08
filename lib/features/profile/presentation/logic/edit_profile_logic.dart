@@ -7,6 +7,7 @@ import 'package:hosptel_app/core/shared/shared_pref.dart';
 import 'package:hosptel_app/core/widget/loading/main_loading.dart';
 import 'package:hosptel_app/core/widget/main/nav_button_main/cubit/button_nav_cubit.dart';
 import 'package:hosptel_app/core/widget/sanck_bar/main_snack_bar.dart';
+import 'package:hosptel_app/core/widget/show_dialog/main_show_dialog_widget.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/confirm_edit_number/confirm_edit_number_cubit.dart';
 import 'package:hosptel_app/features/profile/presentation/cubit/delete_account/delete_account_cubit.dart';
@@ -105,17 +106,10 @@ class EditProfileLogic {
           details: state.failureMessage.details);
     } else if (state.status == DeafultBlocStatus.loading) {
       Navigator.pop(context);
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                content: SizedBox(
-                    width: 100.h,
-                    height: 100.h,
-                    child: const MainLoadignWidget()),
-              ));
+      MainShowDialog.loadingDialog(context: context);
     }
   }
-  
+
   void logOutListener(LogOutState state, BuildContext context) {
     if (state.status == DeafultBlocStatus.done) {
       Navigator.pop(context);

@@ -31,7 +31,7 @@ class AuthUseCaseImpl implements AuthBaseUseCase {
 
   //? Use Case Log in :
   @override
-  Future<Either<Failure, Unit>> logIn({
+  Future<Either<Failure, bool>> logIn({
     required LoginRequest request,
   }) async {
     return await repository.logIn(request: request);

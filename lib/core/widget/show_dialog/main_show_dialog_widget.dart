@@ -7,6 +7,17 @@ import 'button_show_deailog.dart';
 import '../text_utiles/text_utile_widget.dart';
 
 class MainShowDialog {
+  // Loading dialog :
+  static void loadingDialog({required BuildContext context}) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  // Main dialog :
   static void customShowDialog(
     BuildContext context, {
     required void Function()? onTapFirst,

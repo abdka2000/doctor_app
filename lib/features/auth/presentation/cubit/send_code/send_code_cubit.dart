@@ -9,8 +9,11 @@ part 'send_code_state.dart';
 class SendCodeCubit extends Cubit<SendCodeState> {
   SendCodeCubit(this.useCase) : super(SendCodeState.intial());
   final AuthBaseUseCase useCase;
-  Future<void> sendCode({required String phoneNum}) async {
-    emit(state.copyWith(status: DeafultBlocStatus.loading));
+  Future<void> sendCode(
+      {required String phoneNum, bool isResend = false}) async {
+    if (isResend) {
+      emit(state.copyWith(status: DeafultBlocStatus.loading));
+    }
     final data = await useCase.sendCode(phoneNum: phoneNum);
     data.fold(
       (failure) {
@@ -22,11 +25,13 @@ class SendCodeCubit extends Cubit<SendCodeState> {
         );
       },
       (done) {
-        emit(
-          state.copyWith(
-            status: DeafultBlocStatus.done,
-          ),
-        );
+        if (isResend) {
+          emit(
+            state.copyWith(
+              status: DeafultBlocStatus.done,
+            ),
+          );
+        }
       },
     );
   }

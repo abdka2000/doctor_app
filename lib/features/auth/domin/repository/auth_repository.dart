@@ -5,7 +5,7 @@ import '../entities/req/login_request_entite.dart';
 
 abstract class AuthRepository {
   //? Repository Login :
-  Future<Either<Failure, Unit>> logIn({
+  Future<Either<Failure, bool>> logIn({
     required LoginRequest request,
   });
 
