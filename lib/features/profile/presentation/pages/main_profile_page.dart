@@ -111,7 +111,16 @@ class ProfilePage extends StatelessWidget {
                       firstButtonText: AppWordManger.yes,
                       secoundButtonText: AppWordManger.no,
                       textPopUp: AppWordManger.areYouSureLogOut,
-                      onTapFirst: () => context.read<LogOutCubit>().logOut(),
+                      // onTapFirst: () => context.read<LogOutCubit>().logOut(),
+                      onTapFirst: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            RouteNamedScreens.loginScreenNameRoute,
+                            (route) => false);
+                        context
+                            .read<ButtonNavCubit>()
+                            .changeIndexButtonNav(2, context, isLogout: true);
+                      },
                       onTapSecound: () => Navigator.pop(context),
                     );
                   },

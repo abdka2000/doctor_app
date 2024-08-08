@@ -27,7 +27,8 @@ class ReservationsBloc extends Bloc<ReservationsEvent, ReservationsState> {
                     status: DeafultBlocStatus.error,
                   )), (reservation) {
             if (reservation.items?.isEmpty ?? true) {
-              emit(state.copyWith(hasReachedMax: true));
+              emit(state.copyWith(
+                  hasReachedMax: true, status: DeafultBlocStatus.done));
             } else {
               emit(state.copyWith(
                 status: DeafultBlocStatus.done,
@@ -47,7 +48,8 @@ class ReservationsBloc extends Bloc<ReservationsEvent, ReservationsState> {
               status: DeafultBlocStatus.error,
             )),
             (reservation) {
-              if (reservation.items?.isEmpty ?? true) {
+              if ((reservation.items?.isEmpty ?? true) ||
+                  reservation.totalCount == 0) {
                 emit(state.copyWith(
                     hasReachedMax: true, status: DeafultBlocStatus.done));
               } else {

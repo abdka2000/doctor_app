@@ -224,7 +224,7 @@ class _SummaryReservationPageState extends State<SummaryReservationPage> {
                           endTime: selectedTime?.toTime ??
                               DateFormat.jm().format(DateTime.now()),
                           appointmentDate: DateTime.parse(
-                              selectedDay!.date ?? DateTime.now().toString()),
+                              selectedDay?.date ?? DateTime.now().toString()),
                           appointmentSymptoms: symptomsId
                               .map((id) => AppointmentSymptom(symptomId: id))
                               .toList(),

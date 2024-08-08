@@ -50,6 +50,12 @@ FailureMessage mapFailureToMessage({
                 statusCode: serverFailure.response.error.code ?? 0,
                 message: FaluireManger.connectionError,
               );
+            case 401:
+              return FailureMessage(
+                details: serverFailure.response.error.details ?? "",
+                statusCode: serverFailure.response.error.code ?? 0,
+                message: FaluireManger.tryLoginFailure,
+              );
 
             case -1:
               return FailureMessage(

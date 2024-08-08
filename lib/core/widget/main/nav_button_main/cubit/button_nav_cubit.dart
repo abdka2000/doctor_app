@@ -7,8 +7,9 @@ import 'button_nav_state.dart';
 class ButtonNavCubit extends Cubit<ButtonNavBarState> {
   ButtonNavCubit() : super(ButtonNavBarState.intial());
 
-  void changeIndexButtonNav(int index, BuildContext context) {
-    if (index == 2 && AppSharedPreferences.getToken().isEmpty) {
+  void changeIndexButtonNav(int index, BuildContext context,
+      {bool isLogout = false}) {
+    if ((index == 2 && AppSharedPreferences.getToken().isEmpty) || isLogout) {
       emit(state.copyWith(buttonNavBarIndex: index));
     } else {
       routingNamePage(index, context);

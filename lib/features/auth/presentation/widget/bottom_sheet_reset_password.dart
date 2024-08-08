@@ -88,7 +88,6 @@ class BottomeSheetResetPasswordWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25.w),
                   child: TextFormFiledPassword(
-                    enabled: enabled,
                     hintText: AppWordManger.newPassword,
                     onChange: (value) {
                       password1 = value;
@@ -108,7 +107,6 @@ class BottomeSheetResetPasswordWidget extends StatelessWidget {
                     top: 20.h,
                   ),
                   child: TextFormFiledPassword(
-                    enabled: enabled,
                     hintText: AppWordManger.confirmNewPassword,
                     onChange: (value) {
                       password2 = value;

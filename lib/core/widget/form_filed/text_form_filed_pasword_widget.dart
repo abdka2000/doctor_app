@@ -29,9 +29,7 @@ class TextFormFiledPassword extends StatefulWidget {
     this.colorHintText,
     this.fontSizeHintText,
     this.fontWeightHintText,
-    required this.enabled,
   }) : super(key: key);
-  final bool enabled;
   final String hintText;
   final TextInputType textInputType;
   final Function(String) onChange;
@@ -65,7 +63,6 @@ class _TextFormFiledPasswordState extends State<TextFormFiledPassword> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextFormField(
-        enabled: widget.enabled,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontSize: 16.sp,
               color: AppColorManger.black,
@@ -125,12 +122,12 @@ class _TextFormFiledPasswordState extends State<TextFormFiledPassword> {
           errorBorder: outlineInputBorder(
             circular: 13,
             width: widget.borderWidht ?? 0,
-            color: Colors.transparent,
+            color: widget.borderColor ?? Colors.transparent,
           ),
           focusedErrorBorder: outlineInputBorder(
             circular: 13,
             width: widget.borderWidht ?? 0,
-            color: Colors.transparent,
+            color: widget.borderColor ?? Colors.transparent,
           ),
         ),
         onChanged: widget.onChange,

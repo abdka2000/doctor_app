@@ -35,12 +35,16 @@ class ErrorTextWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextUtiels(
-              text: text,
-              style: Theme.of(context)
-                  .textTheme
-                  .displayMedium
-                  ?.copyWith(fontSize: 24.sp, color: Colors.grey),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: TextUtiels(
+                text: text,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .displayMedium
+                    ?.copyWith(fontSize: 24.sp, color: Colors.grey),
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -61,12 +65,16 @@ class ErrorTextWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextUtiels(
-          text: text,
-          style: Theme.of(context)
-              .textTheme
-              .displayMedium
-              ?.copyWith(fontSize: 24.sp, color: Colors.grey),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 14.w),
+          child: TextUtiels(
+            text: text,
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .displayMedium
+                ?.copyWith(fontSize: 24.sp, color: Colors.grey),
+          ),
         ),
         SizedBox(
           height: 20.h,

@@ -74,7 +74,6 @@ class ChangePasswordPage extends StatelessWidget {
                   vertical: 9.h,
                 ),
                 child: TextFormFiledPassword(
-                  enabled: enabled,
                   hintText: AppWordManger.password,
                   onChange: (value) {
                     currentPassword = value;
@@ -106,7 +105,6 @@ class ChangePasswordPage extends StatelessWidget {
                   vertical: 9.h,
                 ),
                 child: TextFormFiledPassword(
-                  enabled: enabled,
                   hintText: AppWordManger.mustbeSavenNumbers,
                   onChange: (value) {
                     newPassword1 = value;
@@ -138,7 +136,6 @@ class ChangePasswordPage extends StatelessWidget {
                   vertical: 9.h,
                 ),
                 child: TextFormFiledPassword(
-                  enabled: enabled,
                   hintText: AppWordManger.reEnterPassword,
                   onChange: (value) {
                     newPassword2 = value;

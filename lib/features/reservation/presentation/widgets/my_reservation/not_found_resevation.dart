@@ -17,10 +17,12 @@ class NotFoundReservationWidget extends StatelessWidget {
           padding: EdgeInsets.only(
             bottom: 40.h,
           ),
-          child: SvgPicture.asset(
-            AppSvgManger.iconReservation,
-            width: 120.w,
-            height: 125.h,
+          child: Center(
+            child: SvgPicture.asset(
+              AppSvgManger.iconReservation,
+              width: 120.w,
+              height: 125.h,
+            ),
           ),
         ),
         TextUtiels(

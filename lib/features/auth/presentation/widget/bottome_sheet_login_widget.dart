@@ -97,7 +97,6 @@ class BottomeSheetLoginWidget extends StatelessWidget {
                     top: 20.h,
                   ),
                   child: TextFormFiledPassword(
-                    enabled: enabled,
                     hintText: AppWordManger.password,
                     onChange: (value) {
                       password = value;

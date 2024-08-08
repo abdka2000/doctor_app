@@ -131,12 +131,14 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<Unit> logOut() async {
     final token = AppSharedPreferences.getToken();
     final firebaseToken = await getFirebaseToken();
-    final body = {"firebaseToken": firebaseToken};
+    // TODO : Edit this from api :
+    // final body = {"firebaseToken": firebaseToken};
     Map<String, String> headers = {
       "Authorization": token,
     };
     return ApiPostMethods<Unit>(addHeader: headers)
-        .post(url: ApiPost.logOut, data: (response) => unit, body: body);
+    // TODO : Dont forget to add body :
+        .post(url: ApiPost.logOut, data: (response) => unit, body: {});
   }
 
   //? Get Firebase Token :

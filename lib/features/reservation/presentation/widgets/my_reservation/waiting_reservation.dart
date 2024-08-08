@@ -38,13 +38,13 @@ class WaitingReservation extends StatelessWidget {
             } else {
               return const NotFoundReservationWidget();
             }
-          } else if (state.status == DeafultBlocStatus.error) {
-            return ErrorTextWidget(
-                text: state.failureMessage.message,
-                onPressed: () => context.read<ReservationsBloc>().add(
-                    const GetReservations(isFinished: false, isRefresh: true)));
+          } else if (state.status == DeafultBlocStatus.loading) {
+            return const MainLoadignWidget();
           }
-          return const MainLoadignWidget();
+          return ErrorTextWidget(
+              text: state.failureMessage.message,
+              onPressed: () => context.read<ReservationsBloc>().add(
+                  const GetReservations(isFinished: false, isRefresh: true)));
         },
       ),
     );

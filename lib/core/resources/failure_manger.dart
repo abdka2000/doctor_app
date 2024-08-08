@@ -7,4 +7,6 @@ class FaluireManger {
   static const pleaseCheckTheNetwork = 'Please Check The Network';
   static const errorEmptyCach = 'error Empty Cach';
   static const unHandledFailure = 'un Handled Failure';
+  static const tryLoginFailure =
+      'Ops, Your session has expired. Please log in again';
 }

@@ -6,7 +6,8 @@ class ApiUrl {
   late String _link;
 
   //? host Name :
-  static const String hostName = "doctormanagement-001-site1.ktempurl.com";
+  // static const String hostName = "doctormanagement-001-site1.ktempurl.com";
+  static const String hostName = "doctormanage-001-site1.ktempurl.com";
   //? base Url :
   static const String baseUrl = "https://$hostName/api/";
 
