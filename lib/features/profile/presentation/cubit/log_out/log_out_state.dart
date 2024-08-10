@@ -1,6 +1,5 @@
 part of 'log_out_cubit.dart';
 
-
 class LogOutState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../core/function/maping_falure.dart';
 import '../../../../../core/resources/enum_manger.dart';
-import '../../../data/models/doctor_adv/adv_item_model.dart';
+import '../../../domain/entity/doctor_adv/adv_item_model.dart';
 import '../../../domain/usecases/home_base_usecase.dart';
 
 part 'advertisement_state.dart';

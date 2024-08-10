@@ -7,38 +7,40 @@ import 'package:hosptel_app/core/api/api_methode_delete.dart';
 import 'package:hosptel_app/core/api/api_methode_post.dart';
 import 'package:hosptel_app/core/api/api_methode_put.dart';
 import 'package:hosptel_app/core/shared/shared_pref.dart';
-import 'package:hosptel_app/features/profile/data/models/person_model.dart';
 import 'package:hosptel_app/features/profile/domain/entities/person.dart';
 import '../../../../../core/api/api_methode_get.dart';
 
 abstract class ProfileRemoteDataSource {
+  //? Remote for get profile data :
   Future<Person> getProfileData();
-  //-------------------------------------------------//
+
+  //? Remote for edit profile :
   Future<Unit> editProfile(Person person);
-  //-------------------------------------------------//
+
+  //? Remote for edit phone number:
   Future<Unit> editPhoneNumber(String phoneNumber);
-  //-------------------------------------------------//
+
+  //? Remote for confirm phone :
   Future<Unit> confirmEditPhoneNumber(String phoneNumber, String code);
-  //-------------------------------------------------//
+
+  //? Remote for change password :
   Future<Unit> changePassword(String currentPassword, String newPassword);
-  //-------------------------------------------------//
+
+  //? Remote for delete account :
   Future<Unit> deleteAccount();
-  //-------------------------------------------------//
+
+  //? Remote for log out :
   Future<Unit> logOut();
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   @override
   Future<Person> getProfileData() async {
-    final token = AppSharedPreferences.getToken();
-    Map<String, String> headers = {
-      "Authorization": token,
-    };
-    return ApiGetMethods<Person>(addHeader: headers).get(
+    return ApiGetMethods<Person>().get(
       url: ApiGet.getProfileData,
       data: (response) {
         final data = jsonDecode(response.body);
-        final person = PersonModel.fromJson(data);
+        final person = Person.fromJson(data);
         AppSharedPreferences.cashPhoneNumber(
             phoneNumber: person.phoneNumber ?? "");
         AppSharedPreferences.cashUserName(name: person.fullName ?? "");
@@ -49,34 +51,20 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<Unit> editProfile(Person person) async {
-    final token = AppSharedPreferences.getToken();
-    final personModel = PersonModel(
-        id: person.id,
-        birthDate: person.birthDate,
-        fullName: person.fullName,
-        gender: person.gender,
-        phoneNumber: person.phoneNumber);
-    Map<String, String> headers = {
-      "Authorization": token,
-    };
-    return ApiPutMethods<Unit>(addHeader: headers).put(
+    return ApiPutMethods<Unit>().put(
       url: ApiPut.updateProfile,
       data: (response) => unit,
-      body: personModel.toJson(),
+      body: person.toJson(),
     );
   }
 
   @override
   Future<Unit> confirmEditPhoneNumber(String phoneNumber, String code) async {
-    final token = AppSharedPreferences.getToken();
     final query = {
       "phoneNumber": phoneNumber,
       "code": code,
     };
-    Map<String, String> headers = {
-      "Authorization": token,
-    };
-    return ApiPostMethods<Unit>(addHeader: headers).post(
+    return ApiPostMethods<Unit>().post(
         url: ApiPost.confirmEditPhoneNumber,
         data: (response) => unit,
         query: query);
@@ -84,14 +72,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<Unit> editPhoneNumber(String phoneNumber) {
-    final token = AppSharedPreferences.getToken();
     final query = {
       "phoneNumber": phoneNumber,
     };
-    Map<String, String> headers = {
-      "Authorization": token,
-    };
-    return ApiPostMethods<Unit>(addHeader: headers).post(
+    return ApiPostMethods<Unit>().post(
         url: ApiPost.sendEditPhoneNumber,
         data: (response) => unit,
         query: query);
@@ -100,16 +84,12 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   @override
   Future<Unit> changePassword(
       String currentPassword, String newPassword) async {
-    final token = AppSharedPreferences.getToken();
-    Map<String, String> headers = {
-      "Authorization": token,
-    };
     Map<String, dynamic> body = {
       "currentPassword": currentPassword,
       "newPassword": newPassword,
     };
 
-    return ApiPostMethods<Unit>(addHeader: headers).post(
+    return ApiPostMethods<Unit>().post(
       url: ApiPost.changePassword,
       data: (response) => unit,
       body: body,
@@ -118,26 +98,17 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<Unit> deleteAccount() async {
-    final token = AppSharedPreferences.getToken();
-    Map<String, String> headers = {
-      "Authorization": token,
-    };
-    AppSharedPreferences.clear();
-    return ApiDeleteMethods<Unit>(addHeader: headers)
+    return ApiDeleteMethods<Unit>()
         .delete(url: ApiDelete.deleteAccount, data: (response) => unit);
   }
 
   @override
   Future<Unit> logOut() async {
-    final token = AppSharedPreferences.getToken();
     final firebaseToken = await getFirebaseToken();
     // TODO : Edit this from api :
     // final body = {"firebaseToken": firebaseToken};
-    Map<String, String> headers = {
-      "Authorization": token,
-    };
-    return ApiPostMethods<Unit>(addHeader: headers)
-    // TODO : Dont forget to add body :
+    return ApiPostMethods<Unit>()
+        // TODO : Dont forget to add body :
         .post(url: ApiPost.logOut, data: (response) => unit, body: {});
   }
 

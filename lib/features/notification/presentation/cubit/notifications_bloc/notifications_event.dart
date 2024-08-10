@@ -12,4 +12,5 @@ class GetNotifications extends NotificationsEvent {
 
   const GetNotifications({this.isRefresh = false});
 }
-class MakeNotifictionsReaded extends NotificationsEvent{}
+
+class MakeNotifictionsReaded extends NotificationsEvent {}

@@ -141,7 +141,6 @@ class _BottomeSheetSignUpWidgetState extends State<BottomeSheetSignUpWidget> {
                     horizontal: 10.w,
                   ),
                   child: TextFormFiledPassword(
-                    
                     hintText: AppWordManger.password,
                     onChange: (value) {
                       request.password = value;

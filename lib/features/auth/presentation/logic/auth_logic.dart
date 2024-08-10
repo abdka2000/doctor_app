@@ -46,15 +46,7 @@ class AuthLogic {
         // context.read<SendCodeCubit>().sendCode(phoneNum: phoneNumber);
       }
     } else if (state.status == DeafultBlocStatus.done) {
-      if (state.isConfirmed) {
-        Navigator.pushNamed(
-          context,
-          RouteNamedScreens.homeScreenNameRoute,
-          // arguments: phoneNumber,
-        );
-      } else {
-        Navigator.pushNamed(context, AppWordManger.sendCodeForEnsure);
-      }
+      Navigator.pushNamed(context, AppWordManger.sendCodeForEnsure);
     }
   }
 

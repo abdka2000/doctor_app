@@ -3,7 +3,7 @@ part of 'services_bloc.dart';
 class ServicesState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<ItemModel> services;
+  final List<Item> services;
   final bool hasReachedMax;
 
   const ServicesState({
@@ -28,7 +28,7 @@ class ServicesState extends Equatable {
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
     bool? hasReachedMax,
-    List<ItemModel>? services,
+    List<Item>? services,
   }) {
     return ServicesState(
       failureMessage: failureMessage ?? this.failureMessage,

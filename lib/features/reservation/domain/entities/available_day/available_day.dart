@@ -1,6 +1,6 @@
 import 'result.dart';
 
-class AvailableTimes {
+class AvailableDays {
   List<Result>? result;
   dynamic targetUrl;
   bool? success;
@@ -8,7 +8,7 @@ class AvailableTimes {
   bool? unAuthorizedRequest;
   bool? abp;
 
-  AvailableTimes({
+  AvailableDays({
     this.result,
     this.targetUrl,
     this.success,
@@ -17,18 +17,16 @@ class AvailableTimes {
     this.abp,
   });
 
-  factory AvailableTimes.fromJson(Map<String, dynamic> json) {
-    return AvailableTimes(
-      result: (json['result'] as List<dynamic>?)
-          ?.map((e) => Result.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      targetUrl: json['targetUrl'] as dynamic,
-      success: json['success'] as bool?,
-      error: json['error'] as dynamic,
-      unAuthorizedRequest: json['unAuthorizedRequest'] as bool?,
-      abp: json['__abp'] as bool?,
-    );
-  }
+  factory AvailableDays.fromJson(Map<String, dynamic> json) => AvailableDays(
+        result: (json['result'] as List<dynamic>?)
+            ?.map((e) => Result.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        targetUrl: json['targetUrl'] as dynamic,
+        success: json['success'] as bool?,
+        error: json['error'] as dynamic,
+        unAuthorizedRequest: json['unAuthorizedRequest'] as bool?,
+        abp: json['__abp'] as bool?,
+      );
 
   Map<String, dynamic> toJson() => {
         'result': result?.map((e) => e.toJson()).toList(),

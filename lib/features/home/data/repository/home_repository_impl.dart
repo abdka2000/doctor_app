@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:hosptel_app/features/home/data/models/doctor_services/doctor_services_model.dart';
 import 'package:hosptel_app/features/home/domain/entity/doctor_info_entity/doctor_info_entity.dart';
+import 'package:hosptel_app/features/home/domain/entity/doctor_services/doctor_services_entity.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/check_net.dart';
 import '../datasource/remote/home_remote.dart';
-import '../models/doctor_adv/adv_item_model.dart';
+import '../../domain/entity/doctor_adv/adv_item_model.dart';
 import '../../domain/repository/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -13,9 +13,9 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl({required this.remote});
 
   @override
-  Future<Either<Failure, DoctorServicesModel>> getServices(
+  Future<Either<Failure, DoctorServices>> getServices(
       {required int skipCount, required int maxResult}) async {
-    return CheckNet<DoctorServicesModel>().checkNetResponse(tryRight: () async {
+    return CheckNet<DoctorServices>().checkNetResponse(tryRight: () async {
       final data =
           await remote.getServices(skipCount: skipCount, maxResult: maxResult);
       return Right(data);

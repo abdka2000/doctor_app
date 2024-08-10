@@ -5,6 +5,6 @@ import 'package:hosptel_app/features/notification/domain/entities/notification_e
 abstract class NotificationsBaseUseCase {
   Future<Either<Failure, NotificationEntity>> getNotifications(
       {required int skipCount, required int maxResult});
-        Future<Either<Failure, Unit>> setNotificationsReaded(
+  Future<Either<Failure, Unit>> setNotificationsReaded(
       {required List<int?> ids});
 }

@@ -22,9 +22,8 @@ class LoginCubit extends Cubit<LoginState> {
           status: DeafultBlocStatus.error,
         ));
       },
-      (isConfirmed) {
-        emit(state.copyWith(
-            status: DeafultBlocStatus.done, isConfirmed: isConfirmed));
+      (done) {
+        emit(state.copyWith(status: DeafultBlocStatus.done));
       },
     );
   }

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hosptel_app/core/function/maping_falure.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
+import 'package:hosptel_app/core/shared/shared_pref.dart';
 import 'package:hosptel_app/features/profile/domain/usecases/profile_base_use_case.dart';
 
 part 'delete_account_state.dart';
@@ -20,6 +21,7 @@ class DeleteAccountCubit extends Cubit<DeleteAccountState> {
         ));
       },
       (done) {
+        AppSharedPreferences.clear();
         emit(state.copyWith(
           status: DeafultBlocStatus.done,
         ));

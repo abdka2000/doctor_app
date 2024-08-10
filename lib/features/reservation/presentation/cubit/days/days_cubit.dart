@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/available_day/available_day.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/available_day/result.dart';
 import '../../../../../core/function/maping_falure.dart';
 import '../../../../../core/resources/enum_manger.dart';
-import '../../../domain/entities/availabe_day/available_days.dart';
 import '../../../domain/usecases/reservation_base_use_case.dart';
 
 part 'days_state.dart';
@@ -23,7 +24,7 @@ class DaysCubit extends Cubit<DaysState> {
       (days) {
         emit(state.copyWith(
           status: DeafultBlocStatus.done,
-          days: days,
+          days: days.result,
         ));
       },
     );

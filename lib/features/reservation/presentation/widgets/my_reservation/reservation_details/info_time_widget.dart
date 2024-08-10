@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/available_times/available_times.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/available_times/result.dart';
 import '../../../../../../core/resources/color_manger.dart';
 import '../../../../../../core/resources/font_manger.dart';
 import '../../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class InfoTimesWidget extends StatefulWidget {
   const InfoTimesWidget({super.key, required this.times});
-  final List<AvailableTimes> times;
+  final List<Result> times;
   @override
   State<InfoTimesWidget> createState() => _InfoTimesWidgetState();
 }
 
-AvailableTimes? selectedTime;
+Result? selectedTime;
 
 class _InfoTimesWidgetState extends State<InfoTimesWidget> {
   int? selectedIndex;

@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:hosptel_app/features/reservation/data/model/reservation_items/reservation_items.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/available_day/available_day.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/reservation_item/reservation_items.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/reservation_response/reservation_response.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/symptom_entity/symptom_entity.dart';
 import 'package:hosptel_app/features/reservation/domain/entities/user_work_hours/user_work_hours.dart';
 import '../../../../core/error/failure.dart';
-import '../entities/availabe_day/available_days.dart';
 import '../entities/available_times/available_times.dart';
 import '../repository/reservation_repo.dart';
 import 'reservation_base_use_case.dart';
@@ -14,7 +14,7 @@ class ReservationUseCaseImpl implements ReservationBaseUseCase {
 
   ReservationUseCaseImpl({required this.repo});
   @override
-  Future<Either<Failure, ReservationsModel>> getReservation(
+  Future<Either<Failure, ReservationEntity>> getReservation(
       {required bool isFinished,
       required int skipCount,
       required int maxResult}) async {
@@ -23,12 +23,12 @@ class ReservationUseCaseImpl implements ReservationBaseUseCase {
   }
 
   @override
-  Future<Either<Failure, List<AvailableDays>>> getAvailableDays() async {
+  Future<Either<Failure, AvailableDays>> getAvailableDays() async {
     return await repo.getAvailableDays();
   }
 
   @override
-  Future<Either<Failure, List<AvailableTimes>>> getAvailablesTime(
+  Future<Either<Failure, AvailableTimes>> getAvailablesTime(
       {required String date}) async {
     return await repo.getAvailablesTime(date: date);
   }

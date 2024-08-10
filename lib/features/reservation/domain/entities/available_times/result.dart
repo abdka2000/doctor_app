@@ -1,15 +1,17 @@
-import '../../../domain/entities/available_times/available_times.dart';
+class Result {
+  String? fromTime;
+  String? toTime;
+  bool? isBooked;
+  bool? isSetUnavailable;
 
-class AvailableTimesModel extends AvailableTimes {
-  AvailableTimesModel({
-    super.fromTime,
-    super.toTime,
-    super.isBooked,
-    super.isSetUnavailable,
+  Result({
+    this.fromTime,
+    this.toTime,
+    this.isBooked,
+    this.isSetUnavailable,
   });
 
-  factory AvailableTimesModel.fromJson(Map<String, dynamic> json) =>
-      AvailableTimesModel(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         fromTime: json['fromTime'] as String?,
         toTime: json['toTime'] as String?,
         isBooked: json['isBooked'] as bool?,

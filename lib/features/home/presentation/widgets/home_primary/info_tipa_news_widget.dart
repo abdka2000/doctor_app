@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hosptel_app/features/home/domain/entity/doctor_adv/adv_item_model.dart';
 import '../../../../../core/resources/color_manger.dart';
 import '../../../../../core/resources/font_manger.dart';
 import '../../../../../core/resources/svg_manger.dart';
 import '../../../../../core/widget/text_utiles/text_utile_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../../domain/entity/doctor_adv/adv_item.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class InfoTipasNewsWidget extends StatefulWidget {
   const InfoTipasNewsWidget({Key? key, required this.advs}) : super(key: key);
-  final List<AdvItem> advs;
+  final List<AdvItemModel> advs;
   @override
   InfoTipasNewsWidgetState createState() => InfoTipasNewsWidgetState();
 }

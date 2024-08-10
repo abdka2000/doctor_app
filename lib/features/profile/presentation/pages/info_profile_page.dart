@@ -14,20 +14,25 @@ class InfoProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainBackGround(
-      mainBody: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state.status == DeafultBlocStatus.done) {
-            return InfoProfilePageBody(person: state.person);
-          } else if (state.status == DeafultBlocStatus.loading) {
-            return const Scaffold(body: MainLoadignWidget());
-          }
-          return Scaffold(
-              body: ErrorTextWidget(
-            text: state.failureMessage.message,
-            onPressed: () => context.read<ProfileCubit>().getPersonData(),
-          ));
-        },
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<ProfileCubit>().getPersonData();
+      },
+      child: MainBackGround(
+        mainBody: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state.status == DeafultBlocStatus.done) {
+              return InfoProfilePageBody(person: state.person);
+            } else if (state.status == DeafultBlocStatus.loading) {
+              return const Scaffold(body: MainLoadignWidget());
+            }
+            return ErrorTextWidget(
+              // isScrollable: ,
+              text: state.failureMessage.message,
+              onPressed: () => context.read<ProfileCubit>().getPersonData(),
+            );
+          },
+        ),
       ),
     );
   }

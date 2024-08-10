@@ -1,6 +1,5 @@
 part of 'notifications_bloc.dart';
 
-
 class NotificationsState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;

@@ -1,10 +1,11 @@
-import '../../../domain/entity/doctor_adv/adv_item.dart';
-
-class AdvItemModel extends AdvItem {
+class AdvItemModel {
+  String? title;
+  String? description;
+  int? id;
   AdvItemModel({
-    super.title,
-    super.description,
-    super.id,
+    this.title,
+    this.description,
+    this.id,
   });
   factory AdvItemModel.fromJson(Map<String, dynamic> json) => AdvItemModel(
         title: json['title'] as String?,

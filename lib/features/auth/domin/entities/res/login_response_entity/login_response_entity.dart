@@ -7,16 +7,15 @@ class LoginResponseEntity {
   dynamic error;
   bool? unAuthorizedRequest;
   bool? abp;
-  String? details;
 
-  LoginResponseEntity(
-      {this.result,
-      this.targetUrl,
-      this.success,
-      this.error,
-      this.unAuthorizedRequest,
-      this.abp,
-      this.details});
+  LoginResponseEntity({
+    this.result,
+    this.targetUrl,
+    this.success,
+    this.error,
+    this.unAuthorizedRequest,
+    this.abp,
+  });
 
   factory LoginResponseEntity.fromJson(Map<String, dynamic> json) {
     return LoginResponseEntity(
@@ -28,7 +27,6 @@ class LoginResponseEntity {
       error: json['error'] as dynamic,
       unAuthorizedRequest: json['unAuthorizedRequest'] as bool?,
       abp: json['__abp'] as bool?,
-      details: json['details'] as String?,
     );
   }
 
@@ -39,6 +37,5 @@ class LoginResponseEntity {
         'error': error,
         'unAuthorizedRequest': unAuthorizedRequest,
         '__abp': abp,
-        'details': details,
       };
 }

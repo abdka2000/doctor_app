@@ -175,11 +175,10 @@ class AppRouter {
                       di.sl<SendCodeCubit>()..sendCode(phoneNum: phoneNumber),
                 ),
               ],
-              child:ConfirmPhoneNumberPage(
+              child: ConfirmPhoneNumberPage(
                 phoneNumber: phoneNumber,
               ),
             );
-           
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(-1, 0);

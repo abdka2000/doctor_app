@@ -5,7 +5,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hosptel_app/core/function/maping_falure.dart';
 import 'package:hosptel_app/core/resources/enum_manger.dart';
-import 'package:hosptel_app/features/home/data/models/doctor_services/item_model.dart';
+import 'package:hosptel_app/features/home/domain/entity/doctor_services/item_entity.dart';
 import 'package:hosptel_app/features/home/domain/usecases/home_base_usecase.dart';
 
 part 'services_event.dart';

@@ -30,13 +30,14 @@ class ErrorTextWidget extends StatelessWidget {
 
   ListView errorScrollable(BuildContext context) {
     return ListView(
+      
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              padding: EdgeInsets.only(left: 14.w, right: 14.w, top: 120.h),
               child: TextUtiels(
                 text: text,
                 textAlign: TextAlign.center,

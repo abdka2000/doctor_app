@@ -5,7 +5,7 @@ part of 'days_cubit.dart';
 class DaysState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<AvailableDays> days;
+  final List<Result> days;
 
   const DaysState({
     required this.days,
@@ -27,7 +27,7 @@ class DaysState extends Equatable {
   DaysState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    List<AvailableDays>? days,
+    List<Result>? days,
   }) {
     return DaysState(
       failureMessage: failureMessage ?? this.failureMessage,

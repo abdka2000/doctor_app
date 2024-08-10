@@ -1,14 +1,19 @@
 import 'adv_resutl_model.dart';
-import '../../../domain/entity/doctor_adv/doctor_adv.dart';
 
-class DoctorAdvModel extends DoctorAdv {
+class DoctorAdvModel {
+  AdvResultModel? result;
+  dynamic targetUrl;
+  bool? success;
+  dynamic error;
+  bool? unAuthorizedRequest;
+  bool? abp;
   DoctorAdvModel({
-    super.result,
-    super.targetUrl,
-    super.success,
-    super.error,
-    super.unAuthorizedRequest,
-    super.abp,
+    this.result,
+    this.targetUrl,
+    this.success,
+    this.error,
+    this.unAuthorizedRequest,
+    this.abp,
   });
 
   factory DoctorAdvModel.fromJson(Map<String, dynamic> json) => DoctorAdvModel(

@@ -1,34 +1,39 @@
 import 'dart:convert';
 
 import 'package:hosptel_app/features/home/domain/entity/doctor_info_entity/doctor_info_entity.dart';
+import 'package:hosptel_app/features/home/domain/entity/doctor_services/doctor_services_entity.dart';
 
 import '../../../../../core/api/api_links.dart';
 import '../../../../../core/api/api_methode_get.dart';
-import '../../models/doctor_adv/adv_item_model.dart';
-import '../../models/doctor_adv/doctor_adv_model.dart';
-import '../../models/doctor_services/doctor_services_model.dart';
+import '../../../domain/entity/doctor_adv/adv_item_model.dart';
+import '../../../domain/entity/doctor_adv/doctor_adv_model.dart';
 
 abstract class HomeReomte {
-  Future<DoctorServicesModel> getServices(
+  //? Remote for get services :
+  Future<DoctorServices> getServices(
       {required int skipCount, required int maxResult});
+
+  //? Remote for get advertisements :
   Future<List<AdvItemModel>> getAdvs();
+
+  //? Remote for get doctor info :
   Future<DoctorInfoEntity> getDoctorInfo();
 }
 
 class HomeRemoteImpl implements HomeReomte {
   @override
-  Future<DoctorServicesModel> getServices(
+  Future<DoctorServices> getServices(
       {required int skipCount, required int maxResult}) async {
     final query = {
       'SkipCount': skipCount,
       'MaxResultCount': maxResult,
     };
-    return ApiGetMethods<DoctorServicesModel>().get(
+    return ApiGetMethods<DoctorServices>().get(
       url: ApiGet.getServices,
       query: query,
       data: (response) {
         final dataDecoded = jsonDecode(response.body);
-        final services = DoctorServicesModel.fromJson(dataDecoded);
+        final services = DoctorServices.fromJson(dataDecoded);
         return services;
       },
     );

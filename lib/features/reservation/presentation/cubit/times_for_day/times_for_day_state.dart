@@ -5,7 +5,7 @@ part of 'times_for_day_cubit.dart';
 class TimesForDayState extends Equatable {
   final DeafultBlocStatus status;
   final FailureMessage failureMessage;
-  final List<AvailableTimes> times;
+  final List<Result> times;
 
   const TimesForDayState({
     required this.times,
@@ -27,7 +27,7 @@ class TimesForDayState extends Equatable {
   TimesForDayState copyWith({
     FailureMessage? failureMessage,
     DeafultBlocStatus? status,
-    List<AvailableTimes>? times,
+    List<Result>? times,
   }) {
     return TimesForDayState(
       failureMessage: failureMessage ?? this.failureMessage,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hosptel_app/features/reservation/domain/entities/availabe_day/available_days.dart';
+import 'package:hosptel_app/features/reservation/domain/entities/available_day/result.dart';
 import 'package:hosptel_app/features/reservation/presentation/cubit/times_for_day/times_for_day_cubit.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../core/resources/color_manger.dart';
@@ -10,12 +10,12 @@ import '../../../../../../core/widget/text_utiles/text_utile_widget.dart';
 
 class InfoDayWidget extends StatefulWidget {
   const InfoDayWidget({super.key, required this.days});
-  final List<AvailableDays> days;
+  final List<Result>? days;
   @override
   State<InfoDayWidget> createState() => _InfoDayWidgetState();
 }
 
-AvailableDays? selectedDay;
+Result? selectedDay;
 
 class _InfoDayWidgetState extends State<InfoDayWidget> {
   int selectedIndex = 0;
@@ -32,18 +32,19 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
           scrollDirection: Axis.horizontal,
           reverse: true,
           padding: EdgeInsets.symmetric(horizontal: 20.w),
-          itemCount: widget.days.length,
+          itemCount: widget.days?.length ?? 0,
           separatorBuilder: (context, index) => SizedBox(width: 11.w),
           itemBuilder: (context, index) {
-            final dateTime = DateTime.parse(widget.days[index].date!);
+            final dateTime = DateTime.parse(
+                widget.days?[index].date ?? DateTime.now().toString());
             return GestureDetector(
               onTap: () {
-                selectedDay = widget.days[index];
+                selectedDay = widget.days?[index];
                 setState(() {
                   selectedIndex = index;
                   context
                       .read<TimesForDayCubit>()
-                      .getTimes(date: widget.days[index].date);
+                      .getTimes(date: widget.days?[index].date);
                 });
               },
               child: Container(
@@ -65,7 +66,7 @@ class _InfoDayWidgetState extends State<InfoDayWidget> {
                     children: [
                       TextUtiels(
                         paddingBottome: 5.h,
-                        text: widget.days[index].name ?? '',
+                        text: widget.days?[index].name ?? '',
                         style:
                             Theme.of(context).textTheme.displaySmall?.copyWith(
                                   color: selectedIndex == index

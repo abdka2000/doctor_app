@@ -19,5 +19,4 @@ abstract class ProfileRepository {
   Future<Either<Failure, Unit>> deleteAccount();
   //? Repo Log Out
   Future<Either<Failure, Unit>> logOut();
-
 }

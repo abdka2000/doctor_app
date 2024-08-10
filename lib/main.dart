@@ -17,6 +17,7 @@ void main() async {
   SharedPreferences.getInstance().then(
     (pref) {
       AppSharedPreferences.init(pref);
+      print('token -------- : ${AppSharedPreferences.getToken()}');
       runApp(MyApp());
     },
   );

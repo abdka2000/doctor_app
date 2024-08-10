@@ -1,10 +1,12 @@
 import 'adv_item_model.dart';
-import '../../../domain/entity/doctor_adv/adv_result.dart';
 
-class AdvResultModel extends AdvResult {
+class AdvResultModel {
+  int? totalCount;
+  List<AdvItemModel>? items;
+
   AdvResultModel({
-    super.items,
-    super.totalCount,
+    this.items,
+    this.totalCount,
   });
 
   factory AdvResultModel.fromJson(Map<String, dynamic> json) => AdvResultModel(
